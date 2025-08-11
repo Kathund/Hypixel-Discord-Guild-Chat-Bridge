@@ -24,7 +24,8 @@ export function getSelectedLanguage(): Language {
     }
     return lang;
   } catch (error) {
-    console.error(error);
+    // eslint-disable-next-line hypixelDiscordGuildChatBridge/enforce-no-console-log
+    console.log(error);
     return 'en_us';
   }
 }
