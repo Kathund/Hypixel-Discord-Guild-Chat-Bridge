@@ -24,7 +24,7 @@ export function getSelectedLanguage(): Language {
     }
     return lang;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return 'en_us';
   }
 }

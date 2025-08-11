@@ -32,6 +32,7 @@ function getErrorString(error: Error): string {
 }
 
 function logSomething(message: string, log: LogData): void {
+  // eslint-disable-next-line
   console.log(
     log.background(
       ReplaceVariables(Translate('console'), {

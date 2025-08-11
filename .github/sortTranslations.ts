@@ -1,6 +1,6 @@
 import { getSupportedLanguages, getTranslations } from '../src/Private/Translate';
 import { sortJSON } from '../src/Utils/JSONUtils';
-import { writeFileSync } from 'fs';
+import { writeFileSync } from 'node:fs';
 import type { Language } from '../src/types/main';
 
 const checkOnly = process.argv.includes('--check');

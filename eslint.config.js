@@ -5,6 +5,7 @@ import importPlugin from 'eslint-plugin-import';
 import prettier from 'eslint-config-prettier';
 import sortImports from '@j4cobi/eslint-plugin-sort-imports';
 import ts from 'typescript-eslint';
+import plugin from './eslint/plugin.js';
 
 export default [
   ...ts.configs.recommended,
@@ -21,7 +22,10 @@ export default [
         ...globals.node
       }
     },
-    plugins: { 'sort-imports': sortImports },
+    plugins: {
+      'sort-imports': sortImports,
+      hypixelDiscordGuildChatBridge: plugin
+    },
     rules: {
       'sort-imports/sort-imports': [
         'error',
@@ -29,8 +33,10 @@ export default [
       ],
       'max-len': ['error', { code: 120, ignoreUrls: true, ignoreComments: true }],
       '@typescript-eslint/no-unused-vars': ['error', { args: 'none' }],
+      'hypixelDiscordGuildChatBridge/enforce-no-console-log': 'error',
       'no-constant-condition': ['error', { checkLoops: false }],
       'import/enforce-node-protocol-usage': ['error', 'always'],
+      'hypixelDiscordGuildChatBridge/enforce-translate': 'warn',
       'no-extend-native': ['warn', { exceptions: ['Object'] }],
       'prefer-const': ['warn', { destructuring: 'all' }],
       'import/no-cycle': ['error', { maxDepth: 1 }],
