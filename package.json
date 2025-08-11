@@ -1,0 +1,53 @@
+{
+  "name": "hypixel-discord-guild-chat-bridge",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "start": "pnpm exec tsx index.ts",
+    "eslint": "pnpm exec eslint src/ index.ts --fix",
+    "eslint:check": "pnpm exec eslint src/ index.ts",
+    "prettier": "pnpm exec prettier --write .",
+    "prettier:check": "pnpm exec prettier --check .",
+    "build": "pnpm exec tsc --build",
+    "dev": "pnpm exec nodemon",
+    "translations": "pnpm exec tsx .github/sortTranslations.ts",
+    "translations:check": "pnpm exec tsx .github/sortTranslations.ts --check"
+  },
+  "keywords": [],
+  "author": "Kathund",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.16.0",
+    "pnpm": ">=9.9.0",
+    "npm": "forbidden, use pnpm instead",
+    "yarn": "forbidden, use pnpm instead",
+    "bun": "forbidden, use pnpm instead"
+  },
+  "packageManager": "pnpm@9.9.0",
+  "type": "module",
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "discord.js": "^14.21.0",
+    "dotenv": "^17.2.1",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "@j4cobi/eslint-plugin-sort-imports": "^1.0.2",
+    "@types/eslint": "^9.6.1",
+    "@types/express": "^5.0.3",
+    "@types/express-session": "^1.18.2",
+    "@types/node": "^24.0.15",
+    "eslint": "^9.31.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "globals": "^16.3.0",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.37.0"
+  }
+}

@@ -1,0 +1,7 @@
+.env
+data/
+node_modules/
+logs/
+build/
+translations/missing.json
+

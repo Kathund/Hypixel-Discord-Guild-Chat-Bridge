@@ -1,0 +1,68 @@
+import HypixelDiscordGuildBridgeError from './Error';
+import MiscConfig from '../Config/Configs/MiscConfig';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import type { Language } from '../types/main';
+
+// eslint-disable-next-line import/exports-last
+export function getSupportedLanguages(): Language[] {
+  try {
+    if (!existsSync('./translations')) throw new Error('Translations are missing');
+    const translations = readdirSync('./translations');
+    return translations.filter((lang) => lang !== 'missing.json').map((lang) => lang.split('.')[0] as Language);
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+// eslint-disable-next-line import/exports-last
+export function getSelectedLanguage(): Language {
+  try {
+    const lang = new MiscConfig().getValue('lang') as Language;
+    if (!getSupportedLanguages().includes(lang)) {
+      throw new Error("Invalid language found. Please reset you're config");
+    }
+    return lang;
+  } catch (error) {
+    console.log(error);
+    return 'en_us';
+  }
+}
+
+function logMissingTranslation(key: string, lang: Language = getSelectedLanguage()) {
+  if (!existsSync('./translations')) mkdirSync('./translations/', { recursive: true });
+  if (!existsSync('./translations/missing.json')) writeFileSync('./translations/missing.json', JSON.stringify({}));
+  const missingFile = readFileSync('./translations/missing.json');
+  if (!missingFile) throw new HypixelDiscordGuildBridgeError("The missing translations file doesn't exist");
+  const missing = JSON.parse(missingFile.toString('utf8'));
+  if (!missing) throw new HypixelDiscordGuildBridgeError('The missing translations file is malformed.');
+  missing[key] = `Could not find translation for \`${key}\` in \`${lang}\``;
+  writeFileSync('./translations/missing.json', JSON.stringify(missing, null, 2));
+}
+
+export function getTranslations(lang: Language = getSelectedLanguage()): { [key: string]: string } {
+  try {
+    if (!getSupportedLanguages().includes(lang)) {
+      throw new HypixelDiscordGuildBridgeError(`Translations are missing for ${lang} language`);
+    }
+    const translationsFile = readFileSync(`./translations/${lang}.json`);
+    if (!translationsFile) throw new HypixelDiscordGuildBridgeError(`The ${lang} translations file doesn't exist`);
+    const translations = JSON.parse(translationsFile.toString('utf8'));
+    if (!translations) throw new HypixelDiscordGuildBridgeError(`The ${lang} translations file is malformed`);
+    return translations;
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
+}
+
+export default function Translate(key: string, lang: Language = getSelectedLanguage()): string {
+  const supportedLanguages = getSupportedLanguages();
+  if (!supportedLanguages.includes(lang)) return `Unsupported Language | ${key}`;
+  const translations = getTranslations(lang);
+  if (translations[key] === undefined) {
+    logMissingTranslation(key);
+    return lang === 'en_us' ? `Unknown Translation | ${key}` : Translate(key, 'en_us');
+  }
+  return translations[key];
+}
