@@ -34,6 +34,7 @@ export default [
       'max-len': ['error', { code: 120, ignoreUrls: true, ignoreComments: true }],
       '@typescript-eslint/no-unused-vars': ['error', { args: 'none' }],
       'hypixelDiscordGuildChatBridge/enforce-no-console-log': 'error',
+      'hypixelDiscordGuildChatBridge/enforce-config-naming': 'error',
       'no-constant-condition': ['error', { checkLoops: false }],
       'import/enforce-node-protocol-usage': ['error', 'always'],
       'hypixelDiscordGuildChatBridge/enforce-translate': 'warn',
