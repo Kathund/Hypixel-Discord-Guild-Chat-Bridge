@@ -4,7 +4,7 @@ const createRule = ESLintUtils.RuleCreator((name) => name);
 const defaultOptions = [{ always: true }];
 
 export default createRule({
-  name: 'eslint-force-translate',
+  name: 'eslint-enforce-translate',
   defaultOptions,
   meta: {
     docs: { description: 'enforce using the Translate function' },
@@ -12,8 +12,7 @@ export default createRule({
       missingTranslate: 'Use the translate function when parsing in strings for the end user'
     },
     schema: [],
-    type: 'layout',
-    fixable: 'code'
+    type: 'problem'
   },
 
   create(context) {

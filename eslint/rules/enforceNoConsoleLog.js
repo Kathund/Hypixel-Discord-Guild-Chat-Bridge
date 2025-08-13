@@ -4,7 +4,7 @@ const createRule = ESLintUtils.RuleCreator((name) => name);
 const defaultOptions = [{ always: true }];
 
 export default createRule({
-  name: 'eslint-block-console-log',
+  name: 'eslint-enforce-no-console-log',
   defaultOptions,
   meta: {
     docs: { description: 'stop using console.log and use console.other' },
@@ -12,7 +12,8 @@ export default createRule({
       consoleLog: "Don't use console.log as it isn't tracked by the logger. Use console.other instead"
     },
     schema: [],
-    type: 'layout'
+    type: 'problem',
+    fixable: 'code'
   },
 
   create(context) {
@@ -32,7 +33,14 @@ export default createRule({
           node.expression.callee.property.name !== undefined &&
           node.expression.callee.property.name === 'log'
         ) {
-          context.report({ node, messageId: 'consoleLog' });
+          const sourceCode = context.sourceCode.getText(node);
+          context.report({
+            node,
+            messageId: 'consoleLog',
+            fix: (fixer) => {
+              return fixer.replaceText(node, sourceCode.replaceAll('console.log', 'console.other'));
+            }
+          });
         }
       }
     };
