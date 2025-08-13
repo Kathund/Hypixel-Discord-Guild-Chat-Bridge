@@ -41,11 +41,11 @@ class CommandHandler {
     for (const file of commandFiles) {
       const command = new (await import(`../Commands/${file}`)).default(this.discord);
       if (command.data.name) {
-        if (
-          command.data.name !== 'credits' &&
-          this.discord.Application.config.commands.isEnabled(command.data.name) !== true
-        ) {
-          continue;
+        if (command.data.name !== 'credits') {
+          const commandConfigOption = this.discord.Application.config.commands.getValue(command.data.name);
+          if (commandConfigOption === undefined) continue;
+          if (commandConfigOption.isCommandOption() === false) continue;
+          if (commandConfigOption.isEnabled() === false) continue;
         }
         commands.push(command.data.toJSON());
         this.discord.client.commands.set(command.data.name, command);

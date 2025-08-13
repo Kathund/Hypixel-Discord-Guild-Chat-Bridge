@@ -1,5 +1,6 @@
 import HypixelDiscordGuildBridgeError from './Error';
 import MiscConfig from '../Config/Configs/MiscConfig';
+import StringOption from '../Config/StringConfigOption';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import type { Language } from '../types/main';
 
@@ -18,7 +19,7 @@ export function getSupportedLanguages(): Language[] {
 // eslint-disable-next-line import/exports-last
 export function getSelectedLanguage(): Language {
   try {
-    const lang = new MiscConfig().getValue('lang') as Language;
+    const lang = (new MiscConfig().getValue('lang') || new StringOption('en_us')).getValue() as Language;
     if (!getSupportedLanguages().includes(lang)) {
       throw new Error("Invalid language found. Please reset you're config");
     }
