@@ -23,25 +23,16 @@ export default createRule({
        * @returns void
        */
       ExpressionStatement(node) {
-        if (
-          node.expression !== undefined &&
-          node.expression.callee !== undefined &&
-          node.expression.callee.object !== undefined &&
-          node.expression.callee.object.name !== undefined &&
-          node.expression.callee.object.name === 'console' &&
-          node.expression.callee.property !== undefined &&
-          node.expression.callee.property.name !== undefined &&
-          node.expression.callee.property.name === 'log'
-        ) {
-          const sourceCode = context.sourceCode.getText(node);
-          context.report({
-            node,
-            messageId: 'consoleLog',
-            fix: (fixer) => {
-              return fixer.replaceText(node, sourceCode.replaceAll('console.log', 'console.other'));
-            }
-          });
-        }
+        if (!node.expression?.callee?.object?.name || node.expression.callee.object.name !== 'console') return;
+        if (!node.expression?.callee?.property?.name || node.expression.callee.property.name !== 'log') return;
+        const sourceCode = context.sourceCode.getText(node);
+        context.report({
+          node,
+          messageId: 'consoleLog',
+          fix: (fixer) => {
+            return fixer.replaceText(node, sourceCode.replace(/\bconsole\.log\b/g, 'console.other'));
+          }
+        });
       }
     };
   }

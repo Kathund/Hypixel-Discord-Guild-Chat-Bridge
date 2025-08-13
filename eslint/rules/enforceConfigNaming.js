@@ -22,26 +22,25 @@ export default createRule({
        * @returns void
        */
       ClassDeclaration(node) {
-        if (node.superClass === undefined || node.superClass === null) return;
-        if (node.superClass.type === undefined || node.superClass.type !== 'Identifier') return;
-        if (node.superClass.name === undefined || node.superClass.name !== 'ConfigInstance') return;
-        if (node.body === undefined || node.body.type !== 'ClassBody') return;
-        if (node.body.body === undefined || node.body.body.length !== 1) return;
-        if (node.body.body[0] === undefined || node.body.body[0].type !== 'MethodDefinition') return;
+        if (!node.superClass || node.superClass.type !== 'Identifier' || node.superClass.name !== 'ConfigInstance') {
+          return;
+        }
+        if (!node.body || node.body.type !== 'ClassBody') return;
+        if (!node.body.body || node.body.body.length !== 1) return;
+        if (node.body.body[0].type !== 'MethodDefinition') return;
 
         const valueBody = node.body.body[0].value;
-        if (valueBody === undefined || valueBody.type !== 'FunctionExpression') return;
-        if (valueBody.body === undefined || valueBody.body.type !== 'BlockStatement') return;
-        if (valueBody.body === undefined || valueBody.body.length <= 1) return;
-        if (valueBody.body.body[0] === undefined || valueBody.body.body[0].type !== 'ExpressionStatement') return;
+        if (!valueBody.body || valueBody.type !== 'FunctionExpression' || valueBody.body.type !== 'BlockStatement') {
+          return;
+        }
+        if (valueBody.body.body.length <= 1) return;
+        if (valueBody.body.body[0].type !== 'ExpressionStatement') return;
 
         const expression = valueBody.body.body[0].expression;
-        if (expression === undefined || expression.type !== 'CallExpression') return;
-        if (expression.callee === undefined || expression.callee.type !== 'Super') return;
-        if (expression.arguments === undefined || expression.arguments.length <= 1) return;
-        if (expression.arguments[0] === undefined || expression.arguments[0].type !== 'Literal') return;
-        if (expression.arguments[0].value === undefined) return;
-        if (/^[a-z]+$/.test(expression.arguments[0].value) !== false) return;
+        if (expression?.type !== 'CallExpression' || expression.callee?.type !== 'Super') return;
+        if (!expression.arguments || expression.arguments.length <= 1) return;
+        if (expression.arguments[0]?.type !== 'Literal' || !expression.arguments[0].value) return;
+        if (/^[a-z]+$/.test(expression.arguments[0].value)) return;
 
         context.report({ node, messageId: 'invalidName' });
       }
