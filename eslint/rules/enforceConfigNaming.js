@@ -33,7 +33,7 @@ export default createRule({
         if (!valueBody.body || valueBody.type !== 'FunctionExpression' || valueBody.body.type !== 'BlockStatement') {
           return;
         }
-        if (valueBody.body.body.length <= 1) return;
+        if (valueBody.body.length <= 1) return;
         if (valueBody.body.body[0].type !== 'ExpressionStatement') return;
 
         const expression = valueBody.body.body[0].expression;
