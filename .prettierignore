@@ -5,4 +5,4 @@ logs/
 build/
 translations/missing.json
 pnpm-lock.yaml
-
+src/Web/Public/output.css

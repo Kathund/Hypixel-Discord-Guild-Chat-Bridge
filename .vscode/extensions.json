@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "digitalbrainstem.javascript-ejs-support",
+    "edwinhuish.better-comments-next",
+    "editorconfig.editorconfig",
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "j69.ejs-beautify",
+    "eamodio.gitlens"
+  ],
+  "unwantedRecommendations": ["aaron-bond.better-comments"]
+}

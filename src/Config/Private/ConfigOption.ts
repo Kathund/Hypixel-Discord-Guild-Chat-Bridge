@@ -3,13 +3,16 @@ import type BooleanOption from '../BooleanConfigOption';
 import type CommandOption from '../CommandConfigOption';
 import type NumberOption from '../NumberConfigOption';
 import type StringOption from '../StringConfigOption';
+import type StringSelectionOption from '../StringSelectionConfigOption';
 import type {
   ArrayConfigJSON,
   BooleanConfigJSON,
   CommandConfigJSON,
   ConfigJSON,
   NumberConfigJSON,
-  StringConfigJSON
+  StringConfigJSON,
+  StringSelectionConfigJSON,
+  StringSelectionConfigJSONWeb
 } from '../../types/Configs';
 
 class ConfigOption<OptionType = unknown> {
@@ -90,6 +93,18 @@ class ConfigOption<OptionType = unknown> {
 
   static isStringConfigJSON(option: ConfigJSON): option is StringConfigJSON {
     return option.type === 'string';
+  }
+
+  isStringSelectionOption(): this is StringSelectionOption {
+    return this.getType() === 'stringSelection';
+  }
+
+  static isStringSelectionConfigJSON(option: ConfigJSON): option is StringSelectionConfigJSON {
+    return option.type === 'stringSelection';
+  }
+
+  static isStringSelectionConfigJSONWeb(option: ConfigJSON): option is StringSelectionConfigJSONWeb {
+    return option.type === 'stringSelection';
   }
 }
 

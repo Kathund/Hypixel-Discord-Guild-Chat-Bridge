@@ -21,7 +21,14 @@ class DiscordManager {
   }
 
   connect(): void {
-    this.client = new Client({ intents: [GatewayIntentBits.Guilds] });
+    this.client = new Client({
+      intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMessages
+      ]
+    });
     this.commandHandler.deployCommands();
     this.client.on(Events.ClientReady, () => this.stateHandler.onReady());
     this.client.on(Events.InteractionCreate, (interaction) => this.interactionHandler.onInteraction(interaction));

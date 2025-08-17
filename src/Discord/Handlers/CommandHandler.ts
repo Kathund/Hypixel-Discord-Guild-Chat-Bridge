@@ -15,6 +15,7 @@ class CommandHandler {
   async onCommand(interaction: ChatInputCommandInteraction): Promise<void> {
     const command = interaction.client.commands.get(interaction.commandName);
     if (!command) return;
+    if (!interaction.guild) return;
     try {
       await interaction.deferReply();
       console.discord(
@@ -24,6 +25,23 @@ class CommandHandler {
           commandName: interaction.commandName
         })
       );
+      const commandConfigOption = this.discord.Application.config.commands.getValue(command.data.name);
+      if (commandConfigOption === undefined || !commandConfigOption.isCommandOption()) {
+        throw new Error(
+          ReplaceVariables(Translate('discord.commands.config.missing'), { commandName: interaction.commandName })
+        );
+      }
+      if (commandConfigOption.isEnabled() === false) {
+        throw new HypixelDiscordGuildBridgeError(
+          ReplaceVariables(Translate('discord.commands.config.disabled'), { commandName: interaction.commandName })
+        );
+      }
+      const member = await interaction.guild.members.fetch(interaction.user.id);
+      if (commandConfigOption.hasPerms(member.roles.cache.map((role) => role.id)) === false) {
+        throw new HypixelDiscordGuildBridgeError(
+          ReplaceVariables(Translate('discord.commands.config.missing.perms'), { commandName: interaction.commandName })
+        );
+      }
       await command.execute(interaction);
     } catch (error) {
       if (error instanceof Error || error instanceof HypixelDiscordGuildBridgeError) {

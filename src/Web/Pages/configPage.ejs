@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/output.css" />
+  <title>Document</title>
+  <script src="/index.js"></script>
+</head>
+
+<body class="bg-gray-800 flex justify-center">
+  <div class="w-[50vw] flex flex-col my-2">
+    <%- include('./Components/header', { globalData }); %>
+    <% config.forEach((option) => { %>
+    <div class="text-white p-2 bg-gray-700 rounded-2xl my-2 flex flex-col">
+      <div class="mx-2 flex flex-row justify-between">
+        <div>
+          <label for="<%= option.internal %>"><%= option.name %></label>
+          <p><%= option.description %></p>
+        </div>
+        <%- include(`./Components/Options/${option.type}`, { option }) %>
+      </div>
+    </div>
+    <% }) %>
+    <div class="fixed bottom-0 w-[50vw] translate-y-16 transition-transform duration-300" id="saveChanges">
+      <div class="text-white p-2 bg-gray-700 rounded-2xl my-2 flex flex-col">
+        <div class="mx-2 flex flex-row justify-between">
+          <p><%= globalData.strings.changes %></p>
+          <div class="-mr-2">
+            <button class="px-3 mx-2 bg-red-700 rounded-lg hover:cursor-pointer" id="deleteData"><%= globalData.strings.changesDiscard %></button>
+            <button class="px-3 bg-green-700 rounded-lg hover:cursor-pointer" id="saveData"><%= globalData.strings.changesSave %></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

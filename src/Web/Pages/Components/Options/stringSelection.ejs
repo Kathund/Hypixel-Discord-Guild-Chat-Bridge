@@ -1,0 +1,5 @@
+<select class="pl-3 -mr-2 rounded-lg bg-gray-800" name="<%= option.name %>" id="<%= option.internal %>" data-option-type="stringSelect" data-value="<%= option.value %>">
+  <% option.options.forEach((selectOption) => { %>
+  <option value="<%= selectOption.description %>" <%= option.value === selectOption.description ? 'selected' : '' %>><%= selectOption.name %></option>
+  <% }) %>
+</select>

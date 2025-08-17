@@ -5,7 +5,7 @@ import { existsSync, mkdirSync } from 'node:fs';
 import type Application from '../Application';
 
 class ConfigManager {
-  readonly Application: Application;
+  private readonly Application: Application;
   declare misc: MiscConfig;
   declare debug: DebugConfig;
   declare commands: CommandsConfig;

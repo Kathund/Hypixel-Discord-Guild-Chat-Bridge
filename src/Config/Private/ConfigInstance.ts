@@ -5,6 +5,7 @@ import ConfigOption from './ConfigOption';
 import HypixelDiscordGuildBridgeError from '../../Private/Error';
 import NumberOption from '../NumberConfigOption';
 import StringOption from '../StringConfigOption';
+import StringSelectionOption from '../StringSelectionConfigOption';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { sortJSON } from '../../Utils/JSONUtils';
 import type { ConfigJSON } from '../../types/Configs';
@@ -16,7 +17,7 @@ const baseData: Record<string, ConfigJSON> = {
 
 class ConfigInstance {
   readonly name: string;
-  declare protected data: Record<string, ConfigJSON>;
+  declare private data: Record<string, ConfigJSON>;
   constructor(name: string, update: boolean = false) {
     this.name = name;
     this.data = { ...baseData } as Record<string, ConfigJSON>;
@@ -42,13 +43,8 @@ class ConfigInstance {
     config['!!'] = baseData['!!'];
     config['!!!'] = baseData['!!!'];
     Object.keys(config).forEach((configKey) => {
-      const data = config[configKey];
-      if (ConfigOption.isStringConfigJSON(data)) {
-        this.setValue(configKey, new StringOption(data.defaultValue, data.value), false);
-      }
-      if (ConfigOption.isNumberConfigJSON(data)) {
-        this.setValue(configKey, new NumberOption(data.defaultValue, data.value, data.max, data.min), false);
-      }
+      const data = ConfigInstance.getConfigOption(config[configKey]);
+      if (data !== undefined) this.setValue(configKey, data, false);
     });
   }
 
@@ -58,15 +54,18 @@ class ConfigInstance {
     } else if (this.data[name] === undefined) {
       this.data[name] = value.toJSON();
     }
+
+    if (value.isStringSelectionOption()) {
+      const foundData = this.getValue(name);
+      if (foundData === undefined || !foundData.isStringSelectionOption()) return this.save();
+      const fixed = foundData.toJSON();
+      fixed.options = value.getOptions();
+      this.data[name] = fixed;
+    }
     return this.save();
   }
 
-  getValue(
-    value: string
-  ): ArrayOption<unknown> | CommandOption | BooleanOption | StringOption | NumberOption | undefined {
-    const data = this.data[value];
-    if (!data) return undefined;
-
+  static getConfigOption(data: ConfigJSON<unknown>) {
     if (ConfigOption.isArrayConfigJSON(data)) {
       return new ArrayOption(data.defaultValue, data.value);
     }
@@ -87,12 +86,37 @@ class ConfigInstance {
       return new StringOption(data.defaultValue, data.value);
     }
 
+    if (ConfigOption.isStringSelectionConfigJSON(data)) {
+      return new StringSelectionOption(data.defaultValue, data.options, data.value);
+    }
+
     return undefined;
+  }
+
+  getValue(
+    value: string
+  ):
+    | ArrayOption<unknown>
+    | BooleanOption
+    | CommandOption
+    | NumberOption
+    | StringOption
+    | StringSelectionOption
+    | undefined {
+    const data = this.data[value];
+    if (!data) return undefined;
+    return ConfigInstance.getConfigOption(data);
+  }
+
+  toJSON(withWarnings: boolean = false): Record<string, ConfigJSON> {
+    return sortJSON(
+      Object.fromEntries(Object.entries(this.data).filter(([key]) => withWarnings || (key !== '!!' && key !== '!!!')))
+    );
   }
 
   save(): this {
     this.checkConfig();
-    writeFileSync(`./data/config/${this.name}.json`, JSON.stringify(sortJSON(this.data), null, 2));
+    writeFileSync(`./data/config/${this.name}.json`, JSON.stringify(this.toJSON(true), null, 2));
     return this;
   }
 }

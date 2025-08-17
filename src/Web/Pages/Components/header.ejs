@@ -1,0 +1,21 @@
+<div class="text-white p-2 bg-gray-700 rounded-2xl my-2 flex flex-col">
+  <div class="mx-2 flex flex-row justify-between">
+    <div>
+      <% let cumulativePath = ''; %>
+      <% globalData.path.forEach((path, index) => { %>
+      <% cumulativePath += (index === 0 ? '' : '/') + path; %>
+      <button class="px-3 bg-gray-800 rounded-lg hover:cursor-pointer">
+        <a href="http://localhost:<%= globalData.port %><%= cumulativePath %>"><%= path === '' ? globalData.strings.title.home : (globalData.strings.title[path] === undefined ? path : globalData.strings.title[path]) %></a>
+      </button>
+      <% if (index < globalData.path.length - 1) { %>
+      <span class="text-gray-400 mx-1">/</span>
+      <% } %>
+      <% }) %>
+    </div>
+    <div>
+      <button class="px-3 bg-gray-800 rounded-lg hover:cursor-pointer" id="reload-guild-data">
+        <p><%= globalData.strings.updateData %></p>
+      </button>
+    </div>
+  </div>
+</div>

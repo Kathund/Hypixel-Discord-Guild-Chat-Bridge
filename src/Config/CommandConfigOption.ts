@@ -1,17 +1,34 @@
+import BooleanOption from './BooleanConfigOption';
 import ConfigOption from './Private/ConfigOption';
-import type { CommandConfigJSON, CommandDataJSON } from '../types/Configs';
+import StringSelectionOption from './StringSelectionConfigOption';
+import type {
+  BooleanConfigJSON,
+  CommandConfigJSON,
+  CommandDataJSON,
+  StringSelectionConfigJSON
+} from '../types/Configs';
 
 // eslint-disable-next-line import/exports-last
 export class CommandOptionData {
-  declare private enabled: boolean;
+  declare private enabled: BooleanConfigJSON;
+  declare private requiredRole: StringSelectionConfigJSON;
 
-  setEnabled(value: boolean): this {
-    this.enabled = value;
+  setDefault(): this {
+    return this.setEnabled(new BooleanOption(true)).setRequiredRole(new StringSelectionOption('', ['']));
+  }
+
+  setEnabled(value: BooleanOption): this {
+    this.enabled = value.toJSON();
+    return this;
+  }
+
+  setRequiredRole(value: StringSelectionOption): this {
+    this.requiredRole = value.toJSON();
     return this;
   }
 
   toJSON(): CommandDataJSON {
-    return { enabled: this.enabled };
+    return { enabled: this.enabled, requiredRole: this.requiredRole };
   }
 }
 
@@ -20,13 +37,12 @@ class CommandOption extends ConfigOption<CommandDataJSON> {
     super('command', defaultValue, value);
   }
 
-  setEnabled(value: boolean): this {
-    this.setValue(new CommandOptionData().setEnabled(value).toJSON());
-    return this;
+  isEnabled(): boolean {
+    return this.getValue().enabled.value;
   }
 
-  isEnabled(): boolean {
-    return this.getValue().enabled;
+  hasPerms(roles: string[]): boolean {
+    return roles.includes(this.getValue().requiredRole.value);
   }
 
   toJSON(): CommandConfigJSON {

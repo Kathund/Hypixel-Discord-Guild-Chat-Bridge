@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/output.css" />
+  <title>Document</title>
+</head>
+
+<body class="bg-gray-800 flex justify-center">
+  <div class="w-[50vw] flex flex-col my-2">
+    <%- include('./Components/header', { globalData }); %>
+    <% pages.forEach((page) => { %>
+    <div class="text-white p-2 bg-gray-700 rounded-2xl my-2 flex flex-col">
+      <div class="mx-2 flex flex-row justify-between">
+        <div>
+          <p><%= page.name %></p>
+          <p><%= page.description %></p>
+        </div>
+        <button class="px-3 -mr-2 bg-gray-800 rounded-lg hover:cursor-pointer" onclick="window.location.href='<%= page.path %>'"><%= page.open %></button>
+      </div>
+    </div>
+    <% }) %>
+    <div class="text-white p-2 bg-gray-700 rounded-2xl my-2 flex flex-col">
+      <div class="mx-2 flex flex-row justify-between">
+        <p>I don't know what to put here yet. Maybe an overview of the bot? If it's in online and shit?</p>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

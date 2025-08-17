@@ -1,0 +1,7 @@
+<label for="<%= option.internal %>" class="relative inline-flex items-center cursor-pointer">
+  <input type="checkbox" name="<%= option.name %>" id="<%= option.internal %>" class="sr-only peer" <% if (option.value) { %>checked<% } %> />
+  <div class="w-16 h-6 rounded-full transition-colors duration-300 bg-red-700 peer-checked:bg-green-700">
+  </div>
+  <div class="absolute bg-white w-4 h-4 rounded-full transition-transform duration-300 translate-x-1 peer-checked:translate-x-11">
+  </div>
+</label>
