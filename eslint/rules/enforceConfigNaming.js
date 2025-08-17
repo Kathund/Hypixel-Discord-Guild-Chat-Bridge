@@ -10,7 +10,7 @@ export default createRule({
   meta: {
     docs: { description: 'enforce the config naming schema' },
     messages: {
-      invalidName: 'Invalid config name. Please only use a-z and _ uhen naming things, no ending with _',
+      invalidName: 'Invalid config name. Please only use a-z and _ when naming things, no ending with _',
       invalidKey: 'Invalid config key name. Please only use a-z and _ when naming things, no ending with _'
     },
     schema: [],

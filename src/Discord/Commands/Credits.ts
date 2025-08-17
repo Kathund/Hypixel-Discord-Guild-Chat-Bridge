@@ -31,8 +31,8 @@ class CreditsCommand extends Command {
             })
             .join('\n')
         }),
-        insperationTitle: Translate('discord.commands.credits.execute.insperation.title'),
-        insperationContent: Translate('discord.commands.credits.execute.insperation.content')
+        inspirationTitle: Translate('discord.commands.credits.execute.inspiration.title'),
+        inspirationContent: Translate('discord.commands.credits.execute.inspiration.content')
       })
     );
     await interaction.followUp({ embeds: [embed] });
