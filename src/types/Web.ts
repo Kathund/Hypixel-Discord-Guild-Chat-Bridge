@@ -17,3 +17,8 @@ export interface WebParsedGuild {
   channels: WebParsedBaseData[];
   members: WebParsedMember[];
 }
+
+export interface WebParsedGuildInfo {
+  data: WebParsedGuild;
+  timestamp: number;
+}

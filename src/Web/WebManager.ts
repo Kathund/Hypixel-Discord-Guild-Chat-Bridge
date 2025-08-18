@@ -6,15 +6,15 @@ import ReplaceVariables from '../Private/ReplaceVariables';
 import StringSelectionOption from '../Config/StringSelectionConfigOption';
 import Translate, { getTranslations } from '../Private/Translate';
 import express, { Request, Response } from 'express';
-import { Language } from '../types/main';
-import { WebParsedGuild } from '../types/Web';
 import type Application from '../Application';
+import type { Language } from '../types/main';
 import type { WebParsedConfigJSON, WebParsedData } from '../types/Configs';
+import type { WebParsedGuild, WebParsedGuildInfo } from '../types/Web';
 
 class WebManager {
   private readonly Application: Application;
   private readonly expressServer: express.Application;
-  private guildData: WebParsedGuild | null;
+  private guildData: WebParsedGuildInfo | null;
   constructor(app: Application) {
     this.Application = app;
     this.expressServer = express();
@@ -126,7 +126,7 @@ class WebManager {
       });
     });
 
-    this.expressServer.post('/config/:config/save', (req, res) => {
+    this.expressServer.post('/config/:config/save', (req: Request, res: Response) => {
       if (['favicon.ico', 'save', 'commands'].includes(req.params.config)) return;
       const configName = req.params.config as keyof typeof this.Application.config;
       const config = this.Application.config[configName];
@@ -147,7 +147,7 @@ class WebManager {
       config.save();
     });
 
-    this.expressServer.post('/config/commands/:command/save', (req, res) => {
+    this.expressServer.post('/config/commands/:command/save', (req: Request, res: Response) => {
       const commandName = req.params.command;
       const command = this.Application.config.commands.getValue(commandName);
       if (!command || command.isCommandOption() === false) return;
@@ -167,7 +167,7 @@ class WebManager {
       this.Application.config.commands.save();
     });
 
-    this.expressServer.post('/config/:config/force/save', (req, res) => {
+    this.expressServer.post('/config/:config/force/save', (req: Request, res: Response) => {
       if (['favicon.ico', 'save'].includes(req.params.config)) return;
       const configName = req.params.config as keyof typeof this.Application.config;
       const config = this.Application.config[configName];
@@ -175,22 +175,31 @@ class WebManager {
       config.save();
     });
 
-    this.expressServer.post('/config/commands/:command/force/save', (req, res) => {
+    this.expressServer.post('/config/commands/:command/force/save', (req: Request, res: Response) => {
       if (['favicon.ico', 'save'].includes(req.params.command)) return;
       this.Application.config.commands.save();
     });
 
-    this.expressServer.get('/data/discord/server', async (req, res) => {
+    this.expressServer.get('/data/discord/server', async (req: Request, res: Response) => {
       try {
+        if (req.query.bypass === undefined || Boolean(req.query.bypass) === false) {
+          if (this.guildData !== null && this.guildData.timestamp <= new Date().getTime() + 5 * 60 * 1000) {
+            return res.status(304).send({ success: true, data: this.guildData.data, message: null });
+          }
+        }
         const client = this.Application.discord.client;
         if (client === undefined || !client.isReady()) {
           this.guildData = null;
-          return res.send({ success: false, data: null, message: "Client isn't ready" });
+          return res
+            .status(500)
+            .send({ success: false, data: null, message: Translate('web.data.discord.error.client') });
         }
         const guild = await client.guilds.fetch(process.env.SERVER_ID);
         if (guild === undefined) {
           this.guildData = null;
-          return res.send({ success: false, data: null, message: 'Failed to find guild' });
+          return res
+            .status(400)
+            .send({ success: false, data: null, message: Translate('web.data.discord.error.guild') });
         }
         const parsedData: WebParsedGuild = {
           roles: [],
@@ -215,12 +224,12 @@ class WebManager {
             bot: member.user.bot
           })
         );
-        this.guildData = parsedData;
-        res.send({ success: true, data: parsedData, message: null });
+        this.guildData = { data: parsedData, timestamp: new Date().getTime() };
+        res.status(200).send({ success: true, data: parsedData, message: null });
       } catch (error) {
         console.error(error);
         this.guildData = null;
-        return res.send({ success: false, data: null, message: 'I fucked up' });
+        return res.status(500).send({ success: false, data: null, message: Translate('web.data.discord.error') });
       }
     });
 
