@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "pnpm exec tsx index.ts",
+    "start": "pnpm tailwind && pnpm exec tsx index.ts",
     "eslint": "pnpm exec eslint src/ index.ts --fix",
     "eslint:check": "pnpm exec eslint src/ index.ts",
     "prettier": "pnpm exec prettier --write .",
