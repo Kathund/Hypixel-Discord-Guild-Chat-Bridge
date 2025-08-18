@@ -6,11 +6,11 @@ import { TitleCase } from '../Utils/StringUtils';
 import type { LogData } from '../types/main';
 
 const logs: LogData[] = [
-  { level: 'discord', background: chalk.bgMagenta, color: chalk.reset.magenta },
-  { level: 'other', background: chalk.bgCyan, color: chalk.reset.cyan },
-  { level: 'warn', background: chalk.bgRedBright, color: chalk.reset.redBright },
-  { level: 'error', background: chalk.bgRedBright, color: chalk.reset.redBright },
-  { level: 'max', background: chalk.bgBlack, color: chalk.reset.black }
+  { level: 'discord', background: chalk.bgMagenta.black, color: chalk.reset.magenta },
+  { level: 'other', background: chalk.bgCyan.black, color: chalk.reset.cyan },
+  { level: 'warn', background: chalk.bgYellow.black, color: chalk.reset.yellow },
+  { level: 'error', background: chalk.bgRedBright.black, color: chalk.reset.redBright },
+  { level: 'max', background: chalk.bgBlack.black, color: chalk.reset.black }
 ];
 
 function getCurrentTime() {
