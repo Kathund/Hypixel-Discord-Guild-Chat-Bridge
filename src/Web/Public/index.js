@@ -19,6 +19,7 @@ function getValue(element) {
 
 document.addEventListener('DOMContentLoaded', () => {
   fetch(`${window.location.pathname}/force/save`, { method: 'POST' });
+  fetch('/data/discord/server');
 
   document.querySelectorAll('input, select').forEach(async (input) => {
     originalValues.set(input.id, getValue(input));
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const response = await fetch(`/data/discord/server`);
       const data = await response.json();
       try {
-        if (!data.success) return;
+        if (!data.success) return alert(data.message);
         const setId = input.dataset.value;
         data.data.roles.forEach((role) => {
           input.appendChild(
@@ -81,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('reload-guild-data').addEventListener('click', async () => {
-    const response = await fetch(`/data/discord/server`);
+    const response = await fetch(`/data/discord/server?bypass=true`);
     const result = await response.json();
     if (result.success) window.location.reload();
   });
