@@ -10,6 +10,7 @@ declare module 'discord.js' {
 
 declare global {
   export interface Console {
+    minecraft: (message: string) => void;
     discord: (message: string) => void;
     other: (message: string) => void;
   }

@@ -14,7 +14,7 @@ export class CommandOptionData {
   declare private requiredRole: StringSelectionConfigJSON;
 
   setDefault(): this {
-    return this.setEnabled(new BooleanOption(true)).setRequiredRole(new StringSelectionOption('', ['']));
+    return this.setEnabled(new BooleanOption(true)).setRequiredRole(new StringSelectionOption('', ['prefill_roles']));
   }
 
   setEnabled(value: BooleanOption): this {
@@ -42,6 +42,7 @@ class CommandOption extends ConfigOption<CommandDataJSON> {
   }
 
   hasPerms(roles: string[]): boolean {
+    if (this.getValue().requiredRole.value === '') return true;
     return roles.includes(this.getValue().requiredRole.value);
   }
 

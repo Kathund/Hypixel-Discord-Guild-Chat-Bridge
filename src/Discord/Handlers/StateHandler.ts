@@ -11,7 +11,7 @@ class StateHandler {
   onReady() {
     if (!this.discord.client || !this.discord.client.user) return;
     console.discord(
-      ReplaceVariables(Translate('state.discord.ready'), {
+      ReplaceVariables(Translate('discord.state.ready'), {
         username: this.discord.client.user?.username,
         id: this.discord.client.user?.id
       })

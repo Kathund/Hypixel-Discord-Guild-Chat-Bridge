@@ -72,26 +72,37 @@ class WebManager {
           description: Translate(`config.options.${configName}.${option}.description`),
           ...config[option]
         };
-        if (ConfigOption.isStringSelectionConfigJSONWeb(convertedData) && convertedData.internal === 'lang') {
-          const options = (convertedData.options as unknown as string[]).map((configOption) => {
-            const amount = Math.floor(
-              (Object.keys(getTranslations(configOption as Language)).length /
-                Object.keys(getTranslations('en_us')).length) *
-                100
-            );
-            return {
-              name: ReplaceVariables(
-                `${Translate(
-                  `config.option.${configName}.${option}.${configOption}`
-                )} ${Translate('config.option.misc.lang.amount')}`,
-                { amount }
-              ),
-              description: configOption,
-              internal: configOption,
-              amount
-            };
-          });
-          convertedData.options = options.sort((a, b) => b.amount - a.amount);
+        if (ConfigOption.isStringSelectionConfigJSONWeb(convertedData)) {
+          if (convertedData.internal === 'lang') {
+            const options = (convertedData.options as unknown as string[]).map((configOption) => {
+              const amount = Math.floor(
+                (Object.keys(getTranslations(configOption as Language)).length /
+                  Object.keys(getTranslations('en_us')).length) *
+                  100
+              );
+              return {
+                name: ReplaceVariables(Translate(`config.options.${configName}.${option}.format`), {
+                  lang: Translate(`config.options.${configName}.${option}.${configOption}`),
+                  amount: ReplaceVariables(Translate(`config.options.${configName}.${option}.amount`), { amount })
+                }),
+                description: configOption,
+                internal: configOption,
+                amount
+              };
+            });
+            convertedData.options = options.sort((a, b) => b.amount - a.amount);
+          } else {
+            convertedData.options = (convertedData.options as unknown as string[]).map((configOption) => {
+              if (configOption.startsWith('prefill_')) {
+                return { name: configOption, description: configOption, internal: configOption };
+              }
+              return {
+                name: Translate(`config.options.${configName}.${option}.${configOption}`),
+                description: configOption,
+                internal: configOption
+              };
+            });
+          }
         }
         converted.push(convertedData);
       });
@@ -117,6 +128,19 @@ class WebManager {
           description: Translate(`config.options.commands.${commandName}.${option}.description`),
           ...(command.getValue() as any)[option]
         };
+
+        if (ConfigOption.isStringSelectionConfigJSONWeb(convertedData)) {
+          convertedData.options = (convertedData.options as unknown as string[]).map((configOption) => {
+            if (configOption.startsWith('prefill_')) {
+              return { name: configOption, description: configOption, internal: configOption };
+            }
+            return {
+              name: Translate(`config.options.commands.${commandName}.${option}.${configOption}`),
+              description: configOption,
+              internal: configOption
+            };
+          });
+        }
         converted.push(convertedData);
       });
 
@@ -158,7 +182,7 @@ class WebManager {
           new CommandOptionData().setDefault().toJSON(),
           new CommandOptionData()
             .setEnabled(new BooleanOption(configData.enabled ?? true))
-            .setRequiredRole(new StringSelectionOption('', [''], configData.requiredRole ?? ''))
+            .setRequiredRole(new StringSelectionOption('', ['prefill_roles'], configData.requiredRole ?? ''))
             .toJSON()
         )
       );
@@ -184,7 +208,7 @@ class WebManager {
       try {
         if (req.query.bypass === undefined || Boolean(req.query.bypass) === false) {
           if (this.guildData !== null && this.guildData.timestamp <= new Date().getTime() + 5 * 60 * 1000) {
-            return res.status(304).send({ success: true, data: this.guildData.data, message: null });
+            return res.status(200).send({ success: true, data: this.guildData.data, message: null });
           }
         }
         const client = this.Application.discord.client;
@@ -214,7 +238,7 @@ class WebManager {
         const channels = await guild.channels.fetch();
         channels
           .filter((channel) => channel !== null)
-          .forEach((channel) => parsedData.channels.push({ id: channel.id, name: channel.name }));
+          .forEach((channel) => parsedData.channels.push({ id: channel.id, name: channel.name, type: channel.type }));
         const members = await guild.members.fetch();
         members.forEach((member) =>
           parsedData.members.push({
@@ -253,7 +277,12 @@ class WebManager {
           debug: Translate('web.pages.title.debug'),
           misc: Translate('web.pages.title.misc'),
           home: Translate('web.pages.title.home'),
-          config: Translate('web.pages.title.config')
+          config: Translate('web.pages.title.config'),
+          online: Translate('web.pages.title.online'),
+          restart: Translate('web.pages.title.restart'),
+          uptime: Translate('web.pages.title.uptime'),
+          minecraft: Translate('web.pages.title.minecraft'),
+          discord: Translate('web.pages.title.discord')
         }
       }
     };

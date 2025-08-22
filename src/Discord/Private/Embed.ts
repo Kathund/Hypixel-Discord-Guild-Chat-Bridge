@@ -41,7 +41,7 @@ class Embed extends EmbedBuilder {
 
   setDev(dev: Devs): this {
     this.setFooter({
-      text: ReplaceVariables(Translate('embed.footer'), { user: devInfos[dev].username }),
+      text: ReplaceVariables(Translate('discord.embed.footer'), { user: devInfos[dev].username }),
       iconURL: devInfos[dev].url
     });
     return this;
@@ -56,8 +56,8 @@ class Embed extends EmbedBuilder {
 export class ErrorEmbed extends Embed {
   constructor() {
     super();
-    this.setTitle(Translate('embed.error.title'));
-    this.setDescription(Translate('embed.error.description.reported'));
+    this.setTitle(Translate('discord.embed.error.title'));
+    this.setDescription(Translate('discord.embed.error.description.reported'));
     this.setColorFromDefault('Red');
   }
 }

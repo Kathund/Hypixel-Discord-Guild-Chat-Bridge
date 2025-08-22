@@ -24,7 +24,7 @@ class DiscordUtils {
             app.owner instanceof Team === true
               ? app.owner.members.map((member) => `<@${member.id}>`).join(' ')
               : `<@${app.owner?.id}>`,
-          embeds: [new ErrorEmbed().setDescription(Translate('embed.error.description'))]
+          embeds: [new ErrorEmbed().setDescription(Translate('discord.embed.error.description'))]
         });
       }
     }
@@ -33,6 +33,10 @@ class DiscordUtils {
       return;
     }
     await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
+  }
+
+  cleanMessage(message: string): string {
+    return message.replaceAll('*', '\\*').replaceAll('_', '\\_').replaceAll('~', '\\~');
   }
 }
 

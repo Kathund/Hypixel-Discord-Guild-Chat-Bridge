@@ -6,6 +6,7 @@ import { TitleCase } from '../Utils/StringUtils';
 import type { LogData } from '../types/main';
 
 const logs: LogData[] = [
+  { level: 'minecraft', background: chalk.bgGreen.black, color: chalk.reset.green },
   { level: 'discord', background: chalk.bgMagenta.black, color: chalk.reset.magenta },
   { level: 'other', background: chalk.bgCyan.black, color: chalk.reset.cyan },
   { level: 'warn', background: chalk.bgYellow.black, color: chalk.reset.yellow },
@@ -64,6 +65,12 @@ logs.forEach((log) => {
     transports: [new transports.File({ level: log.level, filename: `./logs/${log.level}.log` }), combinedTransport]
   });
 });
+
+console.minecraft = (message: string): void => {
+  const log = logs.find((log) => log.level === 'minecraft') || logs[1];
+  loggers[log.level].log(log.level, message);
+  return logSomething(message, log);
+};
 
 console.discord = (message: string): void => {
   const log = logs.find((log) => log.level === 'discord') || logs[1];
