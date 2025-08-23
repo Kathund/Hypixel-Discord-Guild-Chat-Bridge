@@ -1,0 +1,9 @@
+<div class="text-white p-2 bg-gray-700 rounded-2xl my-2 flex flex-col">
+  <div class="mx-2 flex flex-row justify-between">
+    <div>
+      <p><%= config.name %></p>
+      <p><%= config.description %></p>
+    </div>
+    <button class="px-3 -mr-2 bg-gray-800 rounded-lg hover:cursor-pointer" onclick="window.location.href='<%= config.path %>'"><%= config.open %></button>
+  </div>
+</div>

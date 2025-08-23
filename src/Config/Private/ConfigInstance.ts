@@ -17,7 +17,7 @@ const baseData: Record<string, ConfigJSON> = {
 
 class ConfigInstance {
   readonly name: string;
-  declare private data: Record<string, ConfigJSON>;
+  declare protected data: Record<string, ConfigJSON>;
   constructor(name: string, update: boolean = false) {
     this.name = name;
     this.data = { ...baseData } as Record<string, ConfigJSON>;
@@ -48,19 +48,30 @@ class ConfigInstance {
     });
   }
 
-  setValue(name: string, value: ConfigOption, override: boolean = true): this {
-    if (override) {
-      this.data[name] = value.toJSON();
-    } else if (this.data[name] === undefined) {
-      this.data[name] = value.toJSON();
-    }
+  setValue(name: string, value: ConfigOption | ConfigInstance, override: boolean = true): this {
+    if (value instanceof ConfigInstance) {
+      //console.log(this.data);
+      this.data[value.name] = {
+        type: 'subconfig',
+        defaultValue: {},
+        value: value.toJSON(true)
+      } as ConfigJSON<unknown>;
+      //console.log(`Config Instance: ${JSON.stringify(this.data, null, 2)}`);
+      //console.log(value.toJSON());
+    } else {
+      if (override) {
+        this.data[name] = value.toJSON();
+      } else if (this.data[name] === undefined) {
+        this.data[name] = value.toJSON();
+      }
 
-    if (value.isStringSelectionOption()) {
-      const foundData = this.getValue(name);
-      if (foundData === undefined || !foundData.isStringSelectionOption()) return this.save();
-      const fixed = foundData.toJSON();
-      fixed.options = value.getOptions();
-      this.data[name] = fixed;
+      if (value.isStringSelectionOption()) {
+        const foundData = this.getValue(name);
+        if (foundData === undefined || !foundData.isStringSelectionOption()) return this.save();
+        const fixed = foundData.toJSON();
+        fixed.options = value.getOptions();
+        this.data[name] = fixed;
+      }
     }
     return this.save();
   }
