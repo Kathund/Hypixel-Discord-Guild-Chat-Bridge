@@ -18,7 +18,7 @@ function getValue(element) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  fetch(`${window.location.pathname}/force/save`, { method: 'POST' });
+  fetch(`/force/save`, { method: 'POST' });
   fetch('/data/discord/server');
 
   document.querySelectorAll('input, select').forEach(async (input) => {

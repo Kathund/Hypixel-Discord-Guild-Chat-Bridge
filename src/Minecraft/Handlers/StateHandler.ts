@@ -30,7 +30,7 @@ class StateHandler {
   }
 
   onEnd(reason: string) {
-    if (reason && reason === 'restart') {
+    if (reason && reason === 'Shutting Down') {
       return;
     }
 

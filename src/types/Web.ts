@@ -1,5 +1,7 @@
 import { ChannelType } from 'discord.js';
 
+export type RouteType = 'get' | 'post';
+
 export interface WebParsedBaseData {
   name: string;
   id: string;

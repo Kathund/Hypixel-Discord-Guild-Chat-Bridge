@@ -1,7 +1,7 @@
 {
   "git.autofetch": true,
-  "javascript.updateImportsOnFileMove.enabled": "prompt",
-  "typescript.updateImportsOnFileMove.enabled": "prompt",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
   "editor.tabSize": 2,
   "prettier.useTabs": false,
   "files.insertFinalNewline": true,

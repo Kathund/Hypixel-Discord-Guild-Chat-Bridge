@@ -112,6 +112,7 @@
   "discord.embed.footer": "by @{user}",
   "discord.state.ready": "Logged in as {username} ({id})!",
   "error.missingExecute": "Execute Method not implemented!",
+  "error.missingRoute": "Route Method not implemented!",
   "minecraft.error.botOffline": "Bot doesn't seem to be connected to Hypixel. Please try again.",
   "minecraft.state.end": "Minecraft bot has disconnected! Attempting reconnect in {seconds} seconds",
   "minecraft.state.kick": "Minecraft bot has been kicked from the server for \"{reason}\"",
@@ -137,5 +138,7 @@
   "web.pages.title.online": "Online",
   "web.pages.title.restart": "Restart",
   "web.pages.title.uptime": "Uptime",
-  "web.server.start": "Web dashboard open at http://localhost:{port}"
+  "web.server.not.running": "The web dashboard isn't running?",
+  "web.server.start": "Web dashboard open at http://localhost:{port}",
+  "web.server.stop": "Web dashboard stopped"
 }

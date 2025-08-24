@@ -20,8 +20,7 @@ class RestartCommand extends Command {
       .setDescription(Translate('discord.commands.restart.execute.restarting.description'));
     await interaction.followUp({ embeds: [restartingEmbed] });
 
-    await this.discord.client.destroy();
-    this.discord.Application.connect();
+    this.discord.Application.stop().then(() => this.discord.Application.connect());
 
     const restartedEmbed = new Embed()
       .setDev('georgeFilos')

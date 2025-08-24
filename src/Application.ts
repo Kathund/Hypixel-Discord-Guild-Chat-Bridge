@@ -18,6 +18,13 @@ class Application {
   connect(): void {
     this.discord.connect();
     this.minecraft.connect();
+    this.web.loadServer();
+  }
+
+  async stop(): Promise<void> {
+    if (this.discord.client) await this.discord.client.destroy();
+    if (this.minecraft.bot) this.minecraft.bot.end('Shutting Down');
+    this.web.stopServer();
   }
 }
 
