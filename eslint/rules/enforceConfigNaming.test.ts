@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable camelcase */
-import BooleanOption from '../../src/Config/BooleanConfigOption';
+import BooleanOption from '../../src/Config/Options/Boolean';
 import ConfigInstance from '../../src/Config/Private/ConfigInstance';
 
 class validConfig extends ConfigInstance {

@@ -1,5 +1,5 @@
 import ConfigInstance from '../Private/ConfigInstance';
-import StringSelectionOption from '../StringSelectionConfigOption';
+import StringSelectionOption from '../Options/StringSelection';
 // eslint-disable-next-line import/no-cycle
 import { getSupportedLanguages } from '../../Private/Translate';
 

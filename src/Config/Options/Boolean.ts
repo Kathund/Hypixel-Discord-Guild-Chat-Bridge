@@ -1,5 +1,5 @@
-import ConfigOption from './Private/ConfigOption';
-import type { BooleanConfigJSON } from '../types/Configs';
+import ConfigOption from '../Private/ConfigOption';
+import type { BooleanConfigJSON } from '../../types/Configs';
 
 class BooleanOption extends ConfigOption<boolean> {
   constructor(defaultValue: boolean, value: boolean = defaultValue) {

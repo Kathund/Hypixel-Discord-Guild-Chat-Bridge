@@ -3,9 +3,9 @@ import ReplaceVariables from '../../../Private/ReplaceVariables';
 import Route from '../../Private/BaseRoute';
 import Translate, { getTranslations } from '../../../Private/Translate';
 import type WebManager from '../../WebManager';
+import type { ConfigInstanceData, WebParsedConfigJSON } from '../../../types/Configs';
 import type { Language } from '../../../types/main';
 import type { Request, Response } from 'express';
-import type { WebParsedConfigJSON } from '../../../types/Configs';
 
 class ConfigPageRoute extends Route {
   constructor(web: WebManager) {
@@ -21,6 +21,13 @@ class ConfigPageRoute extends Route {
       res.status(404).send('Config section not found');
       return;
     }
+    res.render('configPage', {
+      config: ConfigPageRoute.parseConfigForWeb(config, configName),
+      globalData: { ...this.web.getData(), path: req.path.split('/') }
+    });
+  }
+
+  static parseConfigForWeb(config: ConfigInstanceData, configName: string): WebParsedConfigJSON[] {
     const converted: WebParsedConfigJSON[] = [];
     Object.keys(config).forEach((option) => {
       const convertedData: WebParsedConfigJSON = {
@@ -29,6 +36,11 @@ class ConfigPageRoute extends Route {
         description: Translate(`config.options.${configName}.${option}.description`),
         ...config[option]
       };
+      if (ConfigOption.isSubConfigConfigJSON(convertedData)) {
+        convertedData.open = Translate(`config.options.${configName}.${option}.open`);
+        convertedData.path = `/config/${configName.replaceAll('.', '/')}/${option}`;
+      }
+
       if (ConfigOption.isStringSelectionConfigJSONWeb(convertedData)) {
         if (convertedData.internal === 'lang') {
           const options = (convertedData.options as unknown as string[]).map((configOption) => {
@@ -63,10 +75,7 @@ class ConfigPageRoute extends Route {
       }
       converted.push(convertedData);
     });
-    res.render('configPage', {
-      config: converted,
-      globalData: { ...this.web.getData(), path: req.path.split('/') }
-    });
+    return converted;
   }
 }
 

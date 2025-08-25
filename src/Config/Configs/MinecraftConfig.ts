@@ -1,8 +1,7 @@
-import BooleanOption from '../BooleanConfigOption';
+import BooleanOption from '../Options/Boolean';
 import ConfigInstance from '../Private/ConfigInstance';
-import FuckConfig from './FuckConfig';
-import NumberOption from '../NumberConfigOption';
-import StringOption from '../StringConfigOption';
+import NumberOption from '../Options/Number';
+import StringOption from '../Options/String';
 
 class MinecraftConfig extends ConfigInstance {
   constructor(update: boolean = false) {
@@ -14,7 +13,6 @@ class MinecraftConfig extends ConfigInstance {
     this.setValue('max_chat_length', new NumberOption(256, 256, 512, 128), false);
     this.setValue('auto_limbo', new BooleanOption(true), false);
     this.setValue('message_format', new StringOption('{username} » {message}'), false);
-    this.setValue('fuck', new FuckConfig(true), false);
   }
 }
 

@@ -11,7 +11,7 @@ class ConfigSaveRoute extends Route {
   }
 
   handle(req: Request, res: Response) {
-    if (['favicon.ico', 'save', 'commands'].includes(req.params.config)) return;
+    if (['favicon.ico', 'save'].includes(req.params.config)) return;
     const configName = req.params.config as keyof typeof this.web.Application.config;
     const config = this.web.Application.config[configName];
     if (config === undefined) return;

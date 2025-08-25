@@ -1,7 +1,7 @@
 import MessageHandler from './Handlers/MessageHandler';
-import NumberOption from '../Config/NumberConfigOption';
+import NumberOption from '../Config/Options/Number';
 import StateHandler from './Handlers/StateHandler';
-import StringOption from '../Config/StringConfigOption';
+import StringOption from '../Config/Options/String';
 import { Bot, createBot } from 'mineflayer';
 import type Application from '../Application';
 

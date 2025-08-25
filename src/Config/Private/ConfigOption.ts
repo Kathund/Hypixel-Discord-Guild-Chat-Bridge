@@ -1,18 +1,18 @@
-import type ArrayOption from '../ArrayConfigOption';
-import type BooleanOption from '../BooleanConfigOption';
-import type CommandOption from '../CommandConfigOption';
-import type NumberOption from '../NumberConfigOption';
-import type StringOption from '../StringConfigOption';
-import type StringSelectionOption from '../StringSelectionConfigOption';
+import type ArrayOption from '../Options/Array';
+import type BooleanOption from '../Options/Boolean';
+import type NumberOption from '../Options/Number';
+import type StringOption from '../Options/String';
+import type StringSelectionOption from '../Options/StringSelection';
+import type SubConfigOption from '../Options/SubConfig';
 import type {
   ArrayConfigJSON,
   BooleanConfigJSON,
-  CommandConfigJSON,
   ConfigJSON,
   NumberConfigJSON,
   StringConfigJSON,
   StringSelectionConfigJSON,
-  StringSelectionConfigJSONWeb
+  StringSelectionConfigJSONWeb,
+  SubConfigConfigJSON
 } from '../../types/Configs';
 
 class ConfigOption<OptionType = unknown> {
@@ -71,14 +71,6 @@ class ConfigOption<OptionType = unknown> {
     return option.type === 'boolean';
   }
 
-  isCommandOption(): this is CommandOption {
-    return this.getType() === 'command';
-  }
-
-  static isCommandConfigJSON(option: ConfigJSON): option is CommandConfigJSON {
-    return option.type === 'command';
-  }
-
   isNumberOption(): this is NumberOption {
     return this.getType() === 'number';
   }
@@ -105,6 +97,14 @@ class ConfigOption<OptionType = unknown> {
 
   static isStringSelectionConfigJSONWeb(option: ConfigJSON): option is StringSelectionConfigJSONWeb {
     return option.type === 'stringSelection';
+  }
+
+  isSubConfigConfig(): this is SubConfigOption {
+    return this.getType() === 'subConfig';
+  }
+
+  static isSubConfigConfigJSON(option: ConfigJSON): option is SubConfigConfigJSON {
+    return option.type === 'subConfig';
   }
 }
 

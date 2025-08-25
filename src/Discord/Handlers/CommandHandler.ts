@@ -2,6 +2,7 @@ import HypixelDiscordGuildBridgeError from '../../Private/Error';
 import ReplaceVariables from '../../Private/ReplaceVariables';
 import Translate from '../../Private/Translate';
 import { ChatInputCommandInteraction, Collection, REST, Routes } from 'discord.js';
+import { SubConfigConfigJSON } from '../../types/Configs';
 import { readdirSync } from 'node:fs';
 import type Command from '../Private/Command';
 import type DiscordManager from '../DiscordManager';
@@ -25,19 +26,42 @@ class CommandHandler {
           commandName: interaction.commandName
         })
       );
-      const commandConfigOption = this.discord.Application.config.commands.getValue(command.data.name);
-      if (commandConfigOption === undefined || !commandConfigOption.isCommandOption()) {
+
+      const commandConfig = this.discord.Application.config.discord.getValue('commands');
+      if (
+        commandConfig === undefined ||
+        !commandConfig.isSubConfigConfig() ||
+        commandConfig.getValue() === undefined ||
+        commandConfig.getValue()[interaction.commandName] === undefined ||
+        commandConfig.getValue()[interaction.commandName].value === undefined
+      ) {
         throw new Error(
           ReplaceVariables(Translate('discord.commands.config.missing'), { commandName: interaction.commandName })
         );
       }
-      if (commandConfigOption.isEnabled() === false) {
+      const commandConfigOption = commandConfig.getValue()[interaction.commandName] as SubConfigConfigJSON;
+      if (
+        commandConfigOption === undefined ||
+        commandConfigOption.value === undefined ||
+        commandConfigOption.value === null ||
+        commandConfigOption.value.enabled === undefined
+      ) {
+        throw new Error(
+          ReplaceVariables(Translate('discord.commands.config.missing'), { commandName: interaction.commandName })
+        );
+      }
+      if (commandConfigOption.value.enabled.value !== true) {
         throw new HypixelDiscordGuildBridgeError(
           ReplaceVariables(Translate('discord.commands.config.disabled'), { commandName: interaction.commandName })
         );
       }
       const member = await interaction.guild.members.fetch(interaction.user.id);
-      if (commandConfigOption.hasPerms(member.roles.cache.map((role) => role.id)) === false) {
+      if (
+        this.hasPerms(
+          member.roles.cache.map((role) => role.id),
+          (commandConfigOption.value.required_role.value as string) || ''
+        ) === false
+      ) {
         throw new HypixelDiscordGuildBridgeError(
           ReplaceVariables(Translate('discord.commands.config.missing.perms'), { commandName: interaction.commandName })
         );
@@ -52,6 +76,7 @@ class CommandHandler {
 
   async deployCommands(): Promise<void> {
     if (!this.discord.client) return;
+    const commandConfig = this.discord.Application.config.discord.getValue('commands');
     this.discord.client.commands = new Collection<string, Command>();
 
     const commandFiles = readdirSync('./src/Discord/Commands');
@@ -60,10 +85,17 @@ class CommandHandler {
       const command = new (await import(`../Commands/${file}`)).default(this.discord);
       if (command.data.name) {
         if (command.data.name !== 'credits') {
-          const commandConfigOption = this.discord.Application.config.commands.getValue(command.data.name);
+          if (commandConfig === undefined) continue;
+          if (!commandConfig.isSubConfigConfig()) continue;
+          if (commandConfig.getValue() === undefined) continue;
+          if (commandConfig.getValue()[command.data.name] === undefined) continue;
+          if (commandConfig.getValue()[command.data.name].value === undefined) continue;
+          const commandConfigOption = commandConfig.getValue()[command.data.name] as SubConfigConfigJSON;
           if (commandConfigOption === undefined) continue;
-          if (commandConfigOption.isCommandOption() === false) continue;
-          if (commandConfigOption.isEnabled() === false) continue;
+          if (commandConfigOption.value === undefined) continue;
+          if (commandConfigOption.value === null) continue;
+          if (commandConfigOption.value.enabled === undefined) continue;
+          if (commandConfigOption.value.enabled.value !== true) continue;
         }
         commands.push(command.data.toJSON());
         this.discord.client.commands.set(command.data.name, command);
@@ -75,6 +107,11 @@ class CommandHandler {
       .setToken(process.env.DISCORD_TOKEN)
       .put(Routes.applicationGuildCommands(clientId, process.env.SERVER_ID), { body: commands });
     console.discord(ReplaceVariables(Translate('discord.commands.ready'), { amount: commands.length }));
+  }
+
+  hasPerms(roles: string[], required: string = ''): boolean {
+    if (required === '') return true;
+    return roles.includes(required);
   }
 }
 

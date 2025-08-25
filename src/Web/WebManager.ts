@@ -47,18 +47,24 @@ class WebManager {
         await this.loadRoutes(`${dir}/${file}`, `${basePath}/${file}`);
       } else {
         const route = new (await import(`${dir.replaceAll('./src/Web/', './')}/${file}`)).default(this);
-        if (route.type === 'get') {
-          this.expressServer.get(route.path, (req: Request, res: Response) => {
-            res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-            res.set('Pragma', 'no-cache');
-            res.set('Expires', '0');
-            route.handle(req, res);
-          });
-        }
-        if (route.type === 'post') {
-          this.expressServer.post(route.path, (req: Request, res: Response) => {
-            route.handle(req, res);
-          });
+        switch (route.type) {
+          case 'get': {
+            this.expressServer.get(route.path, (req: Request, res: Response) => {
+              res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+              res.set('Pragma', 'no-cache');
+              res.set('Expires', '0');
+              route.handle(req, res);
+            });
+            break;
+          }
+          case 'post': {
+            this.expressServer.post(route.path, (req: Request, res: Response) => {
+              route.handle(req, res);
+            });
+          }
+          default: {
+            break;
+          }
         }
       }
     }

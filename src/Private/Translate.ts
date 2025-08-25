@@ -1,7 +1,7 @@
 import HypixelDiscordGuildBridgeError from './Error';
 // eslint-disable-next-line import/no-cycle
 import MiscConfig from '../Config/Configs/MiscConfig';
-import StringOption from '../Config/StringConfigOption';
+import StringOption from '../Config/Options/String';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import type { Language } from '../types/main';
 

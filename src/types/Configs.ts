@@ -3,14 +3,10 @@ export interface ConfigJSON<T = unknown> {
   defaultValue: T;
   value: T;
 }
-
+export type ConfigInstanceData = Record<string, ConfigJSON>;
+export type SubConfigConfigJSON = ConfigJSON<ConfigInstanceData>;
 export type StringConfigJSON = ConfigJSON<string>;
 export type BooleanConfigJSON = ConfigJSON<boolean>;
-export interface CommandDataJSON {
-  enabled: BooleanConfigJSON;
-  requiredRole: StringSelectionConfigJSON;
-}
-export type CommandConfigJSON = ConfigJSON<CommandDataJSON>;
 export type ArrayConfigJSON<T> = ConfigJSON<T[]>;
 
 export interface NumberConfigJSON extends ConfigJSON<number> {
@@ -42,4 +38,6 @@ export interface WebParsedConfigJSON<T = unknown> extends WebParsedDataBase {
   defaultValue: T;
   value: T;
   options?: T;
+  open?: string;
+  path?: string;
 }

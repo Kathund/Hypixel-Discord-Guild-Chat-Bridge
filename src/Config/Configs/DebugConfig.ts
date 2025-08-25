@@ -1,6 +1,6 @@
 import ConfigInstance from '../Private/ConfigInstance';
-import NumberOption from '../NumberConfigOption';
-import StringSelectionOption from '../StringSelectionConfigOption';
+import NumberOption from '../Options/Number';
+import StringSelectionOption from '../Options/StringSelection';
 
 class DebugConfig extends ConfigInstance {
   constructor(update: boolean = false) {

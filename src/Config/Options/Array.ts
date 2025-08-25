@@ -1,5 +1,5 @@
-import ConfigOption from './Private/ConfigOption';
-import type { ArrayConfigJSON } from '../types/Configs';
+import ConfigOption from '../Private/ConfigOption';
+import type { ArrayConfigJSON } from '../../types/Configs';
 
 class ArrayOption<T> extends ConfigOption<T[]> {
   constructor(defaultValue: T[], value: T[] = defaultValue) {

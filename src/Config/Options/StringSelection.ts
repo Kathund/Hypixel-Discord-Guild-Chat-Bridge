@@ -1,5 +1,5 @@
-import ConfigOption from './Private/ConfigOption';
-import type { StringSelectionConfigJSON } from '../types/Configs';
+import ConfigOption from '../Private/ConfigOption';
+import type { StringSelectionConfigJSON } from '../../types/Configs';
 
 class StringSelectionOption extends ConfigOption<string> {
   private options: string[];
