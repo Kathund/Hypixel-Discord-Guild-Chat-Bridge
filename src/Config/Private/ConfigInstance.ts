@@ -39,7 +39,7 @@ class ConfigInstance extends BaseConfigInstance {
     config['!!'] = baseData['!!'];
     config['!!!'] = baseData['!!!'];
     Object.keys(config).forEach((configKey) => {
-      const data = ConfigInstance.getConfigOption(config[configKey]);
+      const data = BaseConfigInstance.getConfigOption(config[configKey]);
       if (data !== undefined) this.setValue(configKey, data, false);
     });
   }

@@ -7,7 +7,7 @@ import type { Request, Response } from 'express';
 class SubSubConfigPageRoute extends Route {
   constructor(web: WebManager) {
     super(web);
-    this.path = '/config/:config/:subconfig/:subsubconfig/';
+    this.path = '/config/:config/:subconfig/:subsubconfig';
   }
 
   handle(req: Request, res: Response) {

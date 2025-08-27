@@ -1,5 +1,6 @@
 import type ArrayOption from '../Options/Array';
 import type BooleanOption from '../Options/Boolean';
+import type InternalOption from '../Options/Internal';
 import type NumberOption from '../Options/Number';
 import type StringOption from '../Options/String';
 import type StringSelectionOption from '../Options/StringSelection';
@@ -8,6 +9,7 @@ import type {
   ArrayConfigJSON,
   BooleanConfigJSON,
   ConfigJSON,
+  InternalConfigJSON,
   NumberConfigJSON,
   StringConfigJSON,
   StringSelectionConfigJSON,
@@ -69,6 +71,14 @@ class ConfigOption<OptionType = unknown> {
 
   static isBooleanConfigJSON(option: ConfigJSON): option is BooleanConfigJSON {
     return option.type === 'boolean';
+  }
+
+  isInternalOption(): this is InternalOption {
+    return this.getType() === 'internal';
+  }
+
+  static isInternalConfigJSON(option: ConfigJSON): option is InternalConfigJSON {
+    return option.type === 'internal';
   }
 
   isNumberOption(): this is NumberOption {

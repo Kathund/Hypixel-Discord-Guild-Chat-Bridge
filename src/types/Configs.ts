@@ -5,6 +5,7 @@ export interface ConfigJSON<T = unknown> {
 }
 export type ConfigInstanceData = Record<string, ConfigJSON>;
 export type SubConfigConfigJSON = ConfigJSON<ConfigInstanceData>;
+export type InternalConfigJSON = ConfigJSON<string>;
 export type StringConfigJSON = ConfigJSON<string>;
 export type BooleanConfigJSON = ConfigJSON<boolean>;
 export type ArrayConfigJSON<T> = ConfigJSON<T[]>;

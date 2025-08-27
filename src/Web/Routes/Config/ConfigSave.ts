@@ -1,4 +1,4 @@
-import ConfigInstance from '../../../Config/Private/ConfigInstance';
+import BaseConfigInstance from '../../../Config/Private/BaseConfigInstance';
 import Route from '../../Private/BaseRoute';
 import type WebManager from '../../WebManager';
 import type { Request, Response } from 'express';
@@ -21,7 +21,7 @@ class ConfigSaveRoute extends Route {
       if (value === undefined) return;
       const data = value.toJSON();
       data.value = configData[option];
-      const fixedData = ConfigInstance.getConfigOption(data);
+      const fixedData = BaseConfigInstance.getConfigOption(data);
       if (fixedData !== undefined) {
         config.setValue(option, fixedData);
       }

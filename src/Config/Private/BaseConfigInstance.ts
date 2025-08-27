@@ -1,6 +1,7 @@
 import ArrayOption from '../Options/Array';
 import BooleanOption from '../Options/Boolean';
 import ConfigOption from './ConfigOption';
+import InternalOption from '../Options/Internal';
 import NumberOption from '../Options/Number';
 import StringOption from '../Options/String';
 import StringSelectionOption from '../Options/StringSelection';
@@ -40,6 +41,10 @@ class BaseConfigInstance {
       return new BooleanOption(data.defaultValue, data.value);
     }
 
+    if (ConfigOption.isInternalConfigJSON(data)) {
+      return new InternalOption(data.defaultValue, data.value);
+    }
+
     if (ConfigOption.isNumberConfigJSON(data)) {
       return new NumberOption(data.defaultValue, data.value, data.max, data.min);
     }
@@ -64,6 +69,7 @@ class BaseConfigInstance {
   ):
     | ArrayOption<unknown>
     | BooleanOption
+    | InternalOption
     | NumberOption
     | StringOption
     | StringSelectionOption

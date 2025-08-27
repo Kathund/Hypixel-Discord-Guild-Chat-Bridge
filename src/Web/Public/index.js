@@ -123,6 +123,13 @@ document.addEventListener('DOMContentLoaded', () => {
     window.location.reload();
   });
 
+  document.getElementById('internal_button_reload_commands').addEventListener('click', async () => {
+    console.log('meowowowowow');
+    const response = await fetch(`/data/discord/reload/commands`, { method: 'POST' });
+    const result = await response.json();
+    if (result.success) window.location.reload();
+  });
+
   document.getElementById('reload-guild-data').addEventListener('click', async () => {
     const response = await fetch(`/data/discord/server?bypass=true`);
     const result = await response.json();
