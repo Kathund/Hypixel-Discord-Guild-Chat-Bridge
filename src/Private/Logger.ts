@@ -1,4 +1,6 @@
+import MiscConfig from '../Config/Configs/MiscConfig';
 import ReplaceVariables from './ReplaceVariables';
+import StringOption from '../Config/Options/String';
 import Translate from './Translate';
 import chalk from 'chalk';
 import { Logger, createLogger, format, transports } from 'winston';
@@ -24,7 +26,7 @@ function getCurrentTime() {
     second: 'numeric',
     hour12: false,
     timeZoneName: 'short',
-    timeZone: 'UTC'
+    timeZone: (new MiscConfig().getValue('timezone') || new StringOption('UTC')).getValue() as string
   });
 }
 

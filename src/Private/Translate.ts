@@ -60,6 +60,7 @@ export function getTranslations(lang: Language = getSelectedLanguage()): { [key:
 }
 
 export default function Translate(key: string, lang: Language = getSelectedLanguage()): string {
+  key = key.replaceAll('/', '.');
   const supportedLanguages = getSupportedLanguages();
   if (!supportedLanguages.includes(lang)) return `Unsupported Language | ${key}`;
   const translations = getTranslations(lang);
