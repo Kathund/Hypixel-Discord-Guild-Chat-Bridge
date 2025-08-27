@@ -22,7 +22,15 @@ getSupportedLanguages().forEach((lang) => {
       hasErrors = true;
     }
   } else {
-    writeFileSync(`./translations/${lang}.json`, JSON.stringify(sorted, null, 2) + '\n');
+    const timezones = Intl.supportedValuesOf('timeZone');
+    timezones.push('UTC');
+    timezones.forEach((timezone) => {
+      if (sorted[`config.options.misc.timezone.${timezone.replaceAll('/', '.')}`] === undefined) {
+        sorted[`config.options.misc.timezone.${timezone.replaceAll('/', '.')}`] = timezone;
+      }
+    });
+
+    writeFileSync(`./translations/${lang}.json`, JSON.stringify(sortJSON(sorted), null, 2) + '\n');
   }
 });
 
