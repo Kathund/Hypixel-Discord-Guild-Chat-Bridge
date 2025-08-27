@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "pnpm tailwind && pnpm exec tsx index.ts",
-    "eslint": "pnpm exec eslint src/ index.ts --fix",
+    "eslint": "pnpm exec eslint translations/ src/ index.ts --fix",
     "eslint:check": "pnpm exec eslint src/ index.ts",
     "prettier": "pnpm exec prettier --write .",
     "prettier:check": "pnpm exec prettier --check .",
@@ -13,8 +13,7 @@
     "dev": "pnpm exec nodemon",
     "tailwind": "pnpm exec tailwindcss -i src/Web/Public/input.css -o src/Web/Public/output.css",
     "tailwind:watch": "pnpm exec tailwindcss -i src/Web/Public/input.css -o src/Web/Public/output.css --watch",
-    "translations": "pnpm exec tsx .github/sortTranslations.ts",
-    "translations:check": "pnpm exec tsx .github/sortTranslations.ts --check"
+    "translations": "pnpm exec tsx .github/sortTranslations.ts"
   },
   "keywords": [],
   "author": "Kathund",
@@ -41,6 +40,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.34.0",
+    "@eslint/json": "^0.13.2",
     "@j4cobi/eslint-plugin-sort-imports": "^1.0.2",
     "@types/ejs": "^3.1.5",
     "@types/eslint": "^9.6.1",

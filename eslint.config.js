@@ -1,11 +1,11 @@
 /* eslint-disable */
-
 import globals from 'globals';
 import importPlugin from 'eslint-plugin-import';
 import prettier from 'eslint-config-prettier';
 import sortImports from '@j4cobi/eslint-plugin-sort-imports';
 import ts from 'typescript-eslint';
 import plugin from './eslint/plugin.js';
+import json from '@eslint/json';
 
 export default [
   ...ts.configs.recommended,
@@ -13,7 +13,19 @@ export default [
   importPlugin.flatConfigs.typescript,
   prettier,
   {
-    ignores: ['**/node_modules/', '**/build/', '**/pnpm-lock.yaml'],
+    files: ['**/*.json'],
+    plugins: { json },
+    language: 'json/json',
+    rules: {
+      'json/no-duplicate-keys': 'error',
+      'json/no-empty-keys': 'error',
+      'json/no-unnormalized-keys': 'error',
+      'json/no-unsafe-values': 'error',
+      'json/sort-keys': 'error'
+    }
+  },
+  {
+    files: ['src/**', 'index.ts'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
