@@ -9,13 +9,24 @@ export default createRule({
   meta: {
     docs: { description: 'enforce using the Translate function' },
     messages: {
-      missingTranslate: 'Use the translate function when parsing in strings for the end user'
+      missingTranslate: 'Use the translate function when parsing in strings for the end user',
+      badTranslateKey: 'Translation keys only support A-z, _ and .'
     },
     schema: [],
     type: 'problem'
   },
 
   create(context) {
+    /**
+     * @param {import("@typescript-eslint/utils").TSESTree.CallExpression} argument
+     * @returns boolean
+     */
+    function checkInput(argument) {
+      const regex = /^[A-z](?:[A-z_.]*[A-z])?$/;
+      if (argument.type === 'CallExpression') return checkInput(argument.arguments[0]);
+      return !regex.test(argument.value);
+    }
+
     /**
      * @param {import("@typescript-eslint/utils").TSESTree.CallExpression} argument
      * @returns boolean
@@ -75,6 +86,8 @@ export default createRule({
       ) {
         if (checkArgument(expression.callee.object.arguments[0])) {
           context.report({ node, messageId: 'missingTranslate' });
+        } else if (checkInput(expression.callee.object.arguments[0].arguments[0])) {
+          context.report({ node, messageId: 'badTranslateKey' });
         }
       }
       if (
@@ -83,7 +96,11 @@ export default createRule({
         expression?.callee?.property?.type === 'Identifier' &&
         embedChecks.includes(expression?.callee?.property?.name)
       ) {
-        if (checkArgument(expression.arguments[0])) context.report({ node, messageId: 'missingTranslate' });
+        if (checkArgument(expression.arguments[0])) {
+          context.report({ node, messageId: 'missingTranslate' });
+        } else if (checkInput(expression.arguments[0].arguments[0])) {
+          context.report({ node, messageId: 'badTranslateKey' });
+        }
       }
       if (
         expression?.callee?.object?.type === 'NewExpression' &&
@@ -91,7 +108,11 @@ export default createRule({
         expression?.callee?.object?.parent?.property?.type === 'Identifier' &&
         embedChecks.includes(expression.callee.object.parent.property.name)
       ) {
-        if (checkArgument(expression.arguments[0])) context.report({ node, messageId: 'missingTranslate' });
+        if (checkArgument(expression.arguments[0])) {
+          context.report({ node, messageId: 'missingTranslate' });
+        } else if (checkInput(expression.arguments[0].arguments[0])) {
+          context.report({ node, messageId: 'badTranslateKey' });
+        }
       }
     }
 
@@ -107,7 +128,11 @@ export default createRule({
         expression?.callee?.object?.name === 'console' &&
         ['log', 'error'].includes(expression?.callee?.property?.name) === false
       ) {
-        if (checkArgument(expression.arguments[0])) context.report({ node, messageId: 'missingTranslate' });
+        if (checkArgument(expression.arguments[0])) {
+          context.report({ node, messageId: 'missingTranslate' });
+        } else if (checkInput(expression.arguments[0].arguments[0])) {
+          context.report({ node, messageId: 'badTranslateKey' });
+        }
       }
       if (
         (expression?.callee?.object?.type === 'Identifier' && expression?.callee?.object?.name === 'res') ||
@@ -129,7 +154,11 @@ export default createRule({
             )
             .forEach((property) => {
               if (property.value.type === 'Literal' && property.value.value === null) return;
-              if (checkArgument(property.value)) context.report({ node, messageId: 'missingTranslate' });
+              if (checkArgument(property.value)) {
+                context.report({ node, messageId: 'missingTranslate' });
+              } else if (checkInput(property.value.arguments[0])) {
+                context.report({ node, messageId: 'badTranslateKey' });
+              }
             });
         }
       }

@@ -9,6 +9,11 @@ console.warn('Test');
 console.warn(Translate('console'));
 console.warn(ReplaceVariables(Translate(Translate('console')), {}));
 
+console.warn(Translate('console fail'));
+console.warn(Translate('console_test'));
+console.warn(Translate('console.pass'));
+console.warn(Translate('consoleTest'));
+
 const embed = new Embed().setTitle('fu');
 
 new Embed().setTitle('fu');
