@@ -41,4 +41,5 @@ export interface WebParsedConfigJSON<T = unknown> extends WebParsedDataBase {
   options?: T;
   open?: string;
   path?: string;
+  allowEmpty?: boolean;
 }

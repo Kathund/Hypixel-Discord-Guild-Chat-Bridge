@@ -75,6 +75,7 @@ class ConfigPageRoute extends Route {
             };
           });
         }
+        convertedData.allowEmpty = convertedData.defaultValue === '';
       }
       converted.push(convertedData);
     });

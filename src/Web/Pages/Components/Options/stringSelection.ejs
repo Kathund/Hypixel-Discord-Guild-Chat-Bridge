@@ -1,4 +1,4 @@
-<select class="pl-3 -mr-2 rounded-lg bg-gray-800" name="<%= option.name %>" id="<%= option.internal %>" data-option-type="stringSelect" data-value="<%= option.value %>" <% if (option.options[0].internal.startsWith("prefill_")) { %>data-prefill="<%= option.options[0].internal %>" <% } %>>
+<select class="pl-3 -mr-2 rounded-lg bg-gray-800" name="<%= option.name %>" id="<%= option.internal %>" data-option-type="stringSelect" data-allow-empty="<%= option.allowEmpty %>" data-default-value="<%= option.defaultValue %>" data-value="<%= option.value %>" <% if (option.options[0].internal.startsWith("prefill_")) { %>data-prefill="<%= option.options[0].internal %>" <% } %> autocomplete="off">
   <% option.options.forEach((selectOption) => { %>
   <% if (selectOption.internal.startsWith("prefill_")) { %>
   <option value=""></option>
