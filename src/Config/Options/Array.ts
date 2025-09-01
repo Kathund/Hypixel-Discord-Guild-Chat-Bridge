@@ -6,6 +6,20 @@ class ArrayOption<T> extends ConfigOption<T[]> {
     super('array', defaultValue, value);
   }
 
+  addValue(value: T): this {
+    this.setValue([...this.getValue(), value]);
+    return this;
+  }
+
+  removeValue(value: T): this {
+    this.setValue(this.getValue().filter((item) => item !== value));
+    return this;
+  }
+
+  count(): number {
+    return this.getValue().length;
+  }
+
   toJSON(): ArrayConfigJSON<T> {
     return { ...super.toJSON() };
   }

@@ -21,6 +21,7 @@ class ConfigSaveRoute extends Route {
       if (value === undefined) return;
       const data = value.toJSON();
       data.value = configData[option];
+      if (data.type === 'array') data.value = configData[option].split(',');
       const fixedData = BaseConfigInstance.getConfigOption(data);
       if (fixedData !== undefined) {
         config.setValue(option, fixedData);

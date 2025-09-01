@@ -328,7 +328,7 @@
     }
   }
 }
-.ts-wrapper, .ts-control, .ts-control > input, .ts-dropdown, .active, .option {
+.clear-button, .ts-control > .item, .ts-wrapper, .ts-control, .ts-control > input, .ts-dropdown, .active, .option {
   font: inherit !important;
   line-height: inherit !important;
   color: white !important;
@@ -338,8 +338,8 @@
 .dropdown-input-wrap > input:focus-visible {
   outline: rgba(255, 0, 0, 0.3) !important;
 }
-.ts-dropdown {
-  border: rgba(255, 255, 255, 0.3) 2px solid !important;
+.ts-wrapper.multi .ts-control > div, .ts-dropdown {
+  border: rgba(255, 255, 255, 0.5) 2px solid !important;
 }
 .ts-wrapper {
   display: flex !important;
@@ -349,11 +349,21 @@
 .ts-control {
   padding: 0 !important;
 }
-.ts-control, .ts-dropdown, .dropdown-input, .dropdown-input-wrap {
+.ts-control > .item, .ts-control, .ts-dropdown, .dropdown-input, .dropdown-input-wrap {
   background: inherit !important;
 }
 .ts-dropdown .active {
   background: royalblue !important;
+}
+.ts-wrapper.focus.input-active > .ts-dropdown {
+  display: none !important;
+}
+.ts-wrapper.multi .ts-control > div {
+  background: var(--color-gray-700) !important;
+}
+.ts-wrapper.multi .ts-control > .clear-button {
+  background: none !important;
+  border: none !important;
 }
 .ts-dropdown [data-selectable] .highlight {
   background: rgba(255, 0, 0, 0.3) !important;

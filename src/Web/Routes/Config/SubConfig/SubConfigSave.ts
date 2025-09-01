@@ -33,6 +33,7 @@ class ConfigSaveRoute extends Route {
       const value = subConfigData[option];
       if (value === undefined) return;
       value.value = configData[option];
+      if (value.type === 'array') value.value = configData[option].split(',');
       subConfigData[option] = value;
     });
     subConfig.setValue(subConfigData);

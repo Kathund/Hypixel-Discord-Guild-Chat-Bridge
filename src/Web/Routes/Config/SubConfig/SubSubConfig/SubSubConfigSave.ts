@@ -48,7 +48,10 @@ class ConfigSaveRoute extends Route {
     Object.keys(configData).forEach((key) => {
       const foundOption = options[key];
       if (foundOption === undefined) return;
-      newConfig.setValue(key, foundOption.setValue(configData[key]));
+      newConfig.setValue(
+        key,
+        foundOption.setValue(foundOption.isArrayOption() ? configData[key].split(',') : configData[key])
+      );
     });
     option.setValue(newConfig.toJSON());
     const oldSubConfig = subConfig.getValue();

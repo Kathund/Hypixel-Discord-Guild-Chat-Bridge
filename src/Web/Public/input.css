@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+.clear-button,
+.ts-control > .item,
 .ts-wrapper,
 .ts-control,
 .ts-control > input,
@@ -17,8 +19,9 @@
   outline: rgba(255, 0, 0, 0.3) !important;
 }
 
+.ts-wrapper.multi .ts-control > div,
 .ts-dropdown {
-  border: rgba(255, 255, 255, 0.3) 2px solid !important;
+  border: rgba(255, 255, 255, 0.5) 2px solid !important;
 }
 
 .ts-wrapper {
@@ -31,6 +34,7 @@
   padding: 0 !important;
 }
 
+.ts-control > .item,
 .ts-control,
 .ts-dropdown,
 .dropdown-input,
@@ -40,6 +44,19 @@
 
 .ts-dropdown .active {
   background: royalblue !important;
+}
+
+.ts-wrapper.focus.input-active > .ts-dropdown {
+  display: none !important;
+}
+
+.ts-wrapper.multi .ts-control > div {
+  background: var(--color-gray-700) !important;
+}
+
+.ts-wrapper.multi .ts-control > .clear-button {
+  background: none !important;
+  border: none !important;
 }
 
 .ts-dropdown [data-selectable] .highlight {

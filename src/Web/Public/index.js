@@ -98,6 +98,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (input.dataset.allowEmpty === 'true') tomSelectSettings.plugins.push('clear_button');
       new TomSelect(input, tomSelectSettings);
+    } else if (input.dataset.optionType === 'array') {
+      new TomSelect(input, {
+        plugins: ['remove_button', 'clear_button'],
+        persist: false,
+        createOnBlur: true,
+        create: true,
+        openOnFocus: false
+      });
     }
 
     input.addEventListener('change', () => {
