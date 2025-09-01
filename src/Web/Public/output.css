@@ -355,7 +355,7 @@
 .ts-dropdown .active {
   background: royalblue !important;
 }
-.ts-wrapper.focus.input-active > .ts-dropdown {
+.ts-wrapper.focus.input-active.multi > .ts-dropdown {
   display: none !important;
 }
 .ts-wrapper.multi .ts-control > div {
