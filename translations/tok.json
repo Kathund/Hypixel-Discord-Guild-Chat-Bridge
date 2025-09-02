@@ -145,5 +145,6 @@
   "web.pages.title.uptime": "tenpo wawa",
   "web.server.not.running": "ilo pi pana nasin li lape?",
   "web.server.start": "ilo pi pana nasin li kute lon http://localhost:{port}!",
-  "web.server.stop": "ilo pi pana nasin li pini."
+  "web.server.stop": "ilo pi pana nasin li pini.",
+  "config.options.misc.lang.tok": "toki pona"
 }
