@@ -10,6 +10,8 @@
   "config.options.debug.version.description": "Config version number",
   "config.options.discord": "Discord",
   "config.options.discord.commands": "Commands",
+  "config.options.discord.commands.aloud_users": "Aloud Users",
+  "config.options.discord.commands.aloud_users.description": "Users that will bypass all permission checks (user id input)",
   "config.options.discord.commands.credits": "Credits",
   "config.options.discord.commands.credits.description": "Shows the credits of the people who make this possible",
   "config.options.discord.commands.description": "Commands config options",

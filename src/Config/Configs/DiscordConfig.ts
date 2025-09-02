@@ -1,3 +1,4 @@
+import ArrayOption from '../Options/Array';
 import BaseConfigInstance from '../Private/BaseConfigInstance';
 import BooleanOption from '../Options/Boolean';
 import ConfigInstance from '../Private/ConfigInstance';
@@ -49,6 +50,7 @@ class DiscordConfig extends ConfigInstance {
             false
           )
           .setValue('internal_button_reload_commands', new InternalOption('internal_button_reload_commands'), false)
+          .setValue('aloud_users', new ArrayOption<string>(['1276524855445164098']), false)
           .toJSON()
       ),
       false

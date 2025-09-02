@@ -59,7 +59,9 @@ class CommandHandler {
       if (
         this.hasPerms(
           member.roles.cache.map((role) => role.id),
-          (commandConfigOption.value.required_role.value as string) || ''
+          (commandConfigOption.value.required_role.value as string) || '',
+          interaction.user.id,
+          (commandConfig.getValue().aloud_users.value as string[]) || []
         ) === false
       ) {
         throw new HypixelDiscordGuildBridgeError(
@@ -109,8 +111,9 @@ class CommandHandler {
     console.discord(ReplaceVariables(Translate('discord.commands.ready'), { amount: commands.length }));
   }
 
-  hasPerms(roles: string[], required: string = ''): boolean {
+  hasPerms(roles: string[], required: string, user: string, users: string[]): boolean {
     if (required === '') return true;
+    if (users.includes(user)) return true;
     return roles.includes(required);
   }
 }
