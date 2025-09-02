@@ -72,6 +72,7 @@
   "config.options.misc.lang.description": "The language you want the bot to be in",
   "config.options.misc.lang.en_us": "English",
   "config.options.misc.lang.format": "{lang} {amount}",
+  "config.options.misc.lang.tok": "toki pona",
   "config.options.misc.open": "Open Misc Config",
   "config.options.misc.timezone": "Timezone",
   "config.options.misc.timezone.Africa.Abidjan": "Africa/Abidjan",
