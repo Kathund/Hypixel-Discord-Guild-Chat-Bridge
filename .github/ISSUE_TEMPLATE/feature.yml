@@ -4,10 +4,11 @@ title: 'feat: (fill in)'
 labels:
   - feature request
 body:
-  - type: input
+  - type: textarea
     attributes:
-    label: Feature details
-    description: What should the new feature do?
+      label: Feature details
+      description: What should the new feature do?
+      value
     validations:
       required: true
   - type: checkboxes

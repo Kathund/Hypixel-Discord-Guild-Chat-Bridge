@@ -14,8 +14,6 @@ body:
         node version:
         pnpm version:
         Operating System:
-      validations:
-        required: true
   - type: textarea
     attributes:
       label: What did you expect to happen?
