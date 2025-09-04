@@ -11,7 +11,7 @@ class Command {
   }
 
   execute(interaction: ChatInputCommandInteraction): Promise<void> | void {
-    throw new Error(Translate('error.missingExecute'));
+    throw new Error(Translate('discord.commands.error.missingExecute'));
   }
 }
 

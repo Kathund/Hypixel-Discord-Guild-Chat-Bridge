@@ -117,9 +117,11 @@ document.addEventListener('DOMContentLoaded', () => {
           input.value = input.max;
         }
       }
+
       changed = Array.from(originalValues.entries()).some(([id, originalValue]) => {
         return getValue(document.getElementById(id)) !== originalValue;
       });
+
       update();
     });
   });

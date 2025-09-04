@@ -1,15 +1,18 @@
 import ConfigManager from './Config/ConfigManager';
+import DataManager from './Data/DataManager';
 import DiscordManager from './Discord/DiscordManager';
 import MinecraftManager from './Minecraft/MinecraftManager';
 import WebManager from './Web/WebManager';
 
 class Application {
   declare config: ConfigManager;
+  declare data: DataManager;
   declare discord: DiscordManager;
   declare minecraft: MinecraftManager;
   declare web: WebManager;
   constructor() {
-    this.config = new ConfigManager(this);
+    this.config = new ConfigManager();
+    this.data = new DataManager();
     this.discord = new DiscordManager(this);
     this.minecraft = new MinecraftManager(this);
     this.web = new WebManager(this);

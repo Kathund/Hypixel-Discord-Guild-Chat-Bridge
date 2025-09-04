@@ -3,17 +3,13 @@ import DiscordConfig from './Configs/DiscordConfig';
 import MinecraftConfig from './Configs/MinecraftConfig';
 import MiscConfig from './Configs/MiscConfig';
 import { existsSync, mkdirSync } from 'node:fs';
-import type Application from '../Application';
 
 class ConfigManager {
-  private readonly Application: Application;
   declare debug: DebugConfig;
   declare discord: DiscordConfig;
   declare minecraft: MinecraftConfig;
   declare misc: MiscConfig;
-  constructor(app: Application) {
-    this.Application = app;
-    if (!existsSync('./data')) mkdirSync('./data/', { recursive: true });
+  constructor() {
     if (!existsSync('./data/config')) mkdirSync('./data/config/', { recursive: true });
     this.debug = new DebugConfig(true);
     this.discord = new DiscordConfig(true);

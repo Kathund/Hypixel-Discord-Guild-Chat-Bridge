@@ -14,7 +14,7 @@ class Route {
   }
 
   handle(req: Request, res: Response): Promise<void> | void {
-    throw new Error(Translate('error.missingRoute'));
+    throw new Error(Translate('web.error.missingRoute'));
   }
 }
 

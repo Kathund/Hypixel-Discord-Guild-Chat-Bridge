@@ -5,15 +5,17 @@
   "main": "index.ts",
   "scripts": {
     "start": "pnpm tailwind && pnpm exec tsx index.ts",
-    "eslint": "pnpm exec eslint translations/ src/ index.ts --fix",
-    "eslint:check": "pnpm exec eslint src/ index.ts",
+    "eslint": "pnpm exec eslint translations/ data/ src/ scripts/ index.ts --fix",
+    "eslint:check": "pnpm exec eslint translations/ data/ src/ scripts/ index.ts",
     "prettier": "pnpm exec prettier --write .",
     "prettier:check": "pnpm exec prettier --check .",
     "build": "pnpm exec tsc --build",
     "dev": "pnpm exec nodemon",
     "tailwind": "pnpm exec tailwindcss -i src/Web/Public/input.css -o src/Web/Public/output.css",
     "tailwind:watch": "pnpm exec tailwindcss -i src/Web/Public/input.css -o src/Web/Public/output.css --watch",
-    "translations": "pnpm exec tsx .github/sortTranslations.ts"
+    "translations": "pnpm exec tsx scripts/sortTranslations.ts",
+    "json": "pnpm exec tsx scripts/sortJson.ts",
+    "update-data": "pnpm exec tsx scripts/updateData.ts"
   },
   "keywords": [],
   "author": "Kathund",
@@ -36,7 +38,8 @@
     "express": "^5.1.0",
     "mineflayer": "^4.32.0",
     "tailwindcss": "^4.1.12",
-    "winston": "^3.17.0"
+    "winston": "^3.17.0",
+    "zod": "^4.1.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.34.0",

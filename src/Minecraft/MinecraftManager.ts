@@ -33,12 +33,11 @@ class MinecraftManager {
       ).getValue() as number,
       profilesFolder: './minecraft-auth-cache'
     });
-
     this.messageHandler.registerEvents();
     this.stateHandler.registerEvents();
   }
 
-  isBotOnline() {
+  isBotOnline(): this is this & { bot: Bot } {
     // eslint-disable-next-line no-underscore-dangle
     return this.bot?._client?.chat !== undefined;
   }

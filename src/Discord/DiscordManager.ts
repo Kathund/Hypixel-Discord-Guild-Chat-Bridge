@@ -1,5 +1,4 @@
 import CommandHandler from './Handlers/CommandHandler';
-import DiscordUtils from './Private/DiscordUtils';
 import InteractionHandler from './Handlers/InteractionHandler';
 import MessageHandler from './Handlers/MessageHandler';
 import StateHandler from './Handlers/StateHandler';
@@ -12,7 +11,6 @@ class DiscordManager {
   declare stateHandler: StateHandler;
   declare commandHandler: CommandHandler;
   declare messageHandler: MessageHandler;
-  declare utils: DiscordUtils;
   client?: Client;
   constructor(app: Application) {
     this.Application = app;
@@ -20,7 +18,6 @@ class DiscordManager {
     this.interactionHandler = new InteractionHandler(this);
     this.stateHandler = new StateHandler(this);
     this.messageHandler = new MessageHandler(this);
-    this.utils = new DiscordUtils(this);
   }
 
   connect(): void {

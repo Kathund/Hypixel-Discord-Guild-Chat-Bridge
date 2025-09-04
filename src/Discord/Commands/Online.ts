@@ -14,16 +14,11 @@ class OnlineCommand extends Command {
     super(discord);
     this.data = new CommandData().setName('online');
   }
-
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     if (!this.discord.Application.minecraft.isBotOnline()) {
       throw new HypixelDiscordGuildBridgeError(Translate('minecraft.error.botOffline'));
     }
-    const bot = this.discord.Application.minecraft.bot;
-    if (!bot) return;
-
-    const messages = await this.getMessages(bot);
-
+    const messages = await this.getMessages(this.discord.Application.minecraft.bot);
     let online = messages.find((message) => message.startsWith('Online Members: '));
     if (online === undefined) {
       throw new HypixelDiscordGuildBridgeError(Translate('discord.commands.online.execute.error.missing.online'));
@@ -48,32 +43,26 @@ class OnlineCommand extends Command {
     messages
       .flatMap((item, index) => {
         if (!item.includes('-- ')) return;
-
         const nextLine = messages[index + 1];
         if (!nextLine.includes('●')) return;
-
         const rank = item.replaceAll('--', '').trim();
         const players = nextLine
           .split('●')
           .map((item) => item.trim())
           .filter((item) => item);
-
         if (rank === undefined || players === undefined) return;
         embed.addFields({ name: rank, value: players.map((player) => `\`${player}\``).join(', ') });
       })
       .filter((item) => item);
-
     await interaction.followUp({ embeds: [embed] });
   }
 
   getMessages(bot: Bot): Promise<string[]> {
     return new Promise((resolve, reject) => {
       const cachedMessages: string[] = [];
-
       const listener = (event: ChatMessage) => {
         const message = event.toString();
         cachedMessages.push(message);
-
         if (message.startsWith('Offline Members')) {
           bot.removeListener('message', listener);
           resolve(cachedMessages);

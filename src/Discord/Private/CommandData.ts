@@ -16,7 +16,7 @@ class CommandData extends SlashCommandBuilder {
   }
 
   setDescription(description: string): this {
-    throw new HypixelDiscordGuildBridgeError(Translate('discord.commands.setDescription'));
+    throw new HypixelDiscordGuildBridgeError(Translate('discord.commands.error.setDescription'));
   }
 }
 
