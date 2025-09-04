@@ -8,7 +8,6 @@ body:
     attributes:
       label: Feature details
       description: What should the new feature do?
-      value
     validations:
       required: true
   - type: checkboxes
