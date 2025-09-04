@@ -1,0 +1,22 @@
+name: 'Feature Request'
+description: 'Request a new feature to be added.'
+title: 'feat: (fill in)'
+labels:
+  - feature request
+body:
+  - type: input
+    attributes:
+    label: Feature details
+    description: What should the new feature do?
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Participation
+      options:
+        - label: I am willing to submit a pull request to implement this feature.
+          required: false
+  - type: textarea
+    attributes:
+      label: Additional comments
+      description: Is there anything else that's important for us to know?
