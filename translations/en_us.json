@@ -523,6 +523,7 @@
   "discord.commands.error.missingExecute": "Execute Method not implemented!",
   "discord.commands.error.setDescription": "Directly setting description is not allowed. Use the setName function instead.",
   "discord.commands.execute": "Interaction Event trigged by {username} ({userId}) ran command {commandName}",
+  "discord.commands.missing.translate": "The `{commandName}` doesn't have an translation.",
   "discord.commands.online": "online",
   "discord.commands.online.description": "List of online members.",
   "discord.commands.online.execute.description": "{total}\n{online}",

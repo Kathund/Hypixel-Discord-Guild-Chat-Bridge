@@ -5,6 +5,10 @@ import StringOption from '../Config/Options/String';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import type { Language } from '../types/main';
 
+function parseKeyForTranslation(key: string): string {
+  return key.replaceAll('/', '.');
+}
+
 // eslint-disable-next-line import/exports-last
 export function getSupportedLanguages(): Language[] {
   try {
@@ -59,8 +63,19 @@ export function getTranslations(lang: Language = getSelectedLanguage()): { [key:
   }
 }
 
+export function unTranslate(translation: string, lang: Language = getSelectedLanguage()): string {
+  const supportedLanguages = getSupportedLanguages();
+  if (!supportedLanguages.includes(lang)) return `Unsupported Language | ${translation}`;
+  const translations = getTranslations(lang);
+  const entry = Object.entries(translations).find(([, value]) => value === translation);
+  if (!entry) {
+    return lang === 'en_us' ? `Unknown Key | ${translation}` : unTranslate(translation, 'en_us');
+  }
+  return entry[0];
+}
+
 export default function Translate(key: string, lang: Language = getSelectedLanguage()): string {
-  key = key.replaceAll('/', '.');
+  key = parseKeyForTranslation(key);
   const supportedLanguages = getSupportedLanguages();
   if (!supportedLanguages.includes(lang)) return `Unsupported Language | ${key}`;
   const translations = getTranslations(lang);

@@ -1,6 +1,6 @@
 import HypixelDiscordGuildBridgeError from '../../Private/Error';
 import ReplaceVariables from '../../Private/ReplaceVariables';
-import Translate from '../../Private/Translate';
+import Translate, { unTranslate } from '../../Private/Translate';
 import { ChatInputCommandInteraction, Collection, MessageFlags, REST, Routes, Team } from 'discord.js';
 import { ErrorEmbed } from '../Private/Embed';
 import { SubConfigConfigJSON } from '../../types/Configs';
@@ -26,10 +26,18 @@ class CommandHandler {
           commandName: interaction.commandName
         })
       );
+
+      const untranslatedName = unTranslate(interaction.commandName);
+      if (untranslatedName.includes('|')) {
+        throw new Error(
+          ReplaceVariables(Translate('discord.commands.missing.translate'), { commandName: interaction.commandName })
+        );
+      }
+
       const commandConfig = this.discord.Application.config.discord.getValue('commands');
       if (commandConfig === undefined || !commandConfig.isSubConfigConfig()) return;
       const commandConfigOption = commandConfig?.isSubConfigConfig()
-        ? (commandConfig.getValue()?.[interaction.commandName] as SubConfigConfigJSON)
+        ? (commandConfig.getValue()?.[Translate(untranslatedName, 'en_us')] as SubConfigConfigJSON)
         : undefined;
       if (!commandConfigOption?.value) {
         throw new Error(
@@ -69,7 +77,11 @@ class CommandHandler {
       const command = new (await import(`../Commands/${file}`)).default(this.discord);
       if (!command.data.name) continue;
       if (!commandConfig || !commandConfig.isSubConfigConfig()) continue;
-      const commandConfigOption = commandConfig.getValue()?.[command.data.name] as SubConfigConfigJSON | undefined;
+      const untranslatedName = unTranslate(command.data.name);
+      if (untranslatedName.includes('|')) continue;
+      const commandConfigOption = commandConfig.getValue()?.[Translate(untranslatedName, 'en_us')] as
+        | SubConfigConfigJSON
+        | undefined;
       if (!commandConfigOption?.value?.enabled?.value) continue;
       commands.push(command.data.toJSON());
       this.discord.client.commands.set(command.data.name, command);
