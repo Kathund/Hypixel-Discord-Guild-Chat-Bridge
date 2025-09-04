@@ -19,5 +19,8 @@
   },
   "[html]": {
     "editor.defaultFormatter": "j69.ejs-beautify"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
