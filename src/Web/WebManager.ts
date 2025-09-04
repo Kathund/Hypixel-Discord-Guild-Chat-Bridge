@@ -21,9 +21,7 @@ class WebManager {
     this.expressServer.set('view engine', 'ejs');
     this.expressServer.set('views', 'src/Web/Pages');
     this.expressServer.use(express.static('src/Web/Public'));
-
     await this.loadRoutes();
-
     this.server = this.expressServer.listen(Number(process.env.DASHBOARD_PORT), () => {
       console.other(ReplaceVariables(Translate('web.server.start'), { port: process.env.DASHBOARD_PORT }));
     });
@@ -39,12 +37,11 @@ class WebManager {
     this.server = undefined;
   }
 
-  async loadRoutes(dir = './src/Web/Routes', basePath = '') {
+  async loadRoutes(dir = './src/Web/Routes') {
     const files = readdirSync(dir);
-
     for (const file of files) {
       if (statSync(`${dir}/${file}`).isDirectory()) {
-        await this.loadRoutes(`${dir}/${file}`, `${basePath}/${file}`);
+        await this.loadRoutes(`${dir}/${file}`);
       } else {
         const route = new (await import(`${dir.replaceAll('./src/Web/', './')}/${file}`)).default(this);
         switch (route.type) {
@@ -90,7 +87,8 @@ class WebManager {
           restart: Translate('web.pages.title.restart'),
           uptime: Translate('web.pages.title.uptime'),
           minecraft: Translate('web.pages.title.minecraft'),
-          discord: Translate('web.pages.title.discord')
+          discord: Translate('web.pages.title.discord'),
+          credits: Translate('web.pages.title.credits')
         }
       }
     };

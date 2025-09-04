@@ -13,6 +13,7 @@ export default [
   importPlugin.flatConfigs.typescript,
   prettier,
   {
+    ignores: ['data/config/*.json'],
     files: ['**/*.json'],
     plugins: { json },
     language: 'json/json',

@@ -36,6 +36,7 @@ class ConfigPageRoute extends Route {
         description: Translate(`config.options.${configName}.${option}.description`),
         ...config[option]
       };
+
       if (
         ConfigOption.isSubConfigConfigJSON(convertedData) ||
         (ConfigOption.isInternalConfigJSON(convertedData) && convertedData.internal.split('_')[1] === 'button')

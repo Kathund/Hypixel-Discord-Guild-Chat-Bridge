@@ -1,5 +1,6 @@
 import ReplaceVariables from '../../Private/ReplaceVariables';
 import Translate from '../../Private/Translate';
+import { ActivityType } from 'discord.js';
 import type DiscordManager from '../DiscordManager';
 
 class StateHandler {
@@ -16,6 +17,7 @@ class StateHandler {
         id: this.discord.client.user?.id
       })
     );
+    this.discord.client.user.setActivity({ name: Translate('discord.state.activity'), type: ActivityType.Playing });
   }
 }
 

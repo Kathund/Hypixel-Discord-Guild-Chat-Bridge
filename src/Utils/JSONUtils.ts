@@ -4,7 +4,8 @@ export function sortJSON(data: Record<string, any>): Record<string, any> {
     .sort()
     .reduce(
       (acc, key) => {
-        acc[key] = data[key];
+        const value = data[key];
+        acc[key] = value && typeof value === 'object' && !Array.isArray(value) ? sortJSON(value) : value;
         return acc;
       },
       {} as Record<string, any>

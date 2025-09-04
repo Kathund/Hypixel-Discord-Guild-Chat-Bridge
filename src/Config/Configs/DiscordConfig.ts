@@ -20,6 +20,16 @@ class DiscordConfig extends ConfigInstance {
       new SubConfigOption(
         new BaseConfigInstance()
           .setValue(
+            'credits',
+            new SubConfigOption(
+              new BaseConfigInstance()
+                .setValue('enabled', new BooleanOption(true), false)
+                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
+                .toJSON()
+            ),
+            false
+          )
+          .setValue(
             'online',
             new SubConfigOption(
               new BaseConfigInstance()

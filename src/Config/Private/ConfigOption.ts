@@ -50,11 +50,7 @@ class ConfigOption<OptionType = unknown> {
   }
 
   toJSON(): ConfigJSON<OptionType> {
-    return {
-      type: this.type,
-      defaultValue: this.defaultValue,
-      value: this.value
-    };
+    return { type: this.type, defaultValue: this.defaultValue, value: this.value };
   }
 
   isArrayOption(): this is ArrayOption<unknown> {

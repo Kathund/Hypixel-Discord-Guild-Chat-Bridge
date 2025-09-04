@@ -1,17 +1,21 @@
-import { getSupportedLanguages, getTranslations } from '../src/Private/Translate';
 import { sortJSON } from '../src/Utils/JSONUtils';
 import { writeFileSync } from 'node:fs';
 import type { Language } from '../src/types/main';
+import { getSupportedLanguages, getTranslations } from '../src/Private/Translate';
 
 class Lang {
   lang: Language;
   translations: Record<string, string | undefined>;
-  constructor(lang: Language, mainCheck: boolean = false) {
+  index: number;
+  array: string[];
+  constructor(lang: Language, mainCheck: boolean = false, index: number = 0, array: string[] = []) {
     if (mainCheck) console.log(`Checking Translations for ${lang}`);
     this.lang = lang;
     this.translations = getTranslations(this.lang);
     this.translations['!!'] = 'DO NOT TRANSLATE ANYTHING IN {example}';
     this.translations['!!!'] = 'THEY ARE VARIABLES';
+    this.index = index;
+    this.array = array;
     if (this.lang === 'en_us') this.injectTimezones();
     if (this.lang !== 'en_us') this.cleanKeys();
     if (mainCheck) this.saveTranslations();
@@ -56,8 +60,9 @@ class Lang {
     );
 
     const amount = Math.floor((currentLang.length / englishLang.length) * 100);
-    console.log(`Updated translations for ${this.lang}. (${amount}% tranlated from english)\n`);
+    console.log(`Updated translations for ${this.lang}. (${amount}% translated from english)`);
+    if (this.index !== this.array.length - 1) console.log('\n');
   }
 }
 
-getSupportedLanguages().forEach((lang) => new Lang(lang, true));
+getSupportedLanguages().forEach((lang, index, array) => new Lang(lang, true, index, array));

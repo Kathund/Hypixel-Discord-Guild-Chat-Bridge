@@ -3,6 +3,7 @@ export interface ConfigJSON<T = unknown> {
   defaultValue: T;
   value: T;
 }
+
 export type ConfigInstanceData = Record<string, ConfigJSON>;
 export type SubConfigConfigJSON = ConfigJSON<ConfigInstanceData>;
 export type InternalConfigJSON = ConfigJSON<string>;
