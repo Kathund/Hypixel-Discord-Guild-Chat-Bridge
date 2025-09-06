@@ -43,7 +43,9 @@ class Lang {
     this.translations = {};
     Object.keys(currentLang)
       .filter((key) => this.getTimezones().includes(key) === false)
-      .filter((key) => !key.startsWith('config.options.misc.timezone.'))
+      .filter(
+        (key) => key === 'config.options.misc.timezone.description' || !key.startsWith('config.options.misc.timezone.')
+      )
       .forEach((key) => {
         if (keys.includes(key)) this.translations[key] = currentLang[key];
       });
