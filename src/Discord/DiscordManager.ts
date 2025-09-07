@@ -35,6 +35,10 @@ class DiscordManager {
     this.client.on(Events.MessageCreate, (message) => this.messageHandler.onMessage(message));
     this.client.login(process.env.DISCORD_TOKEN).catch((e) => console.error(e));
   }
+
+  isDiscordOnline(): this is this & { client: Client } {
+    return this.client?.isReady() !== undefined;
+  }
 }
 
 export default DiscordManager;

@@ -4,7 +4,7 @@ import Translate from '../../Private/Translate';
 import { EmbedBuilder } from 'discord.js';
 import type { Devs, EmbedDefaultColors } from '../../types/main';
 
-const embedDefaultColors: { [key in EmbedDefaultColors]: number } = { Green: 0x7be425, Red: 0xed474a, Blue: 0x17bebb };
+const embedDefaultColors: { [key in EmbedDefaultColors]: number } = { Green: 0x00ff3c, Red: 0xed474a, Blue: 0x17bebb };
 
 class Embed extends EmbedBuilder {
   constructor() {
@@ -26,6 +26,10 @@ class Embed extends EmbedBuilder {
   setColorFromDefault(color: EmbedDefaultColors): this {
     this.setColor(embedDefaultColors[color]);
     return this;
+  }
+
+  clearEmbed(): this {
+    return this.setTimestamp(null).setFooter(null).setColor(null);
   }
 }
 

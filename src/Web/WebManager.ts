@@ -88,7 +88,10 @@ class WebManager {
           uptime: Translate('web.pages.title.uptime'),
           minecraft: Translate('web.pages.title.minecraft'),
           discord: Translate('web.pages.title.discord'),
-          credits: Translate('web.pages.title.credits')
+          credits: Translate('web.pages.title.credits'),
+          events: Translate('web.pages.title.events'),
+          // eslint-disable-next-line camelcase
+          member_login: Translate('web.pages.title.member_login')
         }
       }
     };

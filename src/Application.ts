@@ -25,8 +25,8 @@ class Application {
   }
 
   async stop(): Promise<void> {
-    if (this.discord.client) await this.discord.client.destroy();
-    if (this.minecraft.bot) this.minecraft.bot.end('Shutting Down');
+    if (this.discord.isDiscordOnline()) await this.discord.client.destroy();
+    if (this.minecraft.isBotOnline()) this.minecraft.bot.end('Shutting Down');
     this.web.stopServer();
   }
 }

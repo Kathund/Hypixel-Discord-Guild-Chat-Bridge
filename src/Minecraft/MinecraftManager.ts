@@ -1,9 +1,13 @@
+import Embed from '../Discord/Private/Embed';
 import MessageHandler from './Handlers/MessageHandler';
 import NumberOption from '../Config/Options/Number';
 import StateHandler from './Handlers/StateHandler';
 import StringOption from '../Config/Options/String';
 import { Bot, createBot } from 'mineflayer';
+import { CleanMessageForDiscord } from '../Utils/StringUtils';
 import type Application from '../Application';
+import type { EmbedData } from '../types/main';
+import type { MessageCreateOptions } from 'discord.js';
 
 class MinecraftManager {
   declare readonly Application: Application;
@@ -40,6 +44,35 @@ class MinecraftManager {
   isBotOnline(): this is this & { bot: Bot } {
     // eslint-disable-next-line no-underscore-dangle
     return this.bot?._client?.chat !== undefined;
+  }
+
+  sendToDiscordEmbed(embedData: EmbedData, channelId: string) {
+    // eslint-disable-next-line hypixelDiscordGuildChatBridge/enforce-translate
+    const embed = new Embed().clearEmbed().setDescription(embedData.message);
+    if (embedData.title) embed.setAuthor({ name: embedData.title });
+    if (embedData.username && embed.data.author) {
+      embed.setAuthor({
+        name: embed.data.author.name,
+        iconURL: `https://mc-heads.net/avatar/${embedData.username}`
+      });
+    }
+    if (embedData.color) embed.setColorFromDefault(embedData.color);
+
+    this.sendToDiscord({ embeds: [embed] }, channelId);
+  }
+
+  sendToDiscordMessage(message: string, channelId: string) {
+    this.sendToDiscord({ content: message }, channelId);
+  }
+
+  private async sendToDiscord(messageData: MessageCreateOptions, channelId: string) {
+    if (!this.Application.discord.isDiscordOnline()) return;
+    const channel = await this.Application.discord.client.channels.fetch(channelId);
+    if (messageData.content) {
+      messageData.content = CleanMessageForDiscord(messageData.content.replace(/\s{2,}/g, ' ').trim());
+    }
+    messageData.allowedMentions = { parse: [] };
+    if (channel?.isSendable()) channel.send(messageData);
   }
 }
 

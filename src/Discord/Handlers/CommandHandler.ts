@@ -67,8 +67,9 @@ class CommandHandler {
   }
 
   async deployCommands(): Promise<void> {
-    if (!this.discord.client) return;
+    if (!this.discord.isDiscordOnline()) return;
     const commandConfig = this.discord.Application.config.discord.getValue('commands');
+    if (!commandConfig || !commandConfig.isSubConfigConfig()) return;
     this.discord.client.commands = new Collection<string, Command>();
 
     const commandFiles = readdirSync('./src/Discord/Commands');
@@ -76,7 +77,6 @@ class CommandHandler {
     for (const file of commandFiles) {
       const command = new (await import(`../Commands/${file}`)).default(this.discord);
       if (!command.data.name) continue;
-      if (!commandConfig || !commandConfig.isSubConfigConfig()) continue;
       const untranslatedName = unTranslate(command.data.name);
       if (untranslatedName.includes('|')) continue;
       const commandConfigOption = commandConfig.getValue()?.[Translate(untranslatedName, 'en_us')] as

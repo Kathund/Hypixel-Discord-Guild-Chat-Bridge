@@ -11,7 +11,7 @@ class StateHandler {
   }
 
   registerEvents() {
-    if (!this.minecraft.isBotOnline()) return;
+    if (!this.minecraft.bot) return;
     this.minecraft.bot.on('login', (...args) => this.onLogin(...args));
     this.minecraft.bot.on('end', (...args) => this.onEnd(...args));
     this.minecraft.bot.on('kicked', (...args) => this.onKicked(...args));

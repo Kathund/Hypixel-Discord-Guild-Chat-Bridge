@@ -24,6 +24,13 @@ declare global {
 export type Language = 'en_us';
 export type EmbedDefaultColors = 'Green' | 'Red' | 'Blue';
 
+export interface EmbedData {
+  message: string;
+  title?: string;
+  username?: string;
+  color?: EmbedDefaultColors;
+}
+
 export const Devs = zod.enum(['kathund', 'duckysolucky', 'georgeFilos', 'zickles', 'madelyn']);
 export type Devs = zod.infer<typeof Devs>;
 
