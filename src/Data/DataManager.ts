@@ -12,18 +12,13 @@ const trackedData = [
 ];
 
 class DataManager {
-  trackedData: DataInstance[];
-  constructor() {
-    this.trackedData = trackedData;
-    this.checkFiles();
-  }
-
-  checkFiles() {
+  static checkFiles() {
     if (!existsSync('./data')) mkdirSync('./data/', { recursive: true });
-    this.trackedData.forEach((data) => DataManager.checkFile(data));
+    trackedData.forEach((data) => DataManager.checkFile(data));
   }
 
   static checkFile(data: DataInstance) {
+    console.other(ReplaceVariables(Translate('data.validate.file'), { file: data.name }));
     if (existsSync(`./data/${data.name}`)) {
       const file = readFileSync(`./data/${data.name}`);
       if (!file) {
@@ -49,6 +44,7 @@ class DataManager {
           ReplaceVariables(Translate('data.error.invalid'), { file: `data/${data.name}` })
         );
       }
+      console.other(ReplaceVariables(Translate('data.validate.file.complete'), { file: data.name }));
     } else {
       throw new HypixelDiscordGuildBridgeError(
         ReplaceVariables(Translate('data.error.missing'), { file: `data/${data.name}` })
@@ -105,7 +101,7 @@ class DataManager {
 
   static async updateDataFiles() {
     const repoData = await this.getRepoData();
-    trackedData.forEach(async (file, index, array) => {
+    trackedData.forEach(async (file) => {
       try {
         console.other(ReplaceVariables(Translate('data.update.file'), { file: file.name }));
         const request = await fetch(
@@ -115,10 +111,6 @@ class DataManager {
         const text = await request.text();
         writeFileSync(`./data/${file.name}`, text);
         console.other(ReplaceVariables(Translate('data.update.file.updated'), { file: file.name }));
-        DataManager.checkFile(file);
-        console.other(ReplaceVariables(Translate('data.update.file.validate'), { file: file.name }));
-        // eslint-disable-next-line hypixelDiscordGuildChatBridge/enforce-translate
-        if (index !== array.length - 1) console.other('\n');
       } catch (error) {
         console.error(error);
       }

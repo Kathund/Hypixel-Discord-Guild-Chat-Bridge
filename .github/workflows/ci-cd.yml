@@ -73,9 +73,32 @@ jobs:
       - name: Check eslint
         run: pnpm eslint:check
 
+  data:
+    name: check data
+    needs: [pnpm]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install node dependencies
+        run: pnpm i
+
+      - name: Check data
+        run: pnpm data
+
   build:
     name: build
-    needs: [pnpm, prettier, eslint]
+    needs: [pnpm, prettier, eslint, data]
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout

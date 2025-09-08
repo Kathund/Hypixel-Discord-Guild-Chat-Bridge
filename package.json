@@ -15,7 +15,8 @@
     "tailwind:watch": "pnpm exec tailwindcss -i src/Web/Public/input.css -o src/Web/Public/output.css --watch",
     "translations": "pnpm exec tsx scripts/translations.ts",
     "json": "pnpm exec tsx scripts/sortJson.ts",
-    "update-data": "pnpm exec tsx scripts/updateData.ts"
+    "data": "pnpm exec tsx scripts/data.ts",
+    "data:update": "pnpm data --update"
   },
   "keywords": [],
   "author": "Kathund",
