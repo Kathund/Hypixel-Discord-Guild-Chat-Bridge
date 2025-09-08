@@ -2,6 +2,7 @@ import { sortJSON } from '../src/Utils/JSONUtils';
 import { writeFileSync } from 'node:fs';
 import type { Language } from '../src/types/main';
 import Translate, { getSupportedLanguages, getTranslations } from '../src/Private/Translate';
+import { getSupportedTimezones } from '../src/Private/TimeZones';
 
 const args: string[] = process.argv.slice(2);
 
@@ -24,15 +25,8 @@ class Lang {
     if (mainCheck) this.saveTranslations();
   }
 
-  getTimezones(): string[] {
-    const timezones = Intl.supportedValuesOf('timeZone');
-    timezones.push('UTC');
-    return timezones;
-  }
-
   injectTimezones() {
-    const timezones = this.getTimezones();
-    timezones.forEach((timezone) => {
+    getSupportedTimezones().forEach((timezone) => {
       if (this.translations[`config.options.misc.timezone.${timezone.replaceAll('/', '.')}`] === undefined) {
         this.translations[`config.options.misc.timezone.${timezone.replaceAll('/', '.')}`] = timezone;
       }
@@ -41,7 +35,7 @@ class Lang {
 
   filterTimezoneKeys(keys: string[]): string[] {
     return keys
-      .filter((key) => this.getTimezones().includes(key) === false)
+      .filter((key) => getSupportedTimezones().includes(key) === false)
       .filter(
         (key) => key === 'config.options.misc.timezone.description' || !key.startsWith('config.options.misc.timezone.')
       );

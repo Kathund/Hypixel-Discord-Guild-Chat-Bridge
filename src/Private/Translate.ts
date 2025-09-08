@@ -22,6 +22,15 @@ export function getSupportedLanguages(): Language[] {
 }
 
 // eslint-disable-next-line import/exports-last
+export function getUserLanguage(): Language {
+  if (process.platform !== 'linux') return 'en_us';
+  if (process.env.LANG === undefined) return 'en_us';
+  const userLang = process.env.LANG.split('.')[0].trim().toLowerCase() as Language;
+  if (getSupportedLanguages().includes(userLang)) return userLang;
+  return 'en_us';
+}
+
+// eslint-disable-next-line import/exports-last
 export function getSelectedLanguage(): Language {
   try {
     const lang = (new MiscConfig().getValue('lang') || new StringOption('en_us')).getValue() as Language;

@@ -1,16 +1,15 @@
 import ConfigInstance from '../Private/ConfigInstance';
 import StringSelectionOption from '../Options/StringSelection';
 // eslint-disable-next-line import/no-cycle
-import { getSupportedLanguages } from '../../Private/Translate';
+import { getSupportedLanguages, getUserLanguage } from '../../Private/Translate';
+import { getSupportedTimezones, getUserTimezone } from '../../Private/TimeZones';
 
 class MiscConfig extends ConfigInstance {
   constructor(update: boolean = false) {
     super('misc', update);
     this.updateData();
-    this.setValue('lang', new StringSelectionOption('en_us', getSupportedLanguages()), false);
-    const timezones = Intl.supportedValuesOf('timeZone');
-    timezones.push('UTC');
-    this.setValue('timezone', new StringSelectionOption('UTC', timezones), false);
+    this.setValue('lang', new StringSelectionOption(getUserLanguage(), getSupportedLanguages()), false);
+    this.setValue('timezone', new StringSelectionOption(getUserTimezone(), getSupportedTimezones()), false);
   }
 }
 
