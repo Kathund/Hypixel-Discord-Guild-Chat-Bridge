@@ -6,41 +6,50 @@ import { DataInstance, Dev, Devs } from '../types/main';
 import { ExecException, exec } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
+const trackedData = [{ name: 'Devs.json', default: {}, schema: zod.record(Devs, Dev) }];
+
 class DataManager {
   trackedData: DataInstance[];
   constructor() {
-    this.trackedData = [{ name: 'Devs', default: {}, schema: zod.record(Devs, Dev) }];
+    this.trackedData = trackedData;
     this.checkFiles();
   }
 
   checkFiles() {
     if (!existsSync('./data')) mkdirSync('./data/', { recursive: true });
-    this.trackedData.forEach((data) => this.checkFile(data));
+    this.trackedData.forEach((data) => DataManager.checkFile(data));
   }
 
-  checkFile(data: DataInstance) {
-    if (!existsSync(`./data/${data.name}.json`)) {
-      writeFileSync(`./data/${data.name}.json`, JSON.stringify(data.default, null, 2));
-    } else {
+  static checkFile(data: DataInstance) {
+    if (existsSync(`./data/${data.name}`)) {
       const file = readFileSync('./data/Devs.json');
       if (!file) {
         throw new HypixelDiscordGuildBridgeError(
-          ReplaceVariables(Translate('data.error.missing'), { file: `data/${data.name}.json` })
+          ReplaceVariables(Translate('data.error.missing'), { file: `data/${data.name}` })
         );
       }
       const fileData = JSON.parse(file.toString('utf8'));
       if (!fileData) {
         throw new HypixelDiscordGuildBridgeError(
-          ReplaceVariables(Translate('data.error.malformed'), { file: `data/${data.name}.json` })
+          ReplaceVariables(Translate('data.error.malformed'), { file: `data/${data.name}` })
+        );
+      }
+      if (Array.isArray(fileData) && fileData.length === 0) {
+        throw new HypixelDiscordGuildBridgeError(
+          ReplaceVariables(Translate('data.error.malformed'), { file: `data/${data.name}` })
         );
       }
       const parsed = data.schema.safeParse(fileData);
       if (!parsed.success) {
         console.error(parsed.error);
         throw new HypixelDiscordGuildBridgeError(
-          ReplaceVariables(Translate('data.error.invalid'), { file: `data/${data.name}.json` })
+          ReplaceVariables(Translate('data.error.invalid'), { file: `data/${data.name}` })
         );
       }
+    } else {
+      throw new HypixelDiscordGuildBridgeError(
+        ReplaceVariables(Translate('data.error.missing'), { file: `data/${data.name}` })
+      );
     }
   }
 
@@ -60,7 +69,7 @@ class DataManager {
     return devs;
   }
 
-  private getRepoData(): Promise<string[]> {
+  static getRepoData(): Promise<string[]> {
     return new Promise((resolve, reject) => {
       const data: string[] = [];
       exec('git remote get-url origin', (error: ExecException | null, stdout: string) => {
@@ -75,9 +84,9 @@ class DataManager {
     });
   }
 
-  async updateDataFiles() {
+  static async updateDataFiles() {
     const repoData = await this.getRepoData();
-    this.trackedData.forEach(async (file, index, array) => {
+    trackedData.forEach(async (file, index, array) => {
       try {
         console.other(ReplaceVariables(Translate('data.update.file'), { file: file.name }));
         const request = await fetch(
@@ -87,7 +96,7 @@ class DataManager {
         const text = await request.text();
         writeFileSync(`./data/${file.name}`, text);
         console.other(ReplaceVariables(Translate('data.update.file.updated'), { file: file.name }));
-        this.checkFile(file);
+        DataManager.checkFile(file);
         console.other(ReplaceVariables(Translate('data.update.file.validate'), { file: file.name }));
         // eslint-disable-next-line hypixelDiscordGuildChatBridge/enforce-translate
         if (index !== array.length - 1) console.other('\n');
