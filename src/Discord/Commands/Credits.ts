@@ -3,9 +3,9 @@ import CommandData from '../Private/CommandData';
 import Embed from '../Private/Embed';
 import ReplaceVariables from '../../Private/ReplaceVariables';
 import Translate from '../../Private/Translate';
+import { DevType, type Devs } from '../../types/main';
 import type DiscordManager from '../DiscordManager';
 import type { ChatInputCommandInteraction } from 'discord.js';
-import type { Devs } from '../../types/main';
 
 class CreditsCommand extends Command {
   constructor(discord: DiscordManager) {
@@ -15,27 +15,29 @@ class CreditsCommand extends Command {
 
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     const devs = this.discord.Application.data.getDevs();
-    const embed = new Embed().setTitle(Translate('discord.commands.credits.execute.title')).setDescription(
-      ReplaceVariables(Translate('discord.commands.credits.execute.description'), {
-        developersTitle: Translate('discord.commands.credits.execute.developers.title'),
-        developersContent: ReplaceVariables(Translate('discord.commands.credits.execute.developers.content'), {
-          devs: Object.keys(devs)
-            .map((dev: string) => {
-              const devInfo = devs[dev as Devs];
-              return ReplaceVariables(Translate('discord.commands.credits.execute.developers.user'), {
-                username: devInfo.username,
-                id: devInfo.id,
-                type: devInfo.types
-                  .map((type) => Translate(`discord.commands.credits.execute.developers.${type}`))
-                  .join(', ')
-              });
-            })
-            .join('\n')
-        }),
-        inspirationTitle: Translate('discord.commands.credits.execute.inspiration.title'),
-        inspirationContent: Translate('discord.commands.credits.execute.inspiration.content')
-      })
-    );
+    const embed = new Embed()
+      .setTitle(Translate('discord.commands.credits.execute.title'))
+      .setFields(
+        DevType.options.map((type) => {
+          return {
+            name: Translate(`discord.commands.credits.execute.developers.${type}`),
+            value: Object.keys(devs)
+              .filter((dev) => devs[dev as Devs].types.includes(type))
+              .map((dev) => {
+                const devInfo = devs[dev as Devs];
+                return ReplaceVariables(Translate('discord.commands.credits.execute.developers.user'), {
+                  username: devInfo.username,
+                  id: devInfo.id
+                });
+              })
+              .join('\n')
+          };
+        })
+      )
+      .addFields({
+        name: Translate('discord.commands.credits.execute.inspiration.title'),
+        value: Translate('discord.commands.credits.execute.inspiration.content')
+      });
     await interaction.followUp({ embeds: [embed] });
   }
 }
