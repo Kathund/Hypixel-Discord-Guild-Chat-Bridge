@@ -1,10 +1,8 @@
 import DataManager from '../../Data/DataManager';
 import ReplaceVariables from '../../Private/ReplaceVariables';
 import Translate from '../../Private/Translate';
-import { EmbedBuilder } from 'discord.js';
+import { ColorResolvable, EmbedBuilder } from 'discord.js';
 import type { Devs, EmbedDefaultColors } from '../../types/main';
-
-const embedDefaultColors: { [key in EmbedDefaultColors]: number } = { Green: 0x00ff3c, Red: 0xed474a, Blue: 0x17bebb };
 
 class Embed extends EmbedBuilder {
   constructor() {
@@ -15,7 +13,7 @@ class Embed extends EmbedBuilder {
   }
 
   setDev(dev: Devs): this {
-    const devInfo = new DataManager().getDevs()[dev];
+    const devInfo = DataManager.getDevs()[dev];
     this.setFooter({
       text: ReplaceVariables(Translate('discord.embed.footer'), { user: devInfo.username }),
       iconURL: devInfo.url
@@ -24,7 +22,7 @@ class Embed extends EmbedBuilder {
   }
 
   setColorFromDefault(color: EmbedDefaultColors): this {
-    this.setColor(embedDefaultColors[color]);
+    super.setColor(DataManager.getColors()[color] as ColorResolvable);
     return this;
   }
 

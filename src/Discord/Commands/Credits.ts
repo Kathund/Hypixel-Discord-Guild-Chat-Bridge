@@ -1,5 +1,6 @@
 import Command from '../Private/Command';
 import CommandData from '../Private/CommandData';
+import DataManager from '../../Data/DataManager';
 import Embed from '../Private/Embed';
 import ReplaceVariables from '../../Private/ReplaceVariables';
 import Translate from '../../Private/Translate';
@@ -14,7 +15,7 @@ class CreditsCommand extends Command {
   }
 
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const devs = this.discord.Application.data.getDevs();
+    const devs = DataManager.getDevs();
     const embed = new Embed()
       .setTitle(Translate('discord.commands.credits.execute.title'))
       .setFields(

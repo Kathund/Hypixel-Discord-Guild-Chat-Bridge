@@ -2,11 +2,14 @@ import HypixelDiscordGuildBridgeError from '../Private/Error';
 import ReplaceVariables from '../Private/ReplaceVariables';
 import Translate from '../Private/Translate';
 import zod from 'zod';
-import { DataInstance, Dev, Devs } from '../types/main';
+import { DataInstance, Dev, Devs, EmbedDefaultColor, EmbedDefaultColors } from '../types/main';
 import { ExecException, exec } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
-const trackedData = [{ name: 'Devs.json', default: {}, schema: zod.record(Devs, Dev) }];
+const trackedData = [
+  { name: 'Devs.json', default: {}, schema: zod.record(Devs, Dev) },
+  { name: 'Colors.json', default: {}, schema: zod.record(EmbedDefaultColors, EmbedDefaultColor) }
+];
 
 class DataManager {
   trackedData: DataInstance[];
@@ -22,7 +25,7 @@ class DataManager {
 
   static checkFile(data: DataInstance) {
     if (existsSync(`./data/${data.name}`)) {
-      const file = readFileSync('./data/Devs.json');
+      const file = readFileSync(`./data/${data.name}`);
       if (!file) {
         throw new HypixelDiscordGuildBridgeError(
           ReplaceVariables(Translate('data.error.missing'), { file: `data/${data.name}` })
@@ -53,7 +56,7 @@ class DataManager {
     }
   }
 
-  getDevs(): Record<Devs, Dev> {
+  static getDevs(): Record<Devs, Dev> {
     const devsFile = readFileSync('./data/Devs.json');
     if (!devsFile) {
       throw new HypixelDiscordGuildBridgeError(
@@ -67,6 +70,22 @@ class DataManager {
       );
     }
     return devs;
+  }
+
+  static getColors(): Record<EmbedDefaultColors, EmbedDefaultColor> {
+    const colorsFile = readFileSync('./data/Colors.json');
+    if (!colorsFile) {
+      throw new HypixelDiscordGuildBridgeError(
+        ReplaceVariables(Translate('data.error.missing'), { file: 'data/Colors.json' })
+      );
+    }
+    const colors = JSON.parse(colorsFile.toString('utf8'));
+    if (!colors) {
+      throw new HypixelDiscordGuildBridgeError(
+        ReplaceVariables(Translate('data.error.malformed'), { file: 'data/Colors.json' })
+      );
+    }
+    return colors;
   }
 
   static getRepoData(): Promise<string[]> {

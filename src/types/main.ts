@@ -15,14 +15,14 @@ declare global {
     discord: (message: string) => void;
     other: (message: string) => void;
   }
-
-  export interface String {
-    titleCase(): string;
-  }
 }
 
 export type Language = 'en_us' | 'tok';
-export type EmbedDefaultColors = 'Green' | 'Red' | 'Blue';
+
+export const EmbedDefaultColor = zod.string().length(7).startsWith('#').lowercase();
+export type EmbedDefaultColor = zod.infer<typeof EmbedDefaultColor>;
+export const EmbedDefaultColors = zod.enum(['Green', 'Red', 'Blue']);
+export type EmbedDefaultColors = zod.infer<typeof EmbedDefaultColors>;
 
 export interface EmbedData {
   message: string;
