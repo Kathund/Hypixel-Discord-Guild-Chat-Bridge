@@ -3,5 +3,5 @@ data/config/
 node_modules/
 logs/
 build/
-translations/missing.json
+translations/missing/
 minecraft-auth-cache/

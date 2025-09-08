@@ -14,7 +14,7 @@ export function getSupportedLanguages(): Language[] {
   try {
     if (!existsSync('./translations')) throw new Error('Translations are missing');
     const translations = readdirSync('./translations');
-    return translations.filter((lang) => lang !== 'missing.json').map((lang) => lang.split('.')[0] as Language);
+    return translations.filter((lang) => lang.endsWith('.json')).map((lang) => lang.split('.')[0] as Language);
   } catch (error) {
     console.error(error);
     return [];
@@ -38,13 +38,16 @@ export function getSelectedLanguage(): Language {
 
 function logMissingTranslation(key: string, lang: Language = getSelectedLanguage()) {
   if (!existsSync('./translations')) mkdirSync('./translations/', { recursive: true });
-  if (!existsSync('./translations/missing.json')) writeFileSync('./translations/missing.json', JSON.stringify({}));
-  const missingFile = readFileSync('./translations/missing.json');
+  if (!existsSync('./translations/missing')) mkdirSync('./translations/missing/', { recursive: true });
+  if (!existsSync(`./translations/missing/${lang}.json`)) {
+    writeFileSync(`./translations/missing/${lang}.json`, JSON.stringify({}));
+  }
+  const missingFile = readFileSync(`./translations/missing/${lang}.json`);
   if (!missingFile) throw new HypixelDiscordGuildBridgeError("The missing translations file doesn't exist");
   const missing = JSON.parse(missingFile.toString('utf8'));
   if (!missing) throw new HypixelDiscordGuildBridgeError('The missing translations file is malformed.');
   missing[key] = `Could not find translation for \`${key}\` in \`${lang}\``;
-  writeFileSync('./translations/missing.json', JSON.stringify(missing, null, 2));
+  writeFileSync(`./translations/missing/${lang}.json`, JSON.stringify(missing, null, 2));
 }
 
 export function getTranslations(lang: Language = getSelectedLanguage()): { [key: string]: string } {
@@ -80,7 +83,7 @@ export default function Translate(key: string, lang: Language = getSelectedLangu
   if (!supportedLanguages.includes(lang)) return `Unsupported Language | ${key}`;
   const translations = getTranslations(lang);
   if (translations[key] === undefined) {
-    logMissingTranslation(key);
+    logMissingTranslation(key, lang);
     return lang === 'en_us' ? `Unknown Translation | ${key}` : Translate(key, 'en_us');
   }
   return translations[key];

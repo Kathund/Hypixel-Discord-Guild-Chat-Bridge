@@ -21,7 +21,7 @@ declare global {
   }
 }
 
-export type Language = 'en_us';
+export type Language = 'en_us' | 'tok';
 export type EmbedDefaultColors = 'Green' | 'Red' | 'Blue';
 
 export interface EmbedData {

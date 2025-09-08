@@ -13,7 +13,7 @@
     "dev": "pnpm exec nodemon",
     "tailwind": "pnpm exec tailwindcss -i src/Web/Public/input.css -o src/Web/Public/output.css",
     "tailwind:watch": "pnpm exec tailwindcss -i src/Web/Public/input.css -o src/Web/Public/output.css --watch",
-    "translations": "pnpm exec tsx scripts/sortTranslations.ts",
+    "translations": "pnpm exec tsx scripts/translations.ts",
     "json": "pnpm exec tsx scripts/sortJson.ts",
     "update-data": "pnpm exec tsx scripts/updateData.ts"
   },

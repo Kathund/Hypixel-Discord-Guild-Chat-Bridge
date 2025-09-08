@@ -1,7 +1,9 @@
 import { sortJSON } from '../src/Utils/JSONUtils';
 import { writeFileSync } from 'node:fs';
 import type { Language } from '../src/types/main';
-import { getSupportedLanguages, getTranslations } from '../src/Private/Translate';
+import Translate, { getSupportedLanguages, getTranslations } from '../src/Private/Translate';
+
+const args: string[] = process.argv.slice(2);
 
 class Lang {
   lang: Language;
@@ -18,6 +20,7 @@ class Lang {
     this.array = array;
     if (this.lang === 'en_us') this.injectTimezones();
     if (this.lang !== 'en_us') this.cleanKeys();
+    if (this.lang !== 'en_us' && args.includes('--missing')) this.generateMissing();
     if (mainCheck) this.saveTranslations();
   }
 
@@ -36,30 +39,33 @@ class Lang {
     });
   }
 
+  filterTimezoneKeys(keys: string[]): string[] {
+    return keys
+      .filter((key) => this.getTimezones().includes(key) === false)
+      .filter(
+        (key) => key === 'config.options.misc.timezone.description' || !key.startsWith('config.options.misc.timezone.')
+      );
+  }
+
   cleanKeys() {
     const english = new Lang('en_us');
     const keys = Object.keys(english.translations);
     const currentLang = this.translations;
     this.translations = {};
-    Object.keys(currentLang)
-      .filter((key) => this.getTimezones().includes(key) === false)
-      .filter(
-        (key) => key === 'config.options.misc.timezone.description' || !key.startsWith('config.options.misc.timezone.')
-      )
-      .forEach((key) => {
-        if (keys.includes(key)) this.translations[key] = currentLang[key];
-      });
+    this.filterTimezoneKeys(Object.keys(currentLang)).forEach((key) => {
+      if (keys.includes(key)) this.translations[key] = currentLang[key];
+    });
+  }
+
+  generateMissing() {
+    this.filterTimezoneKeys(Object.keys(new Lang('en_us').translations)).forEach((key) => Translate(key, this.lang));
   }
 
   saveTranslations() {
     writeFileSync(`./translations/${this.lang}.json`, JSON.stringify(sortJSON(this.translations), null, 2) + '\n');
 
-    const currentLang = Object.keys(this.translations).filter(
-      (key) => !key.startsWith('config.options.misc.timezone.')
-    );
-    const englishLang = Object.keys(new Lang('en_us').translations).filter(
-      (key) => !key.startsWith('config.options.misc.timezone.')
-    );
+    const currentLang = this.filterTimezoneKeys(Object.keys(this.translations));
+    const englishLang = this.filterTimezoneKeys(Object.keys(new Lang('en_us').translations));
 
     const amount = Math.floor((currentLang.length / englishLang.length) * 100);
     console.log(`Updated translations for ${this.lang}. (${amount}% translated from english)`);
