@@ -9,9 +9,7 @@ export default createRule({
   defaultOptions,
   meta: {
     docs: { description: 'stop using console.log and use console.other' },
-    messages: {
-      consoleLog: "Don't use console.log as it isn't tracked by the logger. Use console.other instead"
-    },
+    messages: { consoleLog: "Don't use console.log as it isn't tracked by the logger. Use console.other instead" },
     schema: [],
     type: 'problem',
     fixable: 'code'

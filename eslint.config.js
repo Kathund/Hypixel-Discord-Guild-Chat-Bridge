@@ -37,18 +37,8 @@ export default [
   {
     ignores: ['**/*.js', '**/*.test.ts', 'build/*'],
     files: ['**/*.ts'],
-    languageOptions: {
-      ecmaVersion: 2022,
-      sourceType: 'module',
-      globals: {
-        ...globals.es2022,
-        ...globals.node
-      }
-    },
-    plugins: {
-      'sort-imports': sortImports,
-      hypixelDiscordGuildChatBridge: plugin
-    },
+    languageOptions: { ecmaVersion: 2022, sourceType: 'module', globals: { ...globals.es2022, ...globals.node } },
+    plugins: { 'sort-imports': sortImports, 'hypixelDiscordGuildChatBridge': plugin },
     rules: {
       'sort-imports/sort-imports': [
         'error',
@@ -66,7 +56,7 @@ export default [
       'import/no-cycle': ['error', { maxDepth: 1 }],
       'import/no-anonymous-default-export': 'error',
       'import/no-extraneous-dependencies': 'error',
-      curly: ['warn', 'multi-line', 'consistent'],
+      'curly': ['warn', 'multi-line', 'consistent'],
       '@typescript-eslint/no-explicit-any': 'off',
       'import/no-useless-path-segments': 'error',
       'import/prefer-default-export': 'error',
@@ -105,7 +95,7 @@ export default [
       'no-undef-init': 'error',
       'no-else-return': 'warn',
       'no-extra-semi': 'error',
-      yoda: ['error', 'never'],
+      'yoda': ['error', 'never'],
       'import/first': 'error',
       'require-await': 'warn',
       'default-case': 'error',
@@ -114,10 +104,10 @@ export default [
       'no-multi-str': 'warn',
       'no-lonely-if': 'warn',
       'no-new-func': 'error',
-      camelcase: 'warn',
+      'camelcase': 'warn',
       'no-var': 'warn',
-      eqeqeq: 'warn',
-      semi: 'error'
+      'eqeqeq': 'warn',
+      'semi': 'error'
     }
   }
 ];

@@ -51,10 +51,7 @@ class MinecraftManager {
     const embed = new Embed().clearEmbed().setDescription(embedData.message);
     if (embedData.title) embed.setAuthor({ name: embedData.title });
     if (embedData.username && embed.data.author) {
-      embed.setAuthor({
-        name: embed.data.author.name,
-        iconURL: `https://mc-heads.net/avatar/${embedData.username}`
-      });
+      embed.setAuthor({ name: embed.data.author.name, iconURL: `https://mc-heads.net/avatar/${embedData.username}` });
     }
     if (embedData.color) embed.setColorFromDefault(embedData.color);
 

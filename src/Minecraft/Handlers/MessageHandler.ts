@@ -177,10 +177,7 @@ class MessageHandler {
       ) {
         return this.getEventsChannels('guild_member_mute_month').forEach((channel) =>
           this.minecraft.sendToDiscordEmbed(
-            {
-              message: Translate('minecraft.chat.events.guild.member.demote'),
-              color: 'Green'
-            },
+            { message: Translate('minecraft.chat.events.guild.member.demote'), color: 'Green' },
             channel
           )
         );
@@ -189,10 +186,7 @@ class MessageHandler {
       if (this.isRepeatMessage(message) && (config?.repeat as SubConfigConfigJSON)?.value?.enabled?.value) {
         return this.getEventsChannels('repeat').forEach((channel) =>
           this.minecraft.sendToDiscordEmbed(
-            {
-              message: Translate('minecraft.chat.events.repeat'),
-              color: 'Red'
-            },
+            { message: Translate('minecraft.chat.events.repeat'), color: 'Red' },
             channel
           )
         );
@@ -201,10 +195,7 @@ class MessageHandler {
       if (this.isNoPermission(message) && (config?.missing_perms as SubConfigConfigJSON)?.value?.enabled?.value) {
         return this.getEventsChannels('missing_perms').forEach((channel) =>
           this.minecraft.sendToDiscordEmbed(
-            {
-              message: Translate('minecraft.chat.events.missing.perms'),
-              color: 'Red'
-            },
+            { message: Translate('minecraft.chat.events.missing.perms'), color: 'Red' },
             channel
           )
         );
@@ -214,11 +205,7 @@ class MessageHandler {
         const formattedMessage = message.split(' ').slice(1).join(' ');
         return this.getEventsChannels('bot_muted').forEach((channel) =>
           this.minecraft.sendToDiscordEmbed(
-            {
-              message: formattedMessage,
-              title: Translate('minecraft.chat.events.bot.muted'),
-              color: 'Red'
-            },
+            { message: formattedMessage, title: Translate('minecraft.chat.events.bot.muted'), color: 'Red' },
             channel
           )
         );
@@ -226,13 +213,7 @@ class MessageHandler {
 
       if (this.isIncorrectUsage(message) && (config?.bad_use as SubConfigConfigJSON)?.value?.enabled?.value) {
         return this.getEventsChannels('bad_use').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            {
-              message: message.split("'").join('`'),
-              color: 'Red'
-            },
-            channel
-          )
+          this.minecraft.sendToDiscordEmbed({ message: message.split("'").join('`'), color: 'Red' }, channel)
         );
       }
 
@@ -278,10 +259,7 @@ class MessageHandler {
       ) {
         return this.getEventsChannels('guild_member_invite_fail').forEach((channel) =>
           this.minecraft.sendToDiscordEmbed(
-            {
-              message: message.replace(/\[(.*?)\]/g, '').trim(),
-              color: 'Red'
-            },
+            { message: message.replace(/\[(.*?)\]/g, '').trim(), color: 'Red' },
             channel
           )
         );
@@ -294,10 +272,7 @@ class MessageHandler {
           .split(/ +/g)[7];
         return this.getEventsChannels('guild_mute').forEach((channel) =>
           this.minecraft.sendToDiscordEmbed(
-            {
-              message: ReplaceVariables(Translate('minecraft.chat.events.guild.mute'), { time }),
-              color: 'Red'
-            },
+            { message: ReplaceVariables(Translate('minecraft.chat.events.guild.mute'), { time }), color: 'Red' },
             channel
           )
         );
@@ -306,10 +281,7 @@ class MessageHandler {
       if (this.isGuildUnmuteMessage(message) && (config?.guild_unmute as SubConfigConfigJSON)?.value?.enabled?.value) {
         return this.getEventsChannels('guild_unmute').forEach((channel) =>
           this.minecraft.sendToDiscordEmbed(
-            {
-              message: Translate('minecraft.chat.events.guild.unmute'),
-              color: 'Green'
-            },
+            { message: Translate('minecraft.chat.events.guild.unmute'), color: 'Green' },
             channel
           )
         );
@@ -385,10 +357,7 @@ class MessageHandler {
       ) {
         return this.getEventsChannels('guild_member_mute_already').forEach((channel) =>
           this.minecraft.sendToDiscordEmbed(
-            {
-              message: Translate('minecraft.chat.events.guild.member.mute.already'),
-              color: 'Red'
-            },
+            { message: Translate('minecraft.chat.events.guild.member.mute.already'), color: 'Red' },
             channel
           )
         );
@@ -438,10 +407,7 @@ class MessageHandler {
       ) {
         return this.getEventsChannels('guild_member_already_has_rank').forEach((channel) =>
           this.minecraft.sendToDiscordEmbed(
-            {
-              message: Translate('minecraft.chat.events.guild.member.already.has.rank'),
-              color: 'Red'
-            },
+            { message: Translate('minecraft.chat.events.guild.member.already.has.rank'), color: 'Red' },
             channel
           )
         );

@@ -1,5 +1,7 @@
 {
   "plugins": ["prettier-plugin-tailwindcss"],
+  "quoteProps": "consistent",
+  "objectWrap": "collapse",
   "bracketSameLine": true,
   "trailingComma": "none",
   "arrowParens": "always",
