@@ -6,12 +6,14 @@ import sortImports from '@j4cobi/eslint-plugin-sort-imports';
 import ts from 'typescript-eslint';
 import plugin from './eslint/plugin.js';
 import json from '@eslint/json';
+import { globalIgnores } from 'eslint/config';
 
 export default [
   ...ts.configs.recommended,
   importPlugin.flatConfigs.recommended,
   importPlugin.flatConfigs.typescript,
   prettier,
+  globalIgnores(['./build/']),
   {
     ignores: [
       'data/config/*.json',
