@@ -1,8 +1,9 @@
+/* eslint-disable hypixelDiscordGuildChatBridge/enforce-no-console-log */
+import Translate, { getSupportedLanguages, getTranslations } from '../src/Private/Translate';
+import { getSupportedTimezones } from '../src/Private/TimeZones';
 import { sortJSON } from '../src/Utils/JSONUtils';
 import { writeFileSync } from 'node:fs';
 import type { Language } from '../src/types/main';
-import Translate, { getSupportedLanguages, getTranslations } from '../src/Private/Translate';
-import { getSupportedTimezones } from '../src/Private/TimeZones';
 
 const args: string[] = process.argv.slice(2);
 

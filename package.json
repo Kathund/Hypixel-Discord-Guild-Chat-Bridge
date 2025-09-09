@@ -5,8 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "start": "pnpm tailwind && pnpm exec tsx index.ts",
-    "eslint": "pnpm exec eslint translations/ data/ src/ scripts/ index.ts --fix",
-    "eslint:check": "pnpm exec eslint translations/ data/ src/ scripts/ index.ts",
+    "eslint": "pnpm exec eslint . --fix",
+    "eslint:check": "pnpm exec eslint . ",
     "prettier": "pnpm exec prettier --write .",
     "prettier:check": "pnpm exec prettier --check .",
     "build": "pnpm exec tsc --build",

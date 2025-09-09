@@ -1,5 +1,5 @@
 {
-  "ignore": ["node_modules", "build", ".git", "logs", "src/Web/Public/output.css"],
+  "exec": "pnpm start",
   "ext": "ts,js,ejs,css",
-  "exec": "pnpm start"
+  "ignore": ["node_modules", "build", ".git", "logs", "src/Web/Public/output.css"]
 }

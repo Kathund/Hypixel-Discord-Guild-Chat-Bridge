@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unresolved
 import { ESLintUtils } from '@typescript-eslint/utils';
 
 const createRule = ESLintUtils.RuleCreator((name) => name);

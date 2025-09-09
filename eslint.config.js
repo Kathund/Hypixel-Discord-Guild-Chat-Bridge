@@ -13,7 +13,14 @@ export default [
   importPlugin.flatConfigs.typescript,
   prettier,
   {
-    ignores: ['data/config/*.json', 'translations/missing/*.json'],
+    ignores: [
+      'data/config/*.json',
+      'translations/missing/*.json',
+      '.github/*',
+      '.vscode/*',
+      'package.json',
+      'tsconfig.json'
+    ],
     files: ['**/*.json'],
     plugins: { json },
     language: 'json/json',
@@ -26,7 +33,8 @@ export default [
     }
   },
   {
-    files: ['src/**', 'index.ts'],
+    ignores: ['**/*.js', '**/*.test.ts', 'build/*'],
+    files: ['**/*.ts'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',

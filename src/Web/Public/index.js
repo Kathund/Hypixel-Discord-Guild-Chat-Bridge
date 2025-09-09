@@ -1,4 +1,3 @@
-/* eslint-disable hypixelDiscordGuildChatBridge/enforce-no-console-log */
 let changed = false;
 const originalValues = new Map();
 
