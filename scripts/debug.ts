@@ -39,8 +39,6 @@ export async function getConfig(): Promise<ConfigData> {
   Object.entries(getVersions()).forEach((entry) => log(entry[0], entry[1]));
   console.log('\nOs Data');
   Object.entries(getOsData()).forEach((entry) => log(entry[0], entry[1]));
-  console.log('\nOs Data');
-  Object.entries(getOsData()).forEach((entry) => log(entry[0], entry[1]));
   console.log('\nConfig');
   Object.entries(getConfig()).forEach((entry) => log(entry[0], entry[1]));
 })();
