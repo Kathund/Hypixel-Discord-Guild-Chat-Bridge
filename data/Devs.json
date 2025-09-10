@@ -1,41 +1,31 @@
 {
   "duckysolucky": {
     "id": "486155512568741900",
-    "types": [
-      "contributor"
-    ],
+    "types": ["contributor"],
     "url": "https://imgur.com/tgwQJTX.png",
     "username": "duckysolucky"
   },
   "georgeFilos": {
     "id": "177083022305263616",
-    "types": [
-      "contributor"
-    ],
+    "types": ["contributor"],
     "url": "https://cdn.discordapp.com/avatars/177083022305263616/4ee1d5f278a36a61aa9164b9263c8722.webp",
     "username": "george_filos"
   },
   "kathund": {
     "id": "1276524855445164098",
-    "types": [
-      "maintainer"
-    ],
+    "types": ["maintainer"],
     "url": "https://i.imgur.com/uUuZx2E.png",
     "username": ".kathund"
   },
   "madelyn": {
     "id": "894034804503351366",
-    "types": [
-      "translations"
-    ],
+    "types": ["translations"],
     "url": "https://cdn.discordapp.com/avatars/894034804503351366/7f4d57e91d0c86cf30e87a7cbf830d3c.webp",
     "username": "madelynwith5ns"
   },
   "zickles": {
     "id": "468043261911498767",
-    "types": [
-      "contributor"
-    ],
+    "types": ["contributor"],
     "url": "https://cdn.discordapp.com/avatars/468043261911498767/158cec34f9db7304d94a0fff5985857a.webp",
     "username": "zickles"
   }

@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "outDir": "./build",
+    "forceConsistentCasingInFileNames": true,
     "module": "ES2022",
-    "target": "ES2022",
-    "strict": true
+    "moduleResolution": "node",
+    "outDir": "./build",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2022"
   }
 }

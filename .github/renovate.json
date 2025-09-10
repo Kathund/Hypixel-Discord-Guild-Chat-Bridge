@@ -1,18 +1,18 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", "group:allNonMajor"],
-  "rebaseWhen": "behind-base-branch",
-  "ignoreDeps": ["pnpm", "node"],
-  "semanticCommits": "enabled",
-  "forkProcessing": "enabled",
   "enabledManagers": ["npm"],
+  "extends": ["config:recommended", "group:allNonMajor"],
+  "forkProcessing": "enabled",
+  "ignoreDeps": ["node", "pnpm"],
   "labels": ["dependencies"],
-  "schedule": ["* 0 * * *"],
-  "rangeStrategy": "bump",
+  "packageRules": [
+    { "commitMessagePrefix": "chore(deps):", "matchCurrentVersion": "!/^0/", "matchUpdateTypes": ["minor", "patch"] }
+  ],
   "prConcurrentLimit": 5,
   "prHourlyLimit": 0,
-  "timezone": "UTC",
-  "packageRules": [
-    { "matchUpdateTypes": ["minor", "patch"], "matchCurrentVersion": "!/^0/", "commitMessagePrefix": "chore(deps):" }
-  ]
+  "rangeStrategy": "bump",
+  "rebaseWhen": "behind-base-branch",
+  "schedule": ["* 0 * * *"],
+  "semanticCommits": "enabled",
+  "timezone": "UTC"
 }
