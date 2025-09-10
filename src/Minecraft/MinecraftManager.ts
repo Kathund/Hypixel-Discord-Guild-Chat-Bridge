@@ -46,7 +46,7 @@ class MinecraftManager {
     return this.bot?._client?.chat !== undefined;
   }
 
-  sendToDiscordEmbed(embedData: EmbedData, channelId: string) {
+  generateEmbed(embedData: EmbedData): Embed {
     // eslint-disable-next-line hypixelDiscordGuildChatBridge/enforce-translate
     const embed = new Embed().clearEmbed().setDescription(embedData.message);
     if (embedData.title) embed.setAuthor({ name: embedData.title });
@@ -54,7 +54,11 @@ class MinecraftManager {
       embed.setAuthor({ name: embed.data.author.name, iconURL: `https://mc-heads.net/avatar/${embedData.username}` });
     }
     if (embedData.color) embed.setColorFromDefault(embedData.color);
+    return embed;
+  }
 
+  sendToDiscordEmbed(embedData: EmbedData | Embed, channelId: string) {
+    const embed = embedData instanceof Embed ? embedData : this.generateEmbed(embedData);
     this.sendToDiscord({ embeds: [embed] }, channelId);
   }
 

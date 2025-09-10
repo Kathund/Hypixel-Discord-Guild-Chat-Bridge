@@ -2,7 +2,7 @@ import CommandHandler from './Handlers/CommandHandler';
 import InteractionHandler from './Handlers/InteractionHandler';
 import MessageHandler from './Handlers/MessageHandler';
 import StateHandler from './Handlers/StateHandler';
-import { Client, Events, GatewayIntentBits } from 'discord.js';
+import { ChatInputCommandInteraction, Client, Events, GatewayIntentBits } from 'discord.js';
 import type Application from '../Application';
 
 class DiscordManager {
@@ -12,12 +12,14 @@ class DiscordManager {
   declare commandHandler: CommandHandler;
   declare messageHandler: MessageHandler;
   client?: Client;
+  minecraftCommandData?: { name: string; interaction: ChatInputCommandInteraction };
   constructor(app: Application) {
     this.Application = app;
     this.commandHandler = new CommandHandler(this);
     this.interactionHandler = new InteractionHandler(this);
     this.stateHandler = new StateHandler(this);
     this.messageHandler = new MessageHandler(this);
+    this.minecraftCommandData = undefined;
   }
 
   connect(): void {

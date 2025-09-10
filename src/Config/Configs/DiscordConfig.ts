@@ -30,6 +30,46 @@ class DiscordConfig extends ConfigInstance {
             false
           )
           .setValue(
+            'demote',
+            new SubConfigOption(
+              new BaseConfigInstance()
+                .setValue('enabled', new BooleanOption(true), false)
+                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
+                .toJSON()
+            ),
+            false
+          )
+          .setValue(
+            'invite',
+            new SubConfigOption(
+              new BaseConfigInstance()
+                .setValue('enabled', new BooleanOption(true), false)
+                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
+                .toJSON()
+            ),
+            false
+          )
+          .setValue(
+            'kick',
+            new SubConfigOption(
+              new BaseConfigInstance()
+                .setValue('enabled', new BooleanOption(true), false)
+                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
+                .toJSON()
+            ),
+            false
+          )
+          .setValue(
+            'mute',
+            new SubConfigOption(
+              new BaseConfigInstance()
+                .setValue('enabled', new BooleanOption(true), false)
+                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
+                .toJSON()
+            ),
+            false
+          )
+          .setValue(
             'online',
             new SubConfigOption(
               new BaseConfigInstance()
@@ -40,7 +80,7 @@ class DiscordConfig extends ConfigInstance {
             false
           )
           .setValue(
-            'uptime',
+            'promote',
             new SubConfigOption(
               new BaseConfigInstance()
                 .setValue('enabled', new BooleanOption(true), false)
@@ -51,6 +91,26 @@ class DiscordConfig extends ConfigInstance {
           )
           .setValue(
             'restart',
+            new SubConfigOption(
+              new BaseConfigInstance()
+                .setValue('enabled', new BooleanOption(true), false)
+                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
+                .toJSON()
+            ),
+            false
+          )
+          .setValue(
+            'unmute',
+            new SubConfigOption(
+              new BaseConfigInstance()
+                .setValue('enabled', new BooleanOption(true), false)
+                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
+                .toJSON()
+            ),
+            false
+          )
+          .setValue(
+            'uptime',
             new SubConfigOption(
               new BaseConfigInstance()
                 .setValue('enabled', new BooleanOption(true), false)

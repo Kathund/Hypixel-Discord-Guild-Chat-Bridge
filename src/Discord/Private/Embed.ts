@@ -40,4 +40,13 @@ export class ErrorEmbed extends Embed {
   }
 }
 
+export class SuccessEmbed extends Embed {
+  constructor(description: string) {
+    super();
+    this.setTitle(Translate('discord.embed.success.title'));
+    this.setDescription(description);
+    this.setColorFromDefault('Green');
+  }
+}
+
 export default Embed;

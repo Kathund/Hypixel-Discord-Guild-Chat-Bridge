@@ -20,6 +20,7 @@ export default [
       'translations/missing/*.json',
       '.github/*',
       '.vscode/*',
+      'minecraft-auth-cache/*',
       'package.json',
       'tsconfig.json'
     ],

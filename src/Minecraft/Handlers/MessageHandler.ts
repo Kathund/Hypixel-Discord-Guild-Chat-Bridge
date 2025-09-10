@@ -1,6 +1,7 @@
 import ReplaceVariables from '../../Private/ReplaceVariables';
 import Translate from '../../Private/Translate';
 import { CleanMessageForDiscord } from '../../Utils/StringUtils';
+import { MessageFlags } from 'discord.js';
 import { StringConfigJSON, SubConfigConfigJSON } from '../../types/Configs';
 import type MinecraftManager from '../MinecraftManager';
 import type { ChatMessage } from 'prismarine-chat';
@@ -108,16 +109,25 @@ class MessageHandler {
 
       if (this.isKickMessage(message) && (config?.guild_member_kick as SubConfigConfigJSON)?.value?.enabled?.value) {
         const username = this.getUsernameFromEventMessage(message);
+        const embed = this.minecraft.generateEmbed({
+          message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.kick'), { username }),
+          title: Translate('minecraft.chat.events.guild.member.kick.title'),
+          username,
+          color: 'Red'
+        });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          this.minecraft.Application.discord.minecraftCommandData.name === 'kick'
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
         return this.getEventsChannels('guild_member_kick').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            {
-              message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.kick'), { username }),
-              title: Translate('minecraft.chat.events.guild.member.kick.title'),
-              username,
-              color: 'Red'
-            },
-            channel
-          )
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 
@@ -133,16 +143,25 @@ class MessageHandler {
             .split(' to ')
             .pop()
             ?.trim() ?? '';
+        const embed = this.minecraft.generateEmbed({
+          message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.promote'), { username, rank }),
+          title: Translate('minecraft.chat.events.guild.member.promote.title'),
+          username,
+          color: 'Green'
+        });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          this.minecraft.Application.discord.minecraftCommandData.name === 'promote'
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
         return this.getEventsChannels('guild_member_promote').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            {
-              message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.promote'), { username, rank }),
-              title: Translate('minecraft.chat.events.guild.member.promote.title'),
-              username,
-              color: 'Green'
-            },
-            channel
-          )
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 
@@ -158,16 +177,25 @@ class MessageHandler {
             .split(' to ')
             .pop()
             ?.trim() ?? '';
+        const embed = this.minecraft.generateEmbed({
+          message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.demote'), { username, rank }),
+          title: Translate('minecraft.chat.events.guild.member.demote.title'),
+          username,
+          color: 'Red'
+        });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          this.minecraft.Application.discord.minecraftCommandData.name === 'demote'
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
         return this.getEventsChannels('guild_member_demote').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            {
-              message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.demote'), { username, rank }),
-              title: Translate('minecraft.chat.events.guild.member.demote.title'),
-              username,
-              color: 'Red'
-            },
-            channel
-          )
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 
@@ -175,11 +203,23 @@ class MessageHandler {
         this.isCannotMuteMoreThanOneMonth(message) &&
         (config?.guild_member_mute_month as SubConfigConfigJSON)?.value?.enabled?.value
       ) {
+        const embed = this.minecraft.generateEmbed({
+          message: Translate('minecraft.chat.events.guild.member.demote'),
+          color: 'Green'
+        });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          this.minecraft.Application.discord.minecraftCommandData.name === 'mute'
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
         return this.getEventsChannels('guild_member_mute_month').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            { message: Translate('minecraft.chat.events.guild.member.demote'), color: 'Green' },
-            channel
-          )
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 
@@ -193,11 +233,25 @@ class MessageHandler {
       }
 
       if (this.isNoPermission(message) && (config?.missing_perms as SubConfigConfigJSON)?.value?.enabled?.value) {
-        return this.getEventsChannels('missing_perms').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            { message: Translate('minecraft.chat.events.missing.perms'), color: 'Red' },
-            channel
+        const embed = this.minecraft.generateEmbed({
+          message: Translate('minecraft.chat.events.missing.perms'),
+          color: 'Red'
+        });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          ['promote', 'demote', 'kick', 'invite', 'mute', 'unmute'].includes(
+            this.minecraft.Application.discord.minecraftCommandData.name
           )
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
+        return this.getEventsChannels('missing_perms').forEach((channel) =>
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 
@@ -222,14 +276,23 @@ class MessageHandler {
           .replace(/\[(.*?)\]/g, '')
           .trim()
           .split(/ +/g)[2];
+        const embed = this.minecraft.generateEmbed({
+          message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.invited'), { username }),
+          color: 'Green'
+        });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          this.minecraft.Application.discord.minecraftCommandData.name === 'invite'
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
         return this.getEventsChannels('guild_member_invite').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            {
-              message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.invited'), { username }),
-              color: 'Green'
-            },
-            channel
-          )
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 
@@ -242,14 +305,23 @@ class MessageHandler {
           .trim()
           .split(/ +/g)[6]!
           .match(/\w+/g)![0];
+        const embed = this.minecraft.generateEmbed({
+          message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.invited.offline'), { username }),
+          color: 'Green'
+        });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          this.minecraft.Application.discord.minecraftCommandData.name === 'invite'
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
         return this.getEventsChannels('guild_member_invite_offline').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            {
-              message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.invited.offline'), { username }),
-              color: 'Green'
-            },
-            channel
-          )
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 
@@ -257,11 +329,20 @@ class MessageHandler {
         this.isFailedInvite(message) &&
         (config?.guild_member_invite_fail as SubConfigConfigJSON)?.value?.enabled?.value
       ) {
+        const embed = this.minecraft.generateEmbed({ message: message.replace(/\[(.*?)\]/g, '').trim(), color: 'Red' });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          this.minecraft.Application.discord.minecraftCommandData.name === 'invite'
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
         return this.getEventsChannels('guild_member_invite_fail').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            { message: message.replace(/\[(.*?)\]/g, '').trim(), color: 'Red' },
-            channel
-          )
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 
@@ -270,20 +351,44 @@ class MessageHandler {
           .replace(/\[(.*?)\]/g, '')
           .trim()
           .split(/ +/g)[7];
+        const embed = this.minecraft.generateEmbed({
+          message: ReplaceVariables(Translate('minecraft.chat.events.guild.mute'), { time }),
+          color: 'Red'
+        });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          this.minecraft.Application.discord.minecraftCommandData.name === 'mute'
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
         return this.getEventsChannels('guild_mute').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            { message: ReplaceVariables(Translate('minecraft.chat.events.guild.mute'), { time }), color: 'Red' },
-            channel
-          )
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 
       if (this.isGuildUnmuteMessage(message) && (config?.guild_unmute as SubConfigConfigJSON)?.value?.enabled?.value) {
+        const embed = this.minecraft.generateEmbed({
+          message: Translate('minecraft.chat.events.guild.unmute'),
+          color: 'Green'
+        });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          this.minecraft.Application.discord.minecraftCommandData.name === 'unmute'
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
         return this.getEventsChannels('guild_unmute').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            { message: Translate('minecraft.chat.events.guild.unmute'), color: 'Green' },
-            channel
-          )
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 
@@ -300,14 +405,23 @@ class MessageHandler {
           .replace(/\[(.*?)\]/g, '')
           .trim()
           .split(/ +/g)[5];
+        const embed = this.minecraft.generateEmbed({
+          message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.mute'), { username, time }),
+          color: 'Red'
+        });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          this.minecraft.Application.discord.minecraftCommandData.name === 'mute'
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
         return this.getEventsChannels('guild_member_mute').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            {
-              message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.mute'), { username, time }),
-              color: 'Red'
-            },
-            channel
-          )
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 
@@ -319,14 +433,23 @@ class MessageHandler {
           .replace(/\[(.*?)\]/g, '')
           .trim()
           .split(/ +/g)[3];
+        const embed = this.minecraft.generateEmbed({
+          message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.unmute'), { username }),
+          color: 'Green'
+        });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          this.minecraft.Application.discord.minecraftCommandData.name === 'unmute'
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
         return this.getEventsChannels('guild_member_unmute').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            {
-              message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.unmute'), { username }),
-              color: 'Green'
-            },
-            channel
-          )
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 
@@ -340,14 +463,23 @@ class MessageHandler {
           .split(/ +/g)
           .at(-1)
           ?.replace(/[-'!]/g, '');
+        const embed = this.minecraft.generateEmbed({
+          message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.set.rank.fail'), { rank }),
+          color: 'Red'
+        });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          this.minecraft.Application.discord.minecraftCommandData.name === 'set-rank'
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
         return this.getEventsChannels('guild_member_set_rank_fail').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            {
-              message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.set.rank.fail'), { rank }),
-              color: 'Red'
-            },
-            channel
-          )
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 
@@ -355,11 +487,23 @@ class MessageHandler {
         this.isAlreadyMuted(message) &&
         (config?.guild_member_mute_already as SubConfigConfigJSON)?.value?.enabled?.value
       ) {
+        const embed = this.minecraft.generateEmbed({
+          message: Translate('minecraft.chat.events.guild.member.mute.already'),
+          color: 'Red'
+        });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          this.minecraft.Application.discord.minecraftCommandData.name === 'mute'
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
         return this.getEventsChannels('guild_member_mute_already').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            { message: Translate('minecraft.chat.events.guild.member.mute.already'), color: 'Red' },
-            channel
-          )
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 
@@ -371,14 +515,25 @@ class MessageHandler {
           .replace(/\[(.*?)\]/g, '')
           .trim()
           .split(' ')[0];
-        return this.getEventsChannels('guild_member_not_in_guild').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            {
-              message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.not.in.guild'), { username }),
-              color: 'Red'
-            },
-            channel
+        const embed = this.minecraft.generateEmbed({
+          message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.not.in.guild'), { username }),
+          color: 'Red'
+        });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          ['promote', 'demote', 'kick', 'invite', 'mute', 'unmute'].includes(
+            this.minecraft.Application.discord.minecraftCommandData.name
           )
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
+        return this.getEventsChannels('guild_member_not_in_guild').forEach((channel) =>
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 
@@ -390,14 +545,23 @@ class MessageHandler {
           .replace(/\[(.*?)\]/g, '')
           .trim()
           .split(' ')[0];
+        const embed = this.minecraft.generateEmbed({
+          message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.lowest.rank'), { username }),
+          color: 'Red'
+        });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          ['demote', 'set-rank'].includes(this.minecraft.Application.discord.minecraftCommandData.name)
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
         return this.getEventsChannels('guild_member_lowest_rank').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            {
-              message: ReplaceVariables(Translate('minecraft.chat.events.guild.member.lowest.rank'), { username }),
-              color: 'Red'
-            },
-            channel
-          )
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 
@@ -405,11 +569,23 @@ class MessageHandler {
         this.isAlreadyHasRank(message) &&
         (config?.guild_member_already_has_rank as SubConfigConfigJSON)?.value?.enabled?.value
       ) {
+        const embed = this.minecraft.generateEmbed({
+          message: Translate('minecraft.chat.events.guild.member.already.has.rank'),
+          color: 'Red'
+        });
+        if (
+          this.minecraft.Application.discord.isDiscordOnline() &&
+          this.minecraft.Application.discord.minecraftCommandData !== undefined &&
+          ['promote', 'set-rank'].includes(this.minecraft.Application.discord.minecraftCommandData.name)
+        ) {
+          await this.minecraft.Application.discord.minecraftCommandData.interaction.followUp({
+            embeds: [embed],
+            flags: MessageFlags.Ephemeral
+          });
+          this.minecraft.Application.discord.minecraftCommandData = undefined;
+        }
         return this.getEventsChannels('guild_member_already_has_rank').forEach((channel) =>
-          this.minecraft.sendToDiscordEmbed(
-            { message: Translate('minecraft.chat.events.guild.member.already.has.rank'), color: 'Red' },
-            channel
-          )
+          this.minecraft.sendToDiscordEmbed(embed, channel)
         );
       }
 

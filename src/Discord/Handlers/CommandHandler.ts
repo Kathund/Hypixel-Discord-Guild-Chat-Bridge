@@ -58,6 +58,15 @@ class CommandHandler {
           ReplaceVariables(Translate('discord.commands.config.missing.perms'), { commandName: interaction.commandName })
         );
       }
+      if (command.data.getGroups().includes('minecraft')) {
+        if (!this.discord.Application.minecraft.isBotOnline()) {
+          throw new HypixelDiscordGuildBridgeError(Translate('minecraft.error.botOffline'));
+        }
+        this.discord.minecraftCommandData = { name: Translate(unTranslate(command.data.name), 'en_us'), interaction };
+        setTimeout(() => {
+          this.discord.minecraftCommandData = undefined;
+        }, 5000);
+      }
       await command.execute(interaction);
     } catch (error) {
       if (error instanceof Error || error instanceof HypixelDiscordGuildBridgeError) {
