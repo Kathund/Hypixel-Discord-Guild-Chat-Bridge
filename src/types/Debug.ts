@@ -18,3 +18,7 @@ export interface OsData {
   type: string;
   arch: NodeJS.Architecture;
 }
+
+export interface ConfigData {
+  config: string;
+}

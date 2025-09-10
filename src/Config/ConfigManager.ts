@@ -9,12 +9,12 @@ class ConfigManager {
   declare discord: DiscordConfig;
   declare minecraft: MinecraftConfig;
   declare misc: MiscConfig;
-  constructor() {
+  constructor(update: boolean = true) {
     if (!existsSync('./data/config')) mkdirSync('./data/config/', { recursive: true });
-    this.debug = new DebugConfig(true);
-    this.discord = new DiscordConfig(true);
-    this.minecraft = new MinecraftConfig(true);
-    this.misc = new MiscConfig(true);
+    this.debug = new DebugConfig(update);
+    this.discord = new DiscordConfig(update);
+    this.minecraft = new MinecraftConfig(update);
+    this.misc = new MiscConfig(update);
   }
 }
 

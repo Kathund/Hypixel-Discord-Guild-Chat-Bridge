@@ -148,10 +148,29 @@ document.addEventListener('DOMContentLoaded', () => {
     window.location.reload();
   });
 
-  document.getElementById('internal_button_reload_commands').addEventListener('click', async () => {
-    const response = await fetch(`/data/discord/reload/commands`, { method: 'POST' });
+  const reloadButton = document.getElementById('internal_button_reload_commands');
+  if (reloadButton) {
+    reloadButton.addEventListener('click', async () => {
+      const response = await fetch(`/data/discord/reload/commands`, { method: 'POST' });
+      const result = await response.json();
+      if (result.success) window.location.reload();
+    });
+  }
+
+  document.getElementById('internal_button_export_config').addEventListener('click', async () => {
+    const response = await fetch(`/data/config/export`);
     const result = await response.json();
-    if (result.success) window.location.reload();
+    if (result.success) {
+      navigator.clipboard
+        .writeText(result.data)
+        .then(() => {
+          alert('Exported Data copied to clipboard');
+        })
+        .catch((error) => {
+          console.error(error);
+          alert('Failed to copy data to clipboard');
+        });
+    }
   });
 
   document.getElementById('reload-guild-data').addEventListener('click', async () => {
