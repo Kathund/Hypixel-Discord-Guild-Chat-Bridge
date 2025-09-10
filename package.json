@@ -16,7 +16,8 @@
     "translations": "pnpm exec tsx scripts/translations.ts",
     "json": "pnpm exec tsx scripts/sortJson.ts",
     "data": "pnpm exec tsx scripts/data.ts",
-    "data:update": "pnpm data --update"
+    "data:update": "pnpm data --update",
+    "debug": "pnpm exec tsx scripts/debug.ts"
   },
   "keywords": [],
   "author": "Kathund",

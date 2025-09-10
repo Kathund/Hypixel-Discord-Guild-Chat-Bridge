@@ -3,8 +3,9 @@ import ReplaceVariables from '../Private/ReplaceVariables';
 import Translate from '../Private/Translate';
 import zod from 'zod';
 import { DataInstance, Dev, Devs, EmbedDefaultColor, EmbedDefaultColors } from '../types/main';
-import { ExecException, exec } from 'node:child_process';
+import { execSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import type { RepoData } from '../types/Debug';
 
 const trackedData = [
   { name: 'Devs.json', default: {}, schema: zod.record(Devs, Dev) },
@@ -84,19 +85,32 @@ class DataManager {
     return colors;
   }
 
-  static getRepoData(): Promise<string[]> {
-    return new Promise((resolve, reject) => {
-      const data: string[] = [];
-      exec('git remote get-url origin', (error: ExecException | null, stdout: string) => {
-        if (error) return reject(error);
-        if (!stdout.startsWith('https://github.com/')) return reject(new Error('Not a valid GitHub URL'));
-        stdout
-          .replaceAll('https://github.com/', '')
-          .split('/')
-          .forEach((key) => data.push(key));
-        resolve(data);
-      });
-    });
+  static async getRepoData(): Promise<RepoData> {
+    const data: RepoData = {
+      commit: 'UNKNOWN',
+      branch: 'UNKNOWN',
+      isMainBranch: false,
+      repoOwner: 'UNKNOWN',
+      repoName: 'UNKNOWN',
+      isOnLatestCommit: false
+    };
+    const remoteUrl = execSync('git remote get-url origin').toString().trim();
+    if (!remoteUrl.startsWith('https://github.com/')) {
+      throw new Error('Not a valid GitHub URL');
+    }
+    const repoInfo = remoteUrl.replace('https://github.com/', '').split('/');
+    if (repoInfo.length === 2) {
+      data.repoOwner = repoInfo[0];
+      data.repoName = repoInfo[1].replace(/\.git$/, '');
+    }
+    data.branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+    data.isMainBranch = data.branch === 'main';
+    data.commit = execSync('git rev-parse HEAD').toString().trim();
+    const commits = await fetch('https://api.github.com/repos/kathund/Hypixel-Discord-Guild-Chat-Bridge/commits');
+    if (commits.status !== 200) throw new Error('Something went wrong while fetching the commits.');
+    const parsed = await commits.json();
+    data.isOnLatestCommit = parsed[0].sha === data.commit;
+    return data;
   }
 
   static async updateDataFiles() {
@@ -105,7 +119,7 @@ class DataManager {
       try {
         console.other(ReplaceVariables(Translate('data.update.file'), { file: file.name }));
         const request = await fetch(
-          `https://raw.githubusercontent.com/${repoData.join('/')}/refs/heads/main/data/${file.name}`
+          `https://raw.githubusercontent.com/${repoData.repoOwner}/${repoData.repoName}/refs/heads/main/data/${file.name}`
         );
         if (request.status === 404) throw new Error("File doesn't exist?");
         const text = await request.text();

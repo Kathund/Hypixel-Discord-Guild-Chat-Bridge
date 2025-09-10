@@ -10,10 +10,8 @@ body:
       description: |
         Please tell us about how you're running this
       value: |
-        git commit:
-        node version:
-        pnpm version:
-        Operating System:
+        run pnpm debug:
+        copy everything here:
   - type: textarea
     attributes:
       label: What did you expect to happen?
