@@ -1,6 +1,6 @@
 /* eslint-disable import/exports-last */
 /* eslint-disable hypixelDiscordGuildChatBridge/enforce-no-console-log */
-import ConfigExportRoute from '../src/Web/Routes/Data/Config/Export';
+import ConfigManager from '../src/Config/ConfigManager';
 import DataManager from '../src/Data/DataManager';
 import { ConfigData, OsData, VersionsData } from '../src/types/Debug';
 import { arch, platform, release, type } from 'node:os';
@@ -20,7 +20,7 @@ export function getOsData(): OsData {
 }
 
 export async function getConfig(): Promise<ConfigData> {
-  const base64 = ConfigExportRoute.convertConfigToBase64();
+  const base64 = ConfigManager.convertConfigToBase64();
   const form = new FormData();
   form.append('file', new Blob([base64], { type: 'text/plain' }), 'data.txt');
   const response = await fetch('https://0x0.st', {

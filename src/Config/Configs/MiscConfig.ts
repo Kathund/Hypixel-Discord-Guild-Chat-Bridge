@@ -12,6 +12,7 @@ class MiscConfig extends ConfigInstance {
     this.setValue('lang', new StringSelectionOption(getUserLanguage(), getSupportedLanguages()), false);
     this.setValue('timezone', new StringSelectionOption(getUserTimezone(), getSupportedTimezones()), false);
     this.setValue('internal_button_export_config', new InternalOption('internal_button_export_config'), false);
+    this.setValue('internal_button_import_config', new InternalOption('internal_button_export_config'), false);
   }
 }
 

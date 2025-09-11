@@ -173,6 +173,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  document.getElementById('internal_button_import_config').addEventListener('click', async () => {
+    const base64 = prompt('Exported Config Data');
+    const response = await fetch('/data/config/import', {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: base64
+    });
+    const result = await response.json();
+    if (result.success) return alert('Please restart the bot for the changes to apply');
+    return alert(result.message);
+  });
+
   document.getElementById('reload-guild-data').addEventListener('click', async () => {
     const response = await fetch(`/data/discord/server?bypass=true`);
     const result = await response.json();

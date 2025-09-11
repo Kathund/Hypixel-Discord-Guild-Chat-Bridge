@@ -21,6 +21,7 @@ class WebManager {
     this.expressServer.set('view engine', 'ejs');
     this.expressServer.set('views', 'src/Web/Pages');
     this.expressServer.use(express.static('src/Web/Public'));
+    this.expressServer.use(express.text());
     await this.loadRoutes();
     this.server = this.expressServer.listen(Number(process.env.DASHBOARD_PORT), () => {
       console.other(ReplaceVariables(Translate('web.server.start'), { port: process.env.DASHBOARD_PORT }));
