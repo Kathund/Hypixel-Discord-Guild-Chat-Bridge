@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import enforceConfigNaming from './rules/enforceConfigNaming.js';
 import enforceNoConsoleLog from './rules/enforceNoConsoleLog.js';
 import enforceTranslate from './rules/enforceTranslate.js';

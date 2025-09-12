@@ -5,8 +5,8 @@ import StateHandler from './Handlers/StateHandler';
 import StringOption from '../Config/Options/String';
 import { Bot, createBot } from 'mineflayer';
 import { CleanMessageForDiscord } from '../Utils/StringUtils';
+import { EmbedData } from '../Types/Discord';
 import type Application from '../Application';
-import type { EmbedData } from '../types/main';
 import type { MessageCreateOptions } from 'discord.js';
 
 class MinecraftManager {

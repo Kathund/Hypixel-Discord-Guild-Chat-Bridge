@@ -2,10 +2,11 @@ import HypixelDiscordGuildBridgeError from '../Private/Error';
 import ReplaceVariables from '../Private/ReplaceVariables';
 import Translate from '../Private/Translate';
 import zod from 'zod';
-import { DataInstance, Dev, Devs, EmbedDefaultColor, EmbedDefaultColors } from '../types/main';
+import { DataInstance, Dev, Devs } from '../Types/Data';
+import { EmbedDefaultColor, EmbedDefaultColors } from '../Types/Discord';
 import { execSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import type { RepoData } from '../types/Debug';
+import type { RepoData } from '../Types/Debug';
 
 const trackedData = [
   { name: 'Devs.json', default: {}, schema: zod.record(Devs, Dev) },

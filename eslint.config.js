@@ -28,8 +28,8 @@ export default [
     }
   },
   {
-    ignores: ['**/*.js', '**/*.test.ts', 'build/*'],
-    files: ['**/*.ts'],
+    ignores: ['**/*.test.ts', 'build/*'],
+    files: ['**/*.ts', '**/*.js'],
     languageOptions: { ecmaVersion: 2022, sourceType: 'module', globals: { ...globals.es2022, ...globals.node } },
     plugins: { 'sort-imports': sortImports, 'hypixelDiscordGuildChatBridge': plugin },
     rules: {

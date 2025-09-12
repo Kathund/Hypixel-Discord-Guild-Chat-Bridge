@@ -4,7 +4,7 @@ import DataManager from '../../Data/DataManager';
 import Embed from '../Private/Embed';
 import ReplaceVariables from '../../Private/ReplaceVariables';
 import Translate from '../../Private/Translate';
-import { DevType, type Devs } from '../../types/main';
+import { DevType, Devs } from '../../Types/Data';
 import type DiscordManager from '../DiscordManager';
 import type { ChatInputCommandInteraction } from 'discord.js';
 

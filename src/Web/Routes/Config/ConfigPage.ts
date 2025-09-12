@@ -3,8 +3,8 @@ import ReplaceVariables from '../../../Private/ReplaceVariables';
 import Route from '../../Private/BaseRoute';
 import Translate, { getTranslations } from '../../../Private/Translate';
 import type WebManager from '../../WebManager';
-import type { ConfigInstanceData, WebParsedConfigJSON } from '../../../types/Configs';
-import type { Language } from '../../../types/main';
+import type { ConfigInstanceData, WebParsedConfigJSON } from '../../../Types/Configs';
+import type { Language } from '../../../Types/Data';
 import type { Request, Response } from 'express';
 
 class ConfigPageRoute extends Route {

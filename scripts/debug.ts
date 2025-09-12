@@ -2,7 +2,7 @@
 /* eslint-disable hypixelDiscordGuildChatBridge/enforce-no-console-log */
 import ConfigManager from '../src/Config/ConfigManager';
 import DataManager from '../src/Data/DataManager';
-import { ConfigData, OsData, VersionsData } from '../src/types/Debug';
+import { ConfigData, OsData, VersionsData } from '../src/Types/Debug';
 import { arch, platform, release, type } from 'node:os';
 import { execSync } from 'node:child_process';
 

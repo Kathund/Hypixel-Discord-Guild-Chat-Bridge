@@ -2,7 +2,7 @@ import Route from '../../Private/BaseRoute';
 import Translate from '../../../Private/Translate';
 import type WebManager from '../../WebManager';
 import type { Request, Response } from 'express';
-import type { WebParsedData } from '../../../types/Configs';
+import type { WebParsedData } from '../../../Types/Configs';
 
 class ConfigRoute extends Route {
   constructor(web: WebManager) {

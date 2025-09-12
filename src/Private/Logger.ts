@@ -5,7 +5,7 @@ import Translate from './Translate';
 import chalk from 'chalk';
 import { Logger, createLogger, format, transports } from 'winston';
 import { TitleCase } from '../Utils/StringUtils';
-import type { LogData } from '../types/main';
+import type { LogData } from '../Types/Misc';
 
 const logs: LogData[] = [
   { level: 'minecraft', background: chalk.bgGreen.black, color: chalk.reset.green },

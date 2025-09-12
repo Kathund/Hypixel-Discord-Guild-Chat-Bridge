@@ -3,7 +3,7 @@ import ReplaceVariables from '../../Private/ReplaceVariables';
 import Translate, { unTranslate } from '../../Private/Translate';
 import { ChatInputCommandInteraction, Collection, MessageFlags, REST, Routes, Team } from 'discord.js';
 import { ErrorEmbed } from '../Private/Embed';
-import { SubConfigConfigJSON } from '../../types/Configs';
+import { SubConfigConfigJSON } from '../../Types/Configs';
 import { readdirSync } from 'node:fs';
 import type Command from '../Private/Command';
 import type DiscordManager from '../DiscordManager';

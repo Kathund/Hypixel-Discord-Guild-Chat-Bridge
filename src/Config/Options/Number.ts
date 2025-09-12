@@ -1,5 +1,5 @@
 import ConfigOption from '../Private/ConfigOption';
-import type { NumberConfigJSON } from '../../types/Configs';
+import type { NumberConfigJSON } from '../../Types/Configs';
 
 class NumberOption extends ConfigOption<number> {
   declare private max: number;

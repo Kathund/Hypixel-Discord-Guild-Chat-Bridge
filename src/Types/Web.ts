@@ -1,4 +1,4 @@
-import { ChannelType } from 'discord.js';
+import type { ChannelType } from 'discord.js';
 
 export type RouteType = 'get' | 'post';
 

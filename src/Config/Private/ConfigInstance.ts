@@ -3,7 +3,7 @@ import ConfigOption from './ConfigOption';
 import HypixelDiscordGuildBridgeError from '../../Private/Error';
 import StringOption from '../Options/String';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import type { ConfigInstanceData } from '../../types/Configs';
+import type { ConfigInstanceData } from '../../Types/Configs';
 
 const baseData: ConfigInstanceData = {
   '!!': new StringOption('DO NOT TOUCH THIS FILE').toJSON(),

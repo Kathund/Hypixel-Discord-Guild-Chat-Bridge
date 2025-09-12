@@ -1,6 +1,6 @@
 import Route from '../../../Private/BaseRoute';
 import Translate from '../../../../Private/Translate';
-import { WebParsedGuild } from '../../../../types/Web';
+import { WebParsedGuild } from '../../../../Types/Web';
 import type WebManager from '../../../WebManager';
 import type { Request, Response } from 'express';
 

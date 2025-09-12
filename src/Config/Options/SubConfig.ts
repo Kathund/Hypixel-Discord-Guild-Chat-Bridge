@@ -1,5 +1,5 @@
 import ConfigOption from '../Private/ConfigOption';
-import type { ConfigInstanceData, SubConfigConfigJSON } from '../../types/Configs';
+import type { ConfigInstanceData, SubConfigConfigJSON } from '../../Types/Configs';
 
 class SubConfigOption extends ConfigOption<ConfigInstanceData> {
   constructor(defaultValue: ConfigInstanceData, value: ConfigInstanceData = defaultValue) {

@@ -7,7 +7,7 @@ import StringOption from '../Options/String';
 import StringSelectionOption from '../Options/StringSelection';
 import SubConfigOption from '../Options/SubConfig';
 import { sortJSON } from '../../Utils/JSONUtils';
-import type { ConfigInstanceData, ConfigJSON } from '../../types/Configs';
+import type { ConfigInstanceData, ConfigJSON } from '../../Types/Configs';
 
 class BaseConfigInstance {
   declare protected data: ConfigInstanceData;

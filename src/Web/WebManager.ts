@@ -3,7 +3,7 @@ import Translate from '../Private/Translate';
 import express, { Request, Response } from 'express';
 import { readdirSync, statSync } from 'node:fs';
 import type Application from '../Application';
-import type { WebParsedGuildInfo } from '../types/Web';
+import type { WebParsedGuildInfo } from '../Types/Web';
 
 class WebManager {
   readonly Application: Application;

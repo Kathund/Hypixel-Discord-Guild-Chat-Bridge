@@ -2,7 +2,8 @@ import DataManager from '../../Data/DataManager';
 import ReplaceVariables from '../../Private/ReplaceVariables';
 import Translate from '../../Private/Translate';
 import { ColorResolvable, EmbedBuilder } from 'discord.js';
-import type { Devs, EmbedDefaultColors } from '../../types/main';
+import type { Devs } from '../../Types/Data';
+import type { EmbedDefaultColors } from '../../Types/Discord';
 
 class Embed extends EmbedBuilder {
   constructor() {

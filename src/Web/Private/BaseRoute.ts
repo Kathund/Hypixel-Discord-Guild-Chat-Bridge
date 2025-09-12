@@ -1,7 +1,7 @@
 import Translate from '../../Private/Translate';
 import WebManger from '../WebManager';
 import type { Request, Response } from 'express';
-import type { RouteType } from '../../types/Web';
+import type { RouteType } from '../../Types/Web';
 
 class Route {
   readonly web: WebManger;

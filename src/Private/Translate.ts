@@ -3,7 +3,7 @@ import HypixelDiscordGuildBridgeError from './Error';
 import MiscConfig from '../Config/Configs/MiscConfig';
 import StringOption from '../Config/Options/String';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import type { Language } from '../types/main';
+import type { Language } from '../Types/Data';
 
 function parseKeyForTranslation(key: string): string {
   return key.replaceAll('/', '.');

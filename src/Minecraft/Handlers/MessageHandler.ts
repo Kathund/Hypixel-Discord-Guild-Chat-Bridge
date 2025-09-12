@@ -2,7 +2,7 @@ import ReplaceVariables from '../../Private/ReplaceVariables';
 import Translate from '../../Private/Translate';
 import { CleanMessageForDiscord } from '../../Utils/StringUtils';
 import { MessageFlags } from 'discord.js';
-import { StringConfigJSON, SubConfigConfigJSON } from '../../types/Configs';
+import { StringConfigJSON, SubConfigConfigJSON } from '../../Types/Configs';
 import type MinecraftManager from '../MinecraftManager';
 import type { ChatMessage } from 'prismarine-chat';
 

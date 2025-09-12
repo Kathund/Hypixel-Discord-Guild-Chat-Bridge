@@ -1,5 +1,5 @@
 import ConfigOption from '../Private/ConfigOption';
-import type { StringConfigJSON } from '../../types/Configs';
+import type { StringConfigJSON } from '../../Types/Configs';
 
 class StringOption extends ConfigOption<string> {
   constructor(defaultValue: string, value: string = defaultValue) {

@@ -15,7 +15,7 @@ import type {
   StringSelectionConfigJSON,
   StringSelectionConfigJSONWeb,
   SubConfigConfigJSON
-} from '../../types/Configs';
+} from '../../Types/Configs';
 
 class ConfigOption<OptionType = unknown> {
   declare readonly type: string;

@@ -13,7 +13,7 @@ import {
   StringConfigJSON,
   StringSelectionConfigJSON,
   SubConfigConfigJSON
-} from '../types/Configs';
+} from '../Types/Configs';
 import { existsSync, mkdirSync } from 'node:fs';
 
 class ConfigManager {

@@ -5,7 +5,7 @@ import ReplaceVariables from '../../Private/ReplaceVariables';
 import Translate from '../../Private/Translate';
 import { ChatInputCommandInteraction, SlashCommandStringOption } from 'discord.js';
 import { SuccessEmbed } from '../Private/Embed';
-import type { DiscordManagerWithBot } from '../../types/Discord';
+import type { DiscordManagerWithBot } from '../../Types/Discord';
 
 class DemoteCommand extends Command<DiscordManagerWithBot> {
   constructor(discord: DiscordManagerWithBot) {
