@@ -1,12 +1,12 @@
-import Embed from '../Discord/Private/Embed';
-import MessageHandler from './Handlers/MessageHandler';
-import NumberOption from '../Config/Options/Number';
-import StateHandler from './Handlers/StateHandler';
-import StringOption from '../Config/Options/String';
-import { Bot, createBot } from 'mineflayer';
-import { CleanMessageForDiscord } from '../Utils/StringUtils';
-import { EmbedData } from '../Types/Discord';
-import type Application from '../Application';
+import Embed from '../Discord/Private/Embed.js';
+import MessageHandler from './Handlers/MessageHandler.js';
+import NumberOption from '../Config/Options/Number.js';
+import StateHandler from './Handlers/StateHandler.js';
+import StringOption from '../Config/Options/String.js';
+import { type Bot, createBot } from 'mineflayer';
+import { CleanMessageForDiscord } from '../Utils/StringUtils.js';
+import { EmbedData } from '../Types/Discord.js';
+import type Application from '../Application.js';
 import type { MessageCreateOptions } from 'discord.js';
 
 class MinecraftManager {

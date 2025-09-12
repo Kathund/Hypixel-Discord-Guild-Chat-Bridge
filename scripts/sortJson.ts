@@ -1,7 +1,7 @@
 /* eslint-disable hypixelDiscordGuildChatBridge/enforce-no-console-log */
 import { format } from 'prettier';
 import { readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
-import { sortJSON } from '../src/Utils/JSONUtils';
+import { sortJSON } from '../src/Utils/JSONUtils.js';
 
 const ignoredFolders = ['.git/', 'node_modules/', 'build/', 'minecraft-auth-cache/', 'logs/', 'data/config/'];
 const ignoredFiles = ['package.json'];

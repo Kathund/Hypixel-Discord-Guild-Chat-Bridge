@@ -1,7 +1,7 @@
-import Translate from '../../Private/Translate';
-import WebManger from '../WebManager';
+import Translate from '../../Private/Translate.js';
+import WebManger from '../WebManager.js';
 import type { Request, Response } from 'express';
-import type { RouteType } from '../../Types/Web';
+import type { RouteType } from '../../Types/Web.js';
 
 class Route {
   readonly web: WebManger;

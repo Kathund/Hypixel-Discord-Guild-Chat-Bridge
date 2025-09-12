@@ -1,7 +1,7 @@
-import ConfigOption from '../../../../../Config/Private/ConfigOption';
-import ConfigPageRoute from '../../ConfigPage';
-import Route from '../../../../Private/BaseRoute';
-import type WebManager from '../../../../WebManager';
+import ConfigOption from '../../../../../Config/Private/ConfigOption.js';
+import ConfigPageRoute from '../../ConfigPage.js';
+import Route from '../../../../Private/BaseRoute.js';
+import type WebManager from '../../../../WebManager.js';
 import type { Request, Response } from 'express';
 
 class SubSubConfigPageRoute extends Route {
@@ -10,7 +10,11 @@ class SubSubConfigPageRoute extends Route {
     this.path = '/config/:config/:subconfig/:subsubconfig';
   }
 
-  handle(req: Request, res: Response) {
+  override handle(req: Request, res: Response) {
+    if (!req.params.config || !req.params.subconfig || !req.params.subsubconfig) {
+      res.status(400).json({ success: false, message: 'Missing params' });
+      return;
+    }
     if (['favicon.ico', 'save'].includes(req.params.config)) return;
     if (['favicon.ico', 'save'].includes(req.params.subconfig)) return;
     if (['favicon.ico', 'save'].includes(req.params.subsubconfig)) return;

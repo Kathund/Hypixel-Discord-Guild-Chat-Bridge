@@ -1,12 +1,12 @@
-import ConfigOption from '../Private/ConfigOption';
-import type { ConfigInstanceData, SubConfigConfigJSON } from '../../Types/Configs';
+import ConfigOption from '../Private/ConfigOption.js';
+import type { ConfigInstanceData, SubConfigConfigJSON } from '../../Types/Configs.js';
 
 class SubConfigOption extends ConfigOption<ConfigInstanceData> {
   constructor(defaultValue: ConfigInstanceData, value: ConfigInstanceData = defaultValue) {
     super('subConfig', defaultValue, value);
   }
 
-  toJSON(): SubConfigConfigJSON {
+  override toJSON(): SubConfigConfigJSON {
     return { ...super.toJSON() };
   }
 }

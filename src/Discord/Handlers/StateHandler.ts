@@ -1,7 +1,7 @@
-import ReplaceVariables from '../../Private/ReplaceVariables';
-import Translate from '../../Private/Translate';
+import ReplaceVariables from '../../Private/ReplaceVariables.js';
+import Translate from '../../Private/Translate.js';
 import { ActivityType } from 'discord.js';
-import type DiscordManager from '../DiscordManager';
+import type DiscordManager from '../DiscordManager.js';
 
 class StateHandler {
   readonly discord: DiscordManager;

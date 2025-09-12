@@ -1,8 +1,8 @@
-import BaseConfigInstance from '../../../../../Config/Private/BaseConfigInstance';
-import ConfigOption from '../../../../../Config/Private/ConfigOption';
-import Route from '../../../../Private/BaseRoute';
-import SubConfigOption from '../../../../../Config/Options/SubConfig';
-import type WebManager from '../../../../WebManager';
+import BaseConfigInstance from '../../../../../Config/Private/BaseConfigInstance.js';
+import ConfigOption from '../../../../../Config/Private/ConfigOption.js';
+import Route from '../../../../Private/BaseRoute.js';
+import SubConfigOption from '../../../../../Config/Options/SubConfig.js';
+import type WebManager from '../../../../WebManager.js';
 import type { Request, Response } from 'express';
 
 class ConfigSaveRoute extends Route {
@@ -12,24 +12,28 @@ class ConfigSaveRoute extends Route {
     this.type = 'post';
   }
 
-  handle(req: Request, res: Response) {
+  override handle(req: Request, res: Response) {
+    if (!req.params.config || !req.params.subconfig || !req.params.subsubconfig) {
+      res.status(400).json({ success: false, message: 'Missing params' });
+      return;
+    }
     if (['favicon.ico', 'save'].includes(req.params.config)) return;
     if (['favicon.ico', 'save'].includes(req.params.subconfig)) return;
     if (['favicon.ico', 'save'].includes(req.params.subsubconfig)) return;
     const configName = req.params.config as keyof typeof this.web.Application.config;
     const config = this.web.Application.config[configName];
     if (!config) {
-      res.status(404).send('Config section not found');
+      res.status(404).json({ success: false, message: 'Config section not found' });
       return;
     }
     const subConfig = config.getValue(req.params.subconfig);
     if (subConfig === undefined || !subConfig.isSubConfigConfig()) {
-      res.status(404).send('Sub Config section not found');
+      res.status(404).json({ success: false, message: 'Sub Config section not found' });
       return;
     }
     const subConfigData = subConfig.getValue();
     if (subConfigData === undefined) {
-      res.status(404).send('Sub Config section not found');
+      res.status(404).json({ success: false, message: 'Sub Config section not found' });
       return;
     }
     const subSubConfigData = subConfigData[req.params.subsubconfig];
@@ -40,7 +44,9 @@ class ConfigSaveRoute extends Route {
     const options: Record<string, ConfigOption> = {};
     if (option === undefined || !option.isSubConfigConfig()) return;
     Object.keys(option.getValue()).forEach((key) => {
-      const fixedOption = BaseConfigInstance.getConfigOption(option.getValue()[key]);
+      const optionData = option.getValue()[key];
+      if (!optionData) return;
+      const fixedOption = BaseConfigInstance.getConfigOption(optionData);
       if (fixedOption !== undefined) options[key] = fixedOption;
     });
     const configData = req.body;
@@ -57,13 +63,22 @@ class ConfigSaveRoute extends Route {
     const oldSubConfig = subConfig.getValue();
     const oldSubConfigOptions: Record<string, ConfigOption> = {};
     Object.keys(oldSubConfig).forEach((key) => {
-      const fixedOption = BaseConfigInstance.getConfigOption(oldSubConfig[key]);
+      const optionData = oldSubConfig[key];
+      if (!optionData) return;
+      const fixedOption = BaseConfigInstance.getConfigOption(optionData);
       if (fixedOption !== undefined) oldSubConfigOptions[key] = fixedOption;
     });
-    oldSubConfigOptions[req.params.subsubconfig].setValue(option?.getValue());
+    const subconfigOption = oldSubConfigOptions[req.params.subsubconfig];
+    if (!subconfigOption) {
+      res.status(500).json({ success: false, message: "Something wen't wrong while getting the sub config option" });
+      return;
+    }
+    subconfigOption.setValue(option?.getValue());
     const newSubConfig = new BaseConfigInstance();
     Object.keys(oldSubConfigOptions).forEach((key) => {
-      newSubConfig.setValue(key, oldSubConfigOptions[key]);
+      const newValue = oldSubConfigOptions[key];
+      if (!newValue) return;
+      newSubConfig.setValue(key, newValue);
     });
     config.setValue(req.params.subconfig, new SubConfigOption(newSubConfig.toJSON()));
     config.save();

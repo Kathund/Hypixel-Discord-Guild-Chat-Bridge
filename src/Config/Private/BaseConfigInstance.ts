@@ -1,13 +1,13 @@
-import ArrayOption from '../Options/Array';
-import BooleanOption from '../Options/Boolean';
-import ConfigOption from './ConfigOption';
-import InternalOption from '../Options/Internal';
-import NumberOption from '../Options/Number';
-import StringOption from '../Options/String';
-import StringSelectionOption from '../Options/StringSelection';
-import SubConfigOption from '../Options/SubConfig';
-import { sortJSON } from '../../Utils/JSONUtils';
-import type { ConfigInstanceData, ConfigJSON } from '../../Types/Configs';
+import ArrayOption from '../Options/Array.js';
+import BooleanOption from '../Options/Boolean.js';
+import ConfigOption from './ConfigOption.js';
+import InternalOption from '../Options/Internal.js';
+import NumberOption from '../Options/Number.js';
+import StringOption from '../Options/String.js';
+import StringSelectionOption from '../Options/StringSelection.js';
+import SubConfigOption from '../Options/SubConfig.js';
+import { sortJSON } from '../../Utils/JSONUtils.js';
+import type { ConfigInstanceData, ConfigJSON } from '../../Types/Configs.js';
 
 class BaseConfigInstance {
   declare protected data: ConfigInstanceData;

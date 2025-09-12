@@ -1,6 +1,6 @@
-import ConfigInstance from '../Private/ConfigInstance';
-import NumberOption from '../Options/Number';
-import StringSelectionOption from '../Options/StringSelection';
+import ConfigInstance from '../Private/ConfigInstance.js';
+import NumberOption from '../Options/Number.js';
+import StringSelectionOption from '../Options/StringSelection.js';
 
 class DebugConfig extends ConfigInstance {
   constructor(update: boolean = false) {

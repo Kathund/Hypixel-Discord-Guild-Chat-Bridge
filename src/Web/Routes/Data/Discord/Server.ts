@@ -1,8 +1,8 @@
-import Route from '../../../Private/BaseRoute';
-import Translate from '../../../../Private/Translate';
-import { WebParsedGuild } from '../../../../Types/Web';
-import type WebManager from '../../../WebManager';
+import Route from '../../../Private/BaseRoute.js';
+import Translate from '../../../../Private/Translate.js';
+import type WebManager from '../../../WebManager.js';
 import type { Request, Response } from 'express';
+import type { WebParsedGuild } from '../../../../Types/Web.js';
 
 class ServerDataRoute extends Route {
   constructor(web: WebManager) {
@@ -10,7 +10,7 @@ class ServerDataRoute extends Route {
     this.path = '/data/discord/server';
   }
 
-  async handle(req: Request, res: Response) {
+  override async handle(req: Request, res: Response) {
     try {
       if (req.query.bypass === undefined || Boolean(req.query.bypass) === false) {
         if (this.web.guildData !== null && this.web.guildData.timestamp <= new Date().getTime() + 5 * 60 * 1000) {

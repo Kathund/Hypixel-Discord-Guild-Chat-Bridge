@@ -1,10 +1,10 @@
 /* eslint-disable import/exports-last */
 /* eslint-disable hypixelDiscordGuildChatBridge/enforce-no-console-log */
-import ConfigManager from '../src/Config/ConfigManager';
-import DataManager from '../src/Data/DataManager';
-import { ConfigData, OsData, VersionsData } from '../src/Types/Debug';
+import ConfigManager from '../src/Config/ConfigManager.js';
+import DataManager from '../src/Data/DataManager.js';
 import { arch, platform, release, type } from 'node:os';
 import { execSync } from 'node:child_process';
+import type { ConfigData, OsData, VersionsData } from '../src/Types/Debug.js';
 
 function log(key: string, value: any) {
   if (typeof value === 'boolean') console.log(`**${key}**: \`${value ? 'Yes' : 'No'}\``);

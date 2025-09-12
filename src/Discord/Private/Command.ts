@@ -1,6 +1,6 @@
-import Translate from '../../Private/Translate';
-import type CommandData from './CommandData';
-import type DiscordManager from '../DiscordManager';
+import Translate from '../../Private/Translate.js';
+import type CommandData from './CommandData.js';
+import type DiscordManager from '../DiscordManager.js';
 import type { ChatInputCommandInteraction } from 'discord.js';
 
 class Command<T extends DiscordManager = DiscordManager> {

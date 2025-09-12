@@ -1,6 +1,6 @@
-import Route from '../../../../Private/BaseRoute';
-import Translate from '../../../../../Private/Translate';
-import type WebManager from '../../../../WebManager';
+import Route from '../../../../Private/BaseRoute.js';
+import Translate from '../../../../../Private/Translate.js';
+import type WebManager from '../../../../WebManager.js';
 import type { Request, Response } from 'express';
 
 class CommandDataRoute extends Route {
@@ -10,7 +10,7 @@ class CommandDataRoute extends Route {
     this.type = 'post';
   }
 
-  async handle(req: Request, res: Response) {
+  override async handle(req: Request, res: Response) {
     try {
       const client = this.web.Application.discord.client;
       if (client === undefined || !client.isReady()) {

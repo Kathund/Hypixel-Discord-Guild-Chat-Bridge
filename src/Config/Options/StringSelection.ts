@@ -1,5 +1,5 @@
-import ConfigOption from '../Private/ConfigOption';
-import type { StringSelectionConfigJSON } from '../../Types/Configs';
+import ConfigOption from '../Private/ConfigOption.js';
+import type { StringSelectionConfigJSON } from '../../Types/Configs.js';
 
 class StringSelectionOption extends ConfigOption<string> {
   private options: string[];
@@ -17,7 +17,7 @@ class StringSelectionOption extends ConfigOption<string> {
     return this;
   }
 
-  toJSON(): StringSelectionConfigJSON {
+  override toJSON(): StringSelectionConfigJSON {
     return { ...super.toJSON(), options: this.options };
   }
 }

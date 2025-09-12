@@ -1,9 +1,9 @@
-import BaseConfigInstance from '../Private/BaseConfigInstance';
-import BooleanOption from '../Options/Boolean';
-import ConfigInstance from '../Private/ConfigInstance';
-import NumberOption from '../Options/Number';
-import StringOption from '../Options/String';
-import SubConfigOption from '../Options/SubConfig';
+import BaseConfigInstance from '../Private/BaseConfigInstance.js';
+import BooleanOption from '../Options/Boolean.js';
+import ConfigInstance from '../Private/ConfigInstance.js';
+import NumberOption from '../Options/Number.js';
+import StringOption from '../Options/String.js';
+import SubConfigOption from '../Options/SubConfig.js';
 
 const eventConfig = new SubConfigOption(
   new BaseConfigInstance()

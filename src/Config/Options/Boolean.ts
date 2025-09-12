@@ -1,12 +1,12 @@
-import ConfigOption from '../Private/ConfigOption';
-import type { BooleanConfigJSON } from '../../Types/Configs';
+import ConfigOption from '../Private/ConfigOption.js';
+import type { BooleanConfigJSON } from '../../Types/Configs.js';
 
 class BooleanOption extends ConfigOption<boolean> {
   constructor(defaultValue: boolean, value: boolean = defaultValue) {
     super('boolean', defaultValue, value);
   }
 
-  toJSON(): BooleanConfigJSON {
+  override toJSON(): BooleanConfigJSON {
     return { ...super.toJSON() };
   }
 }

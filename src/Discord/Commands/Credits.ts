@@ -1,11 +1,11 @@
-import Command from '../Private/Command';
-import CommandData from '../Private/CommandData';
-import DataManager from '../../Data/DataManager';
-import Embed from '../Private/Embed';
-import ReplaceVariables from '../../Private/ReplaceVariables';
-import Translate from '../../Private/Translate';
-import { DevType, Devs } from '../../Types/Data';
-import type DiscordManager from '../DiscordManager';
+import Command from '../Private/Command.js';
+import CommandData from '../Private/CommandData.js';
+import DataManager from '../../Data/DataManager.js';
+import Embed from '../Private/Embed.js';
+import ReplaceVariables from '../../Private/ReplaceVariables.js';
+import Translate from '../../Private/Translate.js';
+import { DevType, Devs } from '../../Types/Data.js';
+import type DiscordManager from '../DiscordManager.js';
 import type { ChatInputCommandInteraction } from 'discord.js';
 
 class CreditsCommand extends Command {
@@ -14,7 +14,7 @@ class CreditsCommand extends Command {
     this.data = new CommandData().setName('credits');
   }
 
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  override async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     const devs = DataManager.getDevs();
     const embed = new Embed()
       .setTitle(Translate('discord.commands.credits.execute.title'))

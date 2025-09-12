@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import Embed from '../../src/Discord/Private/Embed';
-import ReplaceVariables from '../../src/Private/ReplaceVariables';
-import Translate from '../../src/Private/Translate';
-import { Request, Response } from 'express';
+import Embed from '../../src/Discord/Private/Embed.js';
+import ReplaceVariables from '../../src/Private/ReplaceVariables.js';
+import Translate from '../../src/Private/Translate.js';
+import type { Request, Response } from 'express';
 
 console.warn('Test');
 console.warn(Translate('console'));
@@ -14,6 +16,7 @@ console.warn(Translate('console_test'));
 console.warn(Translate('console.pass'));
 console.warn(Translate('consoleTest'));
 
+// @ts-expect-error
 const embed = new Embed().setTitle('fu');
 
 new Embed().setTitle('fu');

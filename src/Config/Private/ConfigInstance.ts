@@ -1,9 +1,9 @@
-import BaseConfigInstance from './BaseConfigInstance';
-import ConfigOption from './ConfigOption';
-import HypixelDiscordGuildBridgeError from '../../Private/Error';
-import StringOption from '../Options/String';
+import BaseConfigInstance from './BaseConfigInstance.js';
+import ConfigOption from './ConfigOption.js';
+import HypixelDiscordGuildBridgeError from '../../Private/Error.js';
+import StringOption from '../Options/String.js';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import type { ConfigInstanceData } from '../../Types/Configs';
+import type { ConfigInstanceData } from '../../Types/Configs.js';
 
 const baseData: ConfigInstanceData = {
   '!!': new StringOption('DO NOT TOUCH THIS FILE').toJSON(),
@@ -44,7 +44,7 @@ class ConfigInstance extends BaseConfigInstance {
     });
   }
 
-  setValue(name: string, value: ConfigOption, override: boolean = true): this {
+  override setValue(name: string, value: ConfigOption, override: boolean = true): this {
     super.setValue(name, value, override);
     return this.save();
   }

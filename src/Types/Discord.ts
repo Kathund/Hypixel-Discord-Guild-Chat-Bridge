@@ -1,6 +1,6 @@
 import zod from 'zod';
-import type Command from '../Discord/Private/Command';
-import type DiscordManager from '../Discord/DiscordManager';
+import type Command from '../Discord/Private/Command.js';
+import type DiscordManager from '../Discord/DiscordManager.js';
 import type { Bot } from 'mineflayer';
 import type { Collection } from 'discord.js';
 

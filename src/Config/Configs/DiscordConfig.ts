@@ -1,11 +1,11 @@
-import ArrayOption from '../Options/Array';
-import BaseConfigInstance from '../Private/BaseConfigInstance';
-import BooleanOption from '../Options/Boolean';
-import ConfigInstance from '../Private/ConfigInstance';
-import InternalOption from '../Options/Internal';
-import StringOption from '../Options/String';
-import StringSelectionOption from '../Options/StringSelection';
-import SubConfigOption from '../Options/SubConfig';
+import ArrayOption from '../Options/Array.js';
+import BaseConfigInstance from '../Private/BaseConfigInstance.js';
+import BooleanOption from '../Options/Boolean.js';
+import ConfigInstance from '../Private/ConfigInstance.js';
+import InternalOption from '../Options/Internal.js';
+import StringOption from '../Options/String.js';
+import StringSelectionOption from '../Options/StringSelection.js';
+import SubConfigOption from '../Options/SubConfig.js';
 
 class DiscordConfig extends ConfigInstance {
   constructor(update: boolean = false) {

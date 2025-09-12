@@ -1,6 +1,6 @@
-import ReplaceVariables from '../../Private/ReplaceVariables';
-import Translate from '../../Private/Translate';
-import type MinecraftManager from '../MinecraftManager';
+import ReplaceVariables from '../../Private/ReplaceVariables.js';
+import Translate from '../../Private/Translate.js';
+import type MinecraftManager from '../MinecraftManager.js';
 
 class StateHandler {
   declare readonly minecraft: MinecraftManager;

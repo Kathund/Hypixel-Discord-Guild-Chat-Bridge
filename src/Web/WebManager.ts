@@ -1,9 +1,9 @@
-import ReplaceVariables from '../Private/ReplaceVariables';
-import Translate from '../Private/Translate';
-import express, { Request, Response } from 'express';
+import ReplaceVariables from '../Private/ReplaceVariables.js';
+import Translate from '../Private/Translate.js';
+import express, { type Request, type Response } from 'express';
 import { readdirSync, statSync } from 'node:fs';
-import type Application from '../Application';
-import type { WebParsedGuildInfo } from '../Types/Web';
+import type Application from '../Application.js';
+import type { WebParsedGuildInfo } from '../Types/Web.js';
 
 class WebManager {
   readonly Application: Application;
@@ -59,6 +59,7 @@ class WebManager {
             this.expressServer.post(route.path, (req: Request, res: Response) => {
               route.handle(req, res);
             });
+            break;
           }
           default: {
             break;

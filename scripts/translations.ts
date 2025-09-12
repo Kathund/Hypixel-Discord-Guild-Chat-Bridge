@@ -1,9 +1,9 @@
 /* eslint-disable hypixelDiscordGuildChatBridge/enforce-no-console-log */
-import Translate, { getSupportedLanguages, getTranslations } from '../src/Private/Translate';
-import { getSupportedTimezones } from '../src/Private/TimeZones';
-import { sortJSON } from '../src/Utils/JSONUtils';
+import Translate, { getSupportedLanguages, getTranslations } from '../src/Private/Translate.js';
+import { getSupportedTimezones } from '../src/Private/TimeZones.js';
+import { sortJSON } from '../src/Utils/JSONUtils.js';
 import { writeFileSync } from 'node:fs';
-import type { Language } from '../src/Types/Data';
+import type { Language } from '../src/Types/Data.js';
 
 const args: string[] = process.argv.slice(2);
 

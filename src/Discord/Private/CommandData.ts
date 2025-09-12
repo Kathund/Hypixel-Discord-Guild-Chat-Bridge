@@ -1,5 +1,5 @@
-import HypixelDiscordGuildBridgeError from '../../Private/Error';
-import Translate from '../../Private/Translate';
+import HypixelDiscordGuildBridgeError from '../../Private/Error.js';
+import Translate from '../../Private/Translate.js';
 import {
   ApplicationIntegrationType,
   InteractionContextType,
@@ -16,17 +16,17 @@ class CommandData extends SlashCommandBuilder {
     this.commandGroups = [];
   }
 
-  setName(name: string): this {
+  override setName(name: string): this {
     super.setName(Translate(`discord.commands.${name}`));
     super.setDescription(Translate(`discord.commands.${name}.description`));
     return this;
   }
 
-  setDescription(description: string): this {
+  override setDescription(description: string): this {
     throw new HypixelDiscordGuildBridgeError(Translate('discord.commands.error.setDescription'));
   }
 
-  addStringOption(option: SlashCommandStringOption): this {
+  override addStringOption(option: SlashCommandStringOption): this {
     option.setName(Translate(`discord.commands.${this.name}.options.${option.name}`));
     option.setDescription(Translate(`discord.commands.${this.name}.options.${option.name}.description`));
     super.addStringOption(option);

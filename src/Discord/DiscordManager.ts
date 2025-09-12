@@ -1,9 +1,9 @@
-import CommandHandler from './Handlers/CommandHandler';
-import InteractionHandler from './Handlers/InteractionHandler';
-import MessageHandler from './Handlers/MessageHandler';
-import StateHandler from './Handlers/StateHandler';
+import CommandHandler from './Handlers/CommandHandler.js';
+import InteractionHandler from './Handlers/InteractionHandler.js';
+import MessageHandler from './Handlers/MessageHandler.js';
+import StateHandler from './Handlers/StateHandler.js';
 import { ChatInputCommandInteraction, Client, Events, GatewayIntentBits } from 'discord.js';
-import type Application from '../Application';
+import type Application from '../Application.js';
 
 class DiscordManager {
   readonly Application: Application;

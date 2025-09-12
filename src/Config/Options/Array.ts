@@ -1,5 +1,5 @@
-import ConfigOption from '../Private/ConfigOption';
-import type { ArrayConfigJSON } from '../../Types/Configs';
+import ConfigOption from '../Private/ConfigOption.js';
+import type { ArrayConfigJSON } from '../../Types/Configs.js';
 
 class ArrayOption<T> extends ConfigOption<T[]> {
   constructor(defaultValue: T[], value: T[] = defaultValue) {
@@ -20,7 +20,7 @@ class ArrayOption<T> extends ConfigOption<T[]> {
     return this.getValue().length;
   }
 
-  toJSON(): ArrayConfigJSON<T> {
+  override toJSON(): ArrayConfigJSON<T> {
     return { ...super.toJSON() };
   }
 }

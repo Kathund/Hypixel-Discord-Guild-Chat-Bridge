@@ -1,6 +1,6 @@
-import Route from '../Private/BaseRoute';
-import Translate from '../../Private/Translate';
-import type WebManager from '../WebManager';
+import Route from '../Private/BaseRoute.js';
+import Translate from '../../Private/Translate.js';
+import type WebManager from '../WebManager.js';
 import type { Request, Response } from 'express';
 
 class HomeRoute extends Route {
@@ -9,7 +9,7 @@ class HomeRoute extends Route {
     this.path = '/';
   }
 
-  handle(req: Request, res: Response) {
+  override handle(req: Request, res: Response) {
     const pages = ['config'];
     res.render('index', {
       pages: pages.map((page) => {

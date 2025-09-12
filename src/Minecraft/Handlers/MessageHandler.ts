@@ -1,9 +1,9 @@
-import ReplaceVariables from '../../Private/ReplaceVariables';
-import Translate from '../../Private/Translate';
-import { CleanMessageForDiscord } from '../../Utils/StringUtils';
+import ReplaceVariables from '../../Private/ReplaceVariables.js';
+import Translate from '../../Private/Translate.js';
+import { CleanMessageForDiscord } from '../../Utils/StringUtils.js';
 import { MessageFlags } from 'discord.js';
-import { StringConfigJSON, SubConfigConfigJSON } from '../../Types/Configs';
-import type MinecraftManager from '../MinecraftManager';
+import { StringConfigJSON, SubConfigConfigJSON } from '../../Types/Configs.js';
+import type MinecraftManager from '../MinecraftManager.js';
 import type { ChatMessage } from 'prismarine-chat';
 
 class MessageHandler {
@@ -47,7 +47,7 @@ class MessageHandler {
       const config = eventConfig.getValue();
 
       if (this.isLoginMessage(message) && (config?.member_login as SubConfigConfigJSON)?.value?.enabled?.value) {
-        const username = message.split('>')[1].trim().split('joined.')[0].trim();
+        const username = this.getUsernameFromJoinLeave(message, 'joined');
         return this.getEventsChannels('member_login').forEach((channel) =>
           this.minecraft.sendToDiscordMessage(
             ReplaceVariables(Translate('minecraft.chat.events.login'), { username }),
@@ -57,7 +57,7 @@ class MessageHandler {
       }
 
       if (this.isLogoutMessage(message) && (config?.member_logout as SubConfigConfigJSON)?.value?.enabled?.value) {
-        const username = message.split('>')[1].trim().split('left.')[0].trim();
+        const username = this.getUsernameFromJoinLeave(message, 'left');
         return this.getEventsChannels('member_logout').forEach((channel) =>
           this.minecraft.sendToDiscordMessage(
             ReplaceVariables(Translate('minecraft.chat.events.left'), { username }),
@@ -396,11 +396,12 @@ class MessageHandler {
         this.isUserMuteMessage(message) &&
         (config?.guild_member_mute as SubConfigConfigJSON)?.value?.enabled?.value
       ) {
-        const username = message
-          .replace(/\[(.*?)\]/g, '')
-          .trim()
-          .split(/ +/g)[3]
-          .replace(/[^\w]+/g, '');
+        const username =
+          message
+            .replace(/\[(.*?)\]/g, '')
+            .trim()
+            .split(/ +/g)[3]
+            ?.replace(/[^\w]+/g, '') ?? 'UNKNOWN';
         const time = message
           .replace(/\[(.*?)\]/g, '')
           .trim()
@@ -601,10 +602,13 @@ class MessageHandler {
     const match = message.match(regex);
     if (!match || !match?.groups) return;
 
-    if (this.isDiscordMessage(match.groups.message) === false) {
+    if (this.isDiscordMessage(match.groups.message || 'UNKNOWN') === false) {
       const { chatType, rank = '', username, guildRank = '', message } = match.groups;
+      if (!message) return;
       if (message.includes('replying to') && username === this.minecraft.bot.username) return;
-      const channelConfig = this.minecraft.Application.config.discord.getValue(`${chatType.toLowerCase()}_channel`);
+      const channelConfig = this.minecraft.Application.config.discord.getValue(
+        `${(chatType || 'UNKNOWN').toLowerCase()}_channel`
+      );
       const messageFormat = this.minecraft.Application.config.discord.getValue('message_format');
       if (
         channelConfig?.isStringSelectionOption() &&
@@ -634,28 +638,34 @@ class MessageHandler {
     if (!eventConfigOption?.value?.enabled?.value) return channels;
 
     const guildChannel = this.minecraft.Application.config.discord.getValue('guild_channel');
-    if (guildChannel?.getValue() !== undefined && eventConfigOption?.value?.guild_channel.value !== false) {
+    if (guildChannel?.getValue() !== undefined && eventConfigOption?.value?.guild_channel?.value !== false) {
       channels.push(guildChannel.getValue() as string);
     }
 
     const officerChannel = this.minecraft.Application.config.discord.getValue('officer_channel');
-    if (officerChannel?.getValue() !== undefined && eventConfigOption?.value?.officer_channel.value !== false) {
+    if (officerChannel?.getValue() !== undefined && eventConfigOption?.value?.officer_channel?.value !== false) {
       channels.push(officerChannel.getValue() as string);
     }
 
     const logChannel = this.minecraft.Application.config.discord.getValue('logging_channel');
-    if (logChannel?.getValue() !== undefined && eventConfigOption?.value?.log_channel.value !== false) {
+    if (logChannel?.getValue() !== undefined && eventConfigOption?.value?.log_channel?.value !== false) {
       channels.push(logChannel.getValue() as string);
     }
 
     return channels;
   }
 
+  getUsernameFromJoinLeave(message: string, action: 'joined' | 'left'): string {
+    const regex = new RegExp(`^Guild > (.+?) ${action}\\.$`);
+    const match = message.match(regex);
+    return match?.[1] ?? 'UNKNOWN';
+  }
+
   getUsernameFromEventMessage(message: string): string {
     const regex = /(?:\[(?<rank>[^\]]+)\] )?(?<username>[^\s]+) (?<event>.+)/;
     const match = message.match(regex);
     if (match === null || !match.groups) return '';
-    return match.groups.username;
+    return match.groups.username || 'UNKNOWN';
   }
 
   isLobbyJoinMessage(message: string): boolean {
@@ -666,7 +676,7 @@ class MessageHandler {
     const isDiscordMessage = /^(?<username>(?!https?:\/\/)[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;
     const match = message.match(isDiscordMessage);
     if (!match?.groups) return false;
-    if (match && ['Party', 'Guild', 'Officer'].includes(match.groups.username)) {
+    if (match && ['Party', 'Guild', 'Officer'].includes(match.groups.username || 'UNKNOWN')) {
       return false;
     }
     return isDiscordMessage.test(message);

@@ -1,9 +1,9 @@
-import ConfigInstance from '../Private/ConfigInstance';
-import InternalOption from '../Options/Internal';
-import StringSelectionOption from '../Options/StringSelection';
+import ConfigInstance from '../Private/ConfigInstance.js';
+import InternalOption from '../Options/Internal.js';
+import StringSelectionOption from '../Options/StringSelection.js';
 // eslint-disable-next-line import/no-cycle
-import { getSupportedLanguages, getUserLanguage } from '../../Private/Translate';
-import { getSupportedTimezones, getUserTimezone } from '../../Private/TimeZones';
+import { getSupportedLanguages, getUserLanguage } from '../../Private/Translate.js';
+import { getSupportedTimezones, getUserTimezone } from '../../Private/TimeZones.js';
 
 class MiscConfig extends ConfigInstance {
   constructor(update: boolean = false) {

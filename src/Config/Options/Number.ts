@@ -1,5 +1,5 @@
-import ConfigOption from '../Private/ConfigOption';
-import type { NumberConfigJSON } from '../../Types/Configs';
+import ConfigOption from '../Private/ConfigOption.js';
+import type { NumberConfigJSON } from '../../Types/Configs.js';
 
 class NumberOption extends ConfigOption<number> {
   declare private max: number;
@@ -22,7 +22,7 @@ class NumberOption extends ConfigOption<number> {
     return (this.min === -1 || value >= this.min) && (this.max === -1 || value <= this.max);
   }
 
-  toJSON(): NumberConfigJSON {
+  override toJSON(): NumberConfigJSON {
     return { ...super.toJSON(), max: this.getMax(), min: this.getMin() };
   }
 }

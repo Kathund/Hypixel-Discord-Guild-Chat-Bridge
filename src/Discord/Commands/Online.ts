@@ -1,10 +1,10 @@
-import Command from '../Private/Command';
-import CommandData from '../Private/CommandData';
-import Embed from '../Private/Embed';
-import HypixelDiscordGuildBridgeError from '../../Private/Error';
-import ReplaceVariables from '../../Private/ReplaceVariables';
-import Translate from '../../Private/Translate';
-import type DiscordManager from '../DiscordManager';
+import Command from '../Private/Command.js';
+import CommandData from '../Private/CommandData.js';
+import Embed from '../Private/Embed.js';
+import HypixelDiscordGuildBridgeError from '../../Private/Error.js';
+import ReplaceVariables from '../../Private/ReplaceVariables.js';
+import Translate from '../../Private/Translate.js';
+import type DiscordManager from '../DiscordManager.js';
 import type { Bot } from 'mineflayer';
 import type { ChatInputCommandInteraction } from 'discord.js';
 import type { ChatMessage } from 'prismarine-chat';
@@ -14,7 +14,7 @@ class OnlineCommand extends Command {
     super(discord);
     this.data = new CommandData().setName('online');
   }
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  override async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     if (!this.discord.Application.minecraft.isBotOnline()) {
       throw new HypixelDiscordGuildBridgeError(Translate('minecraft.error.botOffline'));
     }
@@ -44,6 +44,7 @@ class OnlineCommand extends Command {
       .flatMap((item, index) => {
         if (!item.includes('-- ')) return;
         const nextLine = messages[index + 1];
+        if (!nextLine) return;
         if (!nextLine.includes('●')) return;
         const rank = item.replaceAll('--', '').trim();
         const players = nextLine

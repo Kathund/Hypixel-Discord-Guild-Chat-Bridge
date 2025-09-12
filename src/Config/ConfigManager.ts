@@ -1,8 +1,8 @@
-import BaseConfigInstance from './Private/BaseConfigInstance';
-import DebugConfig from './Configs/DebugConfig';
-import DiscordConfig from './Configs/DiscordConfig';
-import MinecraftConfig from './Configs/MinecraftConfig';
-import MiscConfig from './Configs/MiscConfig';
+import BaseConfigInstance from './Private/BaseConfigInstance.js';
+import DebugConfig from './Configs/DebugConfig.js';
+import DiscordConfig from './Configs/DiscordConfig.js';
+import MinecraftConfig from './Configs/MinecraftConfig.js';
+import MiscConfig from './Configs/MiscConfig.js';
 import zod from 'zod';
 import {
   ArrayConfigJSON,
@@ -13,7 +13,7 @@ import {
   StringConfigJSON,
   StringSelectionConfigJSON,
   SubConfigConfigJSON
-} from '../Types/Configs';
+} from '../Types/Configs.js';
 import { existsSync, mkdirSync } from 'node:fs';
 
 class ConfigManager {

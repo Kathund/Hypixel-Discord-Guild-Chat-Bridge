@@ -1,11 +1,11 @@
-import Command from '../Private/Command';
-import CommandData from '../Private/CommandData';
-import HypixelDiscordGuildBridgeError from '../../Private/Error';
-import ReplaceVariables from '../../Private/ReplaceVariables';
-import Translate, { unTranslate } from '../../Private/Translate';
+import Command from '../Private/Command.js';
+import CommandData from '../Private/CommandData.js';
+import HypixelDiscordGuildBridgeError from '../../Private/Error.js';
+import ReplaceVariables from '../../Private/ReplaceVariables.js';
+import Translate, { unTranslate } from '../../Private/Translate.js';
 import { ChatInputCommandInteraction, SlashCommandStringOption } from 'discord.js';
-import { SuccessEmbed } from '../Private/Embed';
-import type { DiscordManagerWithBot } from '../../Types/Discord';
+import { SuccessEmbed } from '../Private/Embed.js';
+import type { DiscordManagerWithBot } from '../../Types/Discord.js';
 
 class KickCommand extends Command<DiscordManagerWithBot> {
   constructor(discord: DiscordManagerWithBot) {
@@ -17,7 +17,7 @@ class KickCommand extends Command<DiscordManagerWithBot> {
       .addGroup('minecraft');
   }
 
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  override async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     if (!this.discord.Application.minecraft.isBotOnline()) {
       throw new HypixelDiscordGuildBridgeError(Translate('minecraft.error.botOffline'));
     }

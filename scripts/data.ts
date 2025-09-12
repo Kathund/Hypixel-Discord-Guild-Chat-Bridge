@@ -1,4 +1,4 @@
-import DataManager from '../src/Data/DataManager';
+import DataManager from '../src/Data/DataManager.js';
 
 console.other = console.log;
 const args: string[] = process.argv.slice(2);

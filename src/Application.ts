@@ -1,7 +1,7 @@
-import ConfigManager from './Config/ConfigManager';
-import DiscordManager from './Discord/DiscordManager';
-import MinecraftManager from './Minecraft/MinecraftManager';
-import WebManager from './Web/WebManager';
+import ConfigManager from './Config/ConfigManager.js';
+import DiscordManager from './Discord/DiscordManager.js';
+import MinecraftManager from './Minecraft/MinecraftManager.js';
+import WebManager from './Web/WebManager.js';
 
 class Application {
   declare config: ConfigManager;

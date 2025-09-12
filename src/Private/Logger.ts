@@ -1,16 +1,18 @@
-import MiscConfig from '../Config/Configs/MiscConfig';
-import ReplaceVariables from './ReplaceVariables';
-import StringOption from '../Config/Options/String';
-import Translate from './Translate';
+import MiscConfig from '../Config/Configs/MiscConfig.js';
+import ReplaceVariables from './ReplaceVariables.js';
+import StringOption from '../Config/Options/String.js';
+import Translate from './Translate.js';
 import chalk from 'chalk';
 import { Logger, createLogger, format, transports } from 'winston';
-import { TitleCase } from '../Utils/StringUtils';
-import type { LogData } from '../Types/Misc';
+import { TitleCase } from '../Utils/StringUtils.js';
+import type { LogData } from '../Types/Misc.js';
+
+const otherLog = { level: 'other', background: chalk.bgCyan.black, color: chalk.reset.cyan };
 
 const logs: LogData[] = [
   { level: 'minecraft', background: chalk.bgGreen.black, color: chalk.reset.green },
   { level: 'discord', background: chalk.bgMagenta.black, color: chalk.reset.magenta },
-  { level: 'other', background: chalk.bgCyan.black, color: chalk.reset.cyan },
+  otherLog,
   { level: 'warn', background: chalk.bgYellow.black, color: chalk.reset.yellow },
   { level: 'error', background: chalk.bgRedBright.black, color: chalk.reset.redBright },
   { level: 'max', background: chalk.bgBlack.black, color: chalk.reset.black }
@@ -71,31 +73,37 @@ logs.forEach((log) => {
 });
 
 console.minecraft = (message: string): void => {
-  const log = logs.find((log) => log.level === 'minecraft') || logs[1];
-  loggers[log.level].log(log.level, message);
-  return logSomething(message, log);
+  const log = logs.find((log) => log.level === 'minecraft') || otherLog;
+  logSomething(message, log);
+  const logger = loggers[log.level];
+  if (logger) logger.log(log.level, message);
 };
 
 console.discord = (message: string): void => {
-  const log = logs.find((log) => log.level === 'discord') || logs[1];
-  loggers[log.level].log(log.level, message);
-  return logSomething(message, log);
+  const log = logs.find((log) => log.level === 'discord') || otherLog;
+  logSomething(message, log);
+  const logger = loggers[log.level];
+  if (logger) logger.log(log.level, message);
 };
 
 console.other = (message: string): void => {
-  const log = logs.find((log) => log.level === 'other') || logs[1];
-  loggers[log.level].log(log.level, message);
-  return logSomething(message, log);
+  const log = logs.find((log) => log.level === 'other') || otherLog;
+  logSomething(message, log);
+  const logger = loggers[log.level];
+  if (logger) logger.log(log.level, message);
 };
 
 console.warn = (message: string): void => {
-  const log = logs.find((log) => log.level === 'warn') || logs[1];
-  loggers[log.level].log(log.level, message);
-  return logSomething(message, log);
+  const log = logs.find((log) => log.level === 'warn') || otherLog;
+  logSomething(message, log);
+  const logger = loggers[log.level];
+  if (logger) logger.log(log.level, message);
 };
 
 console.error = (message: Error): void => {
-  const log = logs.find((log) => log.level === 'error') || logs[1];
-  loggers[log.level].log(log.level, getErrorString(message));
-  return logSomething(getErrorString(message), log);
+  const log = logs.find((log) => log.level === 'error') || otherLog;
+  const errorString = getErrorString(message);
+  logSomething(errorString, log);
+  const logger = loggers[log.level];
+  if (logger) logger.log(log.level, errorString);
 };

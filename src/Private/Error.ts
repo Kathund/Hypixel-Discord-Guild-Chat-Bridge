@@ -4,7 +4,7 @@ class HypixelDiscordGuildBridgeError extends Error {
     this.name = 'Hypixel Discord Guild Bridge';
   }
 
-  toString(): string {
+  override toString(): string {
     return this.message;
   }
 }

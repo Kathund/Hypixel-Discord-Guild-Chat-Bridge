@@ -1,6 +1,6 @@
-import ReplaceVariables from '../../Private/ReplaceVariables';
+import ReplaceVariables from '../../Private/ReplaceVariables.js';
 import { Message } from 'discord.js';
-import type DiscordManager from '../DiscordManager';
+import type DiscordManager from '../DiscordManager.js';
 
 class MessageHandler {
   readonly discord: DiscordManager;

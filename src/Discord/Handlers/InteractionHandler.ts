@@ -1,4 +1,4 @@
-import type DiscordManager from '../DiscordManager';
+import type DiscordManager from '../DiscordManager.js';
 import type { BaseInteraction } from 'discord.js';
 
 class InteractionHandler {

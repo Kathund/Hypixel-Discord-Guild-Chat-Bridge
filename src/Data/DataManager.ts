@@ -1,12 +1,12 @@
-import HypixelDiscordGuildBridgeError from '../Private/Error';
-import ReplaceVariables from '../Private/ReplaceVariables';
-import Translate from '../Private/Translate';
+import HypixelDiscordGuildBridgeError from '../Private/Error.js';
+import ReplaceVariables from '../Private/ReplaceVariables.js';
+import Translate from '../Private/Translate.js';
 import zod from 'zod';
-import { DataInstance, Dev, Devs } from '../Types/Data';
-import { EmbedDefaultColor, EmbedDefaultColors } from '../Types/Discord';
+import { type DataInstance, Dev, Devs } from '../Types/Data.js';
+import { EmbedDefaultColor, EmbedDefaultColors } from '../Types/Discord.js';
 import { execSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import type { RepoData } from '../Types/Debug';
+import type { RepoData } from '../Types/Debug.js';
 
 const trackedData = [
   { name: 'Devs.json', default: {}, schema: zod.record(Devs, Dev) },
@@ -101,8 +101,8 @@ class DataManager {
     }
     const repoInfo = remoteUrl.replace('https://github.com/', '').split('/');
     if (repoInfo.length === 2) {
-      data.repoOwner = repoInfo[0];
-      data.repoName = repoInfo[1].replace(/\.git$/, '');
+      data.repoOwner = repoInfo[0] as string;
+      data.repoName = (repoInfo[1] as string).replace(/\.git$/, '');
     }
     data.branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
     data.isMainBranch = data.branch === 'main';

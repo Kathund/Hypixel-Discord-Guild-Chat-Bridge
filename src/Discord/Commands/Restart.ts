@@ -1,8 +1,8 @@
-import Command from '../Private/Command';
-import CommandData from '../Private/CommandData';
-import Embed from '../Private/Embed';
-import Translate from '../../Private/Translate';
-import type DiscordManager from '../DiscordManager';
+import Command from '../Private/Command.js';
+import CommandData from '../Private/CommandData.js';
+import Embed from '../Private/Embed.js';
+import Translate from '../../Private/Translate.js';
+import type DiscordManager from '../DiscordManager.js';
 import type { ChatInputCommandInteraction } from 'discord.js';
 
 class RestartCommand extends Command {
@@ -12,7 +12,7 @@ class RestartCommand extends Command {
   }
 
   // CREDITS: https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/blob/2c4240c70a12f67937d5446adedf026970efcd60/src/discord/commands/restartCommand.js (modified)
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  override async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     if (this.discord.client === undefined) return;
     const restartingEmbed = new Embed()
       .setDev('georgeFilos')

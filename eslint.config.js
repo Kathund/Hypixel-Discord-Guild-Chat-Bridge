@@ -32,6 +32,7 @@ export default [
     files: ['**/*.ts', '**/*.js'],
     languageOptions: { ecmaVersion: 2022, sourceType: 'module', globals: { ...globals.es2022, ...globals.node } },
     plugins: { 'sort-imports': sortImports, 'hypixelDiscordGuildChatBridge': plugin },
+    settings: { 'import/resolver': { typescript: true, node: true } },
     rules: {
       'sort-imports/sort-imports': [
         'error',

@@ -1,10 +1,10 @@
-import type ArrayOption from '../Options/Array';
-import type BooleanOption from '../Options/Boolean';
-import type InternalOption from '../Options/Internal';
-import type NumberOption from '../Options/Number';
-import type StringOption from '../Options/String';
-import type StringSelectionOption from '../Options/StringSelection';
-import type SubConfigOption from '../Options/SubConfig';
+import type ArrayOption from '../Options/Array.js';
+import type BooleanOption from '../Options/Boolean.js';
+import type InternalOption from '../Options/Internal.js';
+import type NumberOption from '../Options/Number.js';
+import type StringOption from '../Options/String.js';
+import type StringSelectionOption from '../Options/StringSelection.js';
+import type SubConfigOption from '../Options/SubConfig.js';
 import type {
   ArrayConfigJSON,
   BooleanConfigJSON,
@@ -15,7 +15,7 @@ import type {
   StringSelectionConfigJSON,
   StringSelectionConfigJSONWeb,
   SubConfigConfigJSON
-} from '../../Types/Configs';
+} from '../../Types/Configs.js';
 
 class ConfigOption<OptionType = unknown> {
   declare readonly type: string;

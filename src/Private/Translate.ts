@@ -1,9 +1,9 @@
-import HypixelDiscordGuildBridgeError from './Error';
+import HypixelDiscordGuildBridgeError from './Error.js';
 // eslint-disable-next-line import/no-cycle
-import MiscConfig from '../Config/Configs/MiscConfig';
-import StringOption from '../Config/Options/String';
+import MiscConfig from '../Config/Configs/MiscConfig.js';
+import StringOption from '../Config/Options/String.js';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import type { Language } from '../Types/Data';
+import type { Language } from '../Types/Data.js';
 
 function parseKeyForTranslation(key: string): string {
   return key.replaceAll('/', '.');
@@ -24,8 +24,12 @@ export function getSupportedLanguages(): Language[] {
 // eslint-disable-next-line import/exports-last
 export function getUserLanguage(): Language {
   if (process.platform !== 'linux') return 'en_us';
-  if (process.env.LANG === undefined) return 'en_us';
-  const userLang = process.env.LANG.split('.')[0].trim().toLowerCase() as Language;
+  const processLang = process.env.LANG;
+  if (processLang === undefined) return 'en_us';
+  const split = processLang.split('.');
+  if (split.length !== 2) return 'en_us';
+  if (split[0] === undefined) return 'en_us';
+  const userLang = split[0].trim().toLowerCase() as Language;
   if (getSupportedLanguages().includes(userLang)) return userLang;
   return 'en_us';
 }
@@ -91,9 +95,10 @@ export default function Translate(key: string, lang: Language = getSelectedLangu
   const supportedLanguages = getSupportedLanguages();
   if (!supportedLanguages.includes(lang)) return `Unsupported Language | ${key}`;
   const translations = getTranslations(lang);
-  if (translations[key] === undefined) {
+  const translation = translations[key];
+  if (translation === undefined) {
     logMissingTranslation(key, lang);
     return lang === 'en_us' ? `Unknown Translation | ${key}` : Translate(key, 'en_us');
   }
-  return translations[key];
+  return translation;
 }

@@ -1,7 +1,7 @@
-import ConfigManager from '../../../../Config/ConfigManager';
-import Route from '../../../Private/BaseRoute';
-import Translate from '../../../../Private/Translate';
-import type WebManager from '../../../WebManager';
+import ConfigManager from '../../../../Config/ConfigManager.js';
+import Route from '../../../Private/BaseRoute.js';
+import Translate from '../../../../Private/Translate.js';
+import type WebManager from '../../../WebManager.js';
 import type { Request, Response } from 'express';
 
 class ConfigExportRoute extends Route {
@@ -10,7 +10,7 @@ class ConfigExportRoute extends Route {
     this.path = '/data/config/export';
   }
 
-  handle(req: Request, res: Response) {
+  override handle(req: Request, res: Response) {
     try {
       res.status(200).send({ success: true, data: ConfigManager.convertConfigToBase64() });
     } catch (error) {

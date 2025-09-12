@@ -1,10 +1,10 @@
-import ConfigOption from '../../../Config/Private/ConfigOption';
-import ReplaceVariables from '../../../Private/ReplaceVariables';
-import Route from '../../Private/BaseRoute';
-import Translate, { getTranslations } from '../../../Private/Translate';
-import type WebManager from '../../WebManager';
-import type { ConfigInstanceData, WebParsedConfigJSON } from '../../../Types/Configs';
-import type { Language } from '../../../Types/Data';
+import ConfigOption from '../../../Config/Private/ConfigOption.js';
+import ReplaceVariables from '../../../Private/ReplaceVariables.js';
+import Route from '../../Private/BaseRoute.js';
+import Translate, { getTranslations } from '../../../Private/Translate.js';
+import type WebManager from '../../WebManager.js';
+import type { ConfigInstanceData, WebParsedConfigJSON } from '../../../Types/Configs.js';
+import type { Language } from '../../../Types/Data.js';
 import type { Request, Response } from 'express';
 
 class ConfigPageRoute extends Route {
@@ -13,7 +13,11 @@ class ConfigPageRoute extends Route {
     this.path = '/config/:config';
   }
 
-  handle(req: Request, res: Response) {
+  override handle(req: Request, res: Response) {
+    if (!req.params.config) {
+      res.status(400).json({ success: false, message: 'Missing params' });
+      return;
+    }
     if (['favicon.ico', 'save'].includes(req.params.config)) return;
     const configName = req.params.config as keyof typeof this.web.Application.config;
     const config = this.web.Application.config[configName].toJSON();
@@ -30,11 +34,13 @@ class ConfigPageRoute extends Route {
   static parseConfigForWeb(config: ConfigInstanceData, configName: string): WebParsedConfigJSON[] {
     const converted: WebParsedConfigJSON[] = [];
     Object.keys(config).forEach((option) => {
+      const configData = config[option];
+      if (!configData) return;
       const convertedData: WebParsedConfigJSON = {
         internal: option,
         name: Translate(`config.options.${configName}.${option}`),
         description: Translate(`config.options.${configName}.${option}.description`),
-        ...config[option]
+        ...configData
       };
 
       if (

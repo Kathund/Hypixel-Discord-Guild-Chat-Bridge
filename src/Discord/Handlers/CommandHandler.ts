@@ -1,12 +1,12 @@
-import HypixelDiscordGuildBridgeError from '../../Private/Error';
-import ReplaceVariables from '../../Private/ReplaceVariables';
-import Translate, { unTranslate } from '../../Private/Translate';
+import HypixelDiscordGuildBridgeError from '../../Private/Error.js';
+import ReplaceVariables from '../../Private/ReplaceVariables.js';
+import Translate, { unTranslate } from '../../Private/Translate.js';
 import { ChatInputCommandInteraction, Collection, MessageFlags, REST, Routes, Team } from 'discord.js';
-import { ErrorEmbed } from '../Private/Embed';
-import { SubConfigConfigJSON } from '../../Types/Configs';
+import { ErrorEmbed } from '../Private/Embed.js';
+import { SubConfigConfigJSON } from '../../Types/Configs.js';
 import { readdirSync } from 'node:fs';
-import type Command from '../Private/Command';
-import type DiscordManager from '../DiscordManager';
+import type Command from '../Private/Command.js';
+import type DiscordManager from '../DiscordManager.js';
 
 class CommandHandler {
   readonly discord: DiscordManager;
@@ -39,7 +39,7 @@ class CommandHandler {
       const commandConfigOption = commandConfig?.isSubConfigConfig()
         ? (commandConfig.getValue()?.[Translate(untranslatedName, 'en_us')] as SubConfigConfigJSON)
         : undefined;
-      if (!commandConfigOption?.value) {
+      if (!commandConfigOption?.value || !commandConfigOption) {
         throw new Error(
           ReplaceVariables(Translate('discord.commands.config.missing'), { commandName: interaction.commandName })
         );
@@ -51,8 +51,8 @@ class CommandHandler {
       }
       const member = await interaction.guild.members.fetch(interaction.user.id);
       const memberRoles = member.roles.cache.map((role) => role.id);
-      const requiredRole = (commandConfigOption.value.required_role.value as string) || '';
-      const aloudUsers = (commandConfig.getValue().aloud_users.value as string[]) || [];
+      const requiredRole = (commandConfigOption.value?.required_role?.value as string) || '';
+      const aloudUsers = (commandConfig.getValue().aloud_users?.value as string[]) || [];
       if (!this.hasPerms(memberRoles, requiredRole, interaction.user.id, aloudUsers)) {
         throw new HypixelDiscordGuildBridgeError(
           ReplaceVariables(Translate('discord.commands.config.missing.perms'), { commandName: interaction.commandName })
@@ -76,6 +76,8 @@ class CommandHandler {
   }
 
   async deployCommands(): Promise<void> {
+    if (!process.env.DISCORD_TOKEN) throw new Error(Translate('discord.commands.load.error.missing.token'));
+    if (!process.env.SERVER_ID) throw new Error(Translate('discord.commands.load.error.missing.server_id'));
     if (!this.discord.isDiscordOnline()) return;
     const commandConfig = this.discord.Application.config.discord.getValue('commands');
     if (!commandConfig || !commandConfig.isSubConfigConfig()) return;
@@ -96,11 +98,13 @@ class CommandHandler {
       this.discord.client.commands.set(command.data.name, command);
     }
 
-    const clientId = Buffer.from(process.env.DISCORD_TOKEN.split('.')[0], 'base64').toString('ascii');
+    const [encodedClientId] = process.env.DISCORD_TOKEN.split('.');
+    if (!encodedClientId) throw new Error(Translate('discord.commands.load.error.missing.token'));
+    const clientId = Buffer.from(encodedClientId, 'base64').toString('ascii');
     await new REST({ version: '10' })
       .setToken(process.env.DISCORD_TOKEN)
       .put(Routes.applicationGuildCommands(clientId, process.env.SERVER_ID), { body: commands });
-    console.discord(ReplaceVariables(Translate('discord.commands.ready'), { amount: commands.length }));
+    console.discord(ReplaceVariables(Translate('discord.commands.load.finished'), { amount: commands.length }));
   }
 
   hasPerms(roles: string[], required: string, user: string, users: string[]): boolean {
