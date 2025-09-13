@@ -1,5 +1,5 @@
-import ReplaceVariables from '../../Private/ReplaceVariables.js';
 import { Message } from 'discord.js';
+import { ReplaceVariables } from '../../Utils/StringUtils.js';
 import type DiscordManager from '../DiscordManager.js';
 
 class MessageHandler {

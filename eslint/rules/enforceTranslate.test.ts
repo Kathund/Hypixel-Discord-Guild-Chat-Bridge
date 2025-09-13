@@ -3,9 +3,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import Embed from '../../src/Discord/Private/Embed.js';
-import ReplaceVariables from '../../src/Private/ReplaceVariables.js';
 import Translate from '../../src/Private/Translate.js';
 import type { Request, Response } from 'express';
+import { ReplaceVariables } from '../../src/Utils/StringUtils.js';
 
 console.warn('Test');
 console.warn(Translate('console'));

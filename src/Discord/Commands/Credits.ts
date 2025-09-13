@@ -2,9 +2,9 @@ import Command from '../Private/Command.js';
 import CommandData from '../Private/CommandData.js';
 import DataManager from '../../Data/DataManager.js';
 import Embed from '../Private/Embed.js';
-import ReplaceVariables from '../../Private/ReplaceVariables.js';
 import Translate from '../../Private/Translate.js';
 import { DevType, Devs } from '../../Types/Data.js';
+import { ReplaceVariables } from '../../Utils/StringUtils.js';
 import type DiscordManager from '../DiscordManager.js';
 import type { ChatInputCommandInteraction } from 'discord.js';
 

@@ -148,10 +148,19 @@ document.addEventListener('DOMContentLoaded', () => {
     window.location.reload();
   });
 
-  const reloadButton = document.getElementById('internal_button_reload_commands');
-  if (reloadButton) {
-    reloadButton.addEventListener('click', async () => {
+  const discordReloadButton = document.getElementById('internal_button_reload_commands_discord');
+  if (discordReloadButton) {
+    discordReloadButton.addEventListener('click', async () => {
       const response = await fetch(`/data/discord/reload/commands`, { method: 'POST' });
+      const result = await response.json();
+      if (result.success) window.location.reload();
+    });
+  }
+
+  const minecraftReloadButton = document.getElementById('internal_button_reload_commands_minecraft');
+  if (minecraftReloadButton) {
+    minecraftReloadButton.addEventListener('click', async () => {
+      const response = await fetch(`/data/minecraft/reload/commands`, { method: 'POST' });
       const result = await response.json();
       if (result.success) window.location.reload();
     });

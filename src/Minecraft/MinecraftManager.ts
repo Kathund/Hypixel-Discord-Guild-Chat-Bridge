@@ -1,3 +1,4 @@
+import CommandHandler from './Handlers/CommandHandler.js';
 import Embed from '../Discord/Private/Embed.js';
 import MessageHandler from './Handlers/MessageHandler.js';
 import NumberOption from '../Config/Options/Number.js';
@@ -13,11 +14,13 @@ class MinecraftManager {
   declare readonly Application: Application;
   declare readonly messageHandler: MessageHandler;
   declare readonly stateHandler: StateHandler;
+  declare readonly commandHandler: CommandHandler;
   declare bot?: Bot;
   constructor(app: Application) {
     this.Application = app;
     this.messageHandler = new MessageHandler(this);
     this.stateHandler = new StateHandler(this);
+    this.commandHandler = new CommandHandler(this);
   }
 
   connect() {
@@ -39,6 +42,7 @@ class MinecraftManager {
     });
     this.messageHandler.registerEvents();
     this.stateHandler.registerEvents();
+    this.commandHandler.deployCommands();
   }
 
   isBotOnline(): this is this & { bot: Bot } {

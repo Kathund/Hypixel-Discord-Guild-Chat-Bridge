@@ -1,6 +1,6 @@
-import ReplaceVariables from '../../Private/ReplaceVariables.js';
+import StringOption from '../../Config/Options/String.js';
 import Translate from '../../Private/Translate.js';
-import { CleanMessageForDiscord } from '../../Utils/StringUtils.js';
+import { CleanMessageForDiscord, ReplaceVariables } from '../../Utils/StringUtils.js';
 import { MessageFlags } from 'discord.js';
 import { StringConfigJSON, SubConfigConfigJSON } from '../../Types/Configs.js';
 import type MinecraftManager from '../MinecraftManager.js';
@@ -600,15 +600,11 @@ class MessageHandler {
       // eslint-disable-next-line max-len
       /^(?<chatType>\w+) > (?:(?:\[(?<rank>[^\]]+)\] )?(?:(?<username>\w+)(?: \[(?<guildRank>[^\]]+)\])?: )?)?(?<message>.+)$/;
     const match = message.match(regex);
-    if (!match || !match?.groups) return;
-
-    if (this.isDiscordMessage(match.groups.message || 'UNKNOWN') === false) {
+    if (!match || !match?.groups || !match.groups.message || !match.groups.chatType || !match.groups.username) return;
+    if (this.isDiscordMessage(match.groups.message) === false) {
       const { chatType, rank = '', username, guildRank = '', message } = match.groups;
-      if (!message) return;
       if (message.includes('replying to') && username === this.minecraft.bot.username) return;
-      const channelConfig = this.minecraft.Application.config.discord.getValue(
-        `${(chatType || 'UNKNOWN').toLowerCase()}_channel`
-      );
+      const channelConfig = this.minecraft.Application.config.discord.getValue(`${chatType.toLowerCase()}_channel`);
       const messageFormat = this.minecraft.Application.config.discord.getValue('message_format');
       if (
         channelConfig?.isStringSelectionOption() &&
@@ -627,6 +623,17 @@ class MessageHandler {
           channelConfig.getValue()
         );
       }
+    }
+
+    if (this.isCommand(match.groups.message)) {
+      const officer = match.groups.chatType.includes('Officer');
+      if (this.isDiscordMessage(match.groups.message) === true) {
+        const { player, command } = this.getCommandData(match.groups.message);
+        if (!player || !command) return;
+        return this.minecraft.commandHandler.handle(player, command, officer);
+      }
+
+      return this.minecraft.commandHandler.handle(match.groups.username, match.groups.message, officer);
     }
   }
 
@@ -813,6 +820,28 @@ class MessageHandler {
 
   isTooFast(message: string): boolean {
     return message.includes('You are sending commands too fast! Please slow down.') && !message.includes(':');
+  }
+
+  isCommand(message: string): boolean {
+    const prefix = (
+      this.minecraft.Application.config.minecraft.getValue('prefix') || new StringOption('!')
+    ).getValue() as string;
+    const regex = new RegExp(`^(?<prefix>[${prefix}-])(?<command>\\S+)(?:\\s+(?<args>.+))?\\s*$`);
+
+    if (regex.test(message) === false) {
+      const getMessage = /^(?<username>(?!https?:\/\/)[^\s»:>]+)\s*[»:>]\s*(?<message>.*)/;
+      const match = message.match(getMessage);
+      if (match === null || match.groups === undefined || match.groups.message === undefined) return false;
+      return regex.test(match.groups.message);
+    }
+    return regex.test(message);
+  }
+
+  getCommandData(message: string): { [key: string]: string } {
+    const regex = /^(?<player>[^\s»:>\s]+(?:\s+[^\s»:>\s]+)*)\s*[»:>\s]\s*(?<command>.*)/;
+    const match = message.match(regex);
+    if (match === null) return {};
+    return match.groups ?? {};
   }
 }
 

@@ -1,8 +1,8 @@
 import HypixelDiscordGuildBridgeError from '../../Private/Error.js';
-import ReplaceVariables from '../../Private/ReplaceVariables.js';
 import Translate, { unTranslate } from '../../Private/Translate.js';
 import { ChatInputCommandInteraction, Collection, MessageFlags, REST, Routes, Team } from 'discord.js';
 import { ErrorEmbed } from '../Private/Embed.js';
+import { ReplaceVariables } from '../../Utils/StringUtils.js';
 import { SubConfigConfigJSON } from '../../Types/Configs.js';
 import { readdirSync } from 'node:fs';
 import type Command from '../Private/Command.js';
@@ -86,7 +86,7 @@ class CommandHandler {
     const commandFiles = readdirSync('./src/Discord/Commands');
     const commands = [];
     for (const file of commandFiles) {
-      const command = new (await import(`../Commands/${file}`)).default(this.discord);
+      const command: Command = new (await import(`../Commands/${file}`)).default(this.discord);
       if (!command.data.name) continue;
       const untranslatedName = unTranslate(command.data.name);
       if (untranslatedName.includes('|')) continue;

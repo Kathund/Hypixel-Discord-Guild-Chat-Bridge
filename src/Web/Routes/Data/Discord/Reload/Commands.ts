@@ -3,7 +3,7 @@ import Translate from '../../../../../Private/Translate.js';
 import type WebManager from '../../../../WebManager.js';
 import type { Request, Response } from 'express';
 
-class CommandDataRoute extends Route {
+class DiscordCommandDataReloadRoute extends Route {
   constructor(web: WebManager) {
     super(web);
     this.path = '/data/discord/reload/commands';
@@ -14,7 +14,6 @@ class CommandDataRoute extends Route {
     try {
       const client = this.web.Application.discord.client;
       if (client === undefined || !client.isReady()) {
-        this.web.guildData = null;
         res.status(500).send({ success: false, data: null, message: Translate('web.data.discord.error.client') });
         return;
       }
@@ -27,4 +26,4 @@ class CommandDataRoute extends Route {
   }
 }
 
-export default CommandDataRoute;
+export default DiscordCommandDataReloadRoute;

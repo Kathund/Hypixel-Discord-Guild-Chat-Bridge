@@ -1,7 +1,7 @@
 import ConfigOption from '../../../Config/Private/ConfigOption.js';
-import ReplaceVariables from '../../../Private/ReplaceVariables.js';
 import Route from '../../Private/BaseRoute.js';
 import Translate, { getTranslations } from '../../../Private/Translate.js';
+import { ReplaceVariables } from '../../../Utils/StringUtils.js';
 import type WebManager from '../../WebManager.js';
 import type { ConfigInstanceData, WebParsedConfigJSON } from '../../../Types/Configs.js';
 import type { Language } from '../../../Types/Data.js';

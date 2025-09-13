@@ -3,7 +3,7 @@ import InternalOption from '../Options/Internal.js';
 import StringSelectionOption from '../Options/StringSelection.js';
 // eslint-disable-next-line import/no-cycle
 import { getSupportedLanguages, getUserLanguage } from '../../Private/Translate.js';
-import { getSupportedTimezones, getUserTimezone } from '../../Private/TimeZones.js';
+import { getSupportedTimezones, getUserTimezone } from '../../Utils/TimeZoneUtils.js';
 
 class MiscConfig extends ConfigInstance {
   constructor(update: boolean = false) {

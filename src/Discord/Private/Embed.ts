@@ -1,7 +1,7 @@
 import DataManager from '../../Data/DataManager.js';
-import ReplaceVariables from '../../Private/ReplaceVariables.js';
 import Translate from '../../Private/Translate.js';
 import { type ColorResolvable, EmbedBuilder } from 'discord.js';
+import { ReplaceVariables } from '../../Utils/StringUtils.js';
 import type { Devs } from '../../Types/Data.js';
 import type { EmbedDefaultColors } from '../../Types/Discord.js';
 

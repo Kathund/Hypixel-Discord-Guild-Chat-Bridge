@@ -1,9 +1,9 @@
 import HypixelDiscordGuildBridgeError from '../Private/Error.js';
-import ReplaceVariables from '../Private/ReplaceVariables.js';
 import Translate from '../Private/Translate.js';
 import zod from 'zod';
 import { type DataInstance, Dev, Devs } from '../Types/Data.js';
 import { EmbedDefaultColor, EmbedDefaultColors } from '../Types/Discord.js';
+import { ReplaceVariables } from '../Utils/StringUtils.js';
 import { execSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import type { RepoData } from '../Types/Debug.js';

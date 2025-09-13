@@ -1,9 +1,9 @@
 import Command from '../Private/Command.js';
 import CommandData from '../Private/CommandData.js';
 import HypixelDiscordGuildBridgeError from '../../Private/Error.js';
-import ReplaceVariables from '../../Private/ReplaceVariables.js';
 import Translate, { unTranslate } from '../../Private/Translate.js';
 import { ChatInputCommandInteraction, SlashCommandStringOption } from 'discord.js';
+import { ReplaceVariables } from '../../Utils/StringUtils.js';
 import { SuccessEmbed } from '../Private/Embed.js';
 import type { DiscordManagerWithBot } from '../../Types/Discord.js';
 

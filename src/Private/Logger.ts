@@ -1,10 +1,9 @@
 import MiscConfig from '../Config/Configs/MiscConfig.js';
-import ReplaceVariables from './ReplaceVariables.js';
 import StringOption from '../Config/Options/String.js';
 import Translate from './Translate.js';
 import chalk from 'chalk';
 import { Logger, createLogger, format, transports } from 'winston';
-import { TitleCase } from '../Utils/StringUtils.js';
+import { ReplaceVariables, TitleCase } from '../Utils/StringUtils.js';
 import type { LogData } from '../Types/Misc.js';
 
 const otherLog = { level: 'other', background: chalk.bgCyan.black, color: chalk.reset.cyan };

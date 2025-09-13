@@ -7,6 +7,13 @@ import StringOption from '../Options/String.js';
 import StringSelectionOption from '../Options/StringSelection.js';
 import SubConfigOption from '../Options/SubConfig.js';
 
+const discordCommandConfig = new SubConfigOption(
+  new BaseConfigInstance()
+    .setValue('enabled', new BooleanOption(true), false)
+    .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
+    .toJSON()
+);
+
 class DiscordConfig extends ConfigInstance {
   constructor(update: boolean = false) {
     super('discord', update);
@@ -19,107 +26,21 @@ class DiscordConfig extends ConfigInstance {
       'commands',
       new SubConfigOption(
         new BaseConfigInstance()
+          .setValue('credits', discordCommandConfig, false)
+          .setValue('demote', discordCommandConfig, false)
+          .setValue('invite', discordCommandConfig, false)
+          .setValue('kick', discordCommandConfig, false)
+          .setValue('mute', discordCommandConfig, false)
+          .setValue('online', discordCommandConfig, false)
+          .setValue('promote', discordCommandConfig, false)
+          .setValue('restart', discordCommandConfig, false)
+          .setValue('unmute', discordCommandConfig, false)
+          .setValue('uptime', discordCommandConfig, false)
           .setValue(
-            'credits',
-            new SubConfigOption(
-              new BaseConfigInstance()
-                .setValue('enabled', new BooleanOption(true), false)
-                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
-                .toJSON()
-            ),
+            'internal_button_reload_commands_discord',
+            new InternalOption('internal_button_reload_commands_discord'),
             false
           )
-          .setValue(
-            'demote',
-            new SubConfigOption(
-              new BaseConfigInstance()
-                .setValue('enabled', new BooleanOption(true), false)
-                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
-                .toJSON()
-            ),
-            false
-          )
-          .setValue(
-            'invite',
-            new SubConfigOption(
-              new BaseConfigInstance()
-                .setValue('enabled', new BooleanOption(true), false)
-                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
-                .toJSON()
-            ),
-            false
-          )
-          .setValue(
-            'kick',
-            new SubConfigOption(
-              new BaseConfigInstance()
-                .setValue('enabled', new BooleanOption(true), false)
-                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
-                .toJSON()
-            ),
-            false
-          )
-          .setValue(
-            'mute',
-            new SubConfigOption(
-              new BaseConfigInstance()
-                .setValue('enabled', new BooleanOption(true), false)
-                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
-                .toJSON()
-            ),
-            false
-          )
-          .setValue(
-            'online',
-            new SubConfigOption(
-              new BaseConfigInstance()
-                .setValue('enabled', new BooleanOption(true), false)
-                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
-                .toJSON()
-            ),
-            false
-          )
-          .setValue(
-            'promote',
-            new SubConfigOption(
-              new BaseConfigInstance()
-                .setValue('enabled', new BooleanOption(true), false)
-                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
-                .toJSON()
-            ),
-            false
-          )
-          .setValue(
-            'restart',
-            new SubConfigOption(
-              new BaseConfigInstance()
-                .setValue('enabled', new BooleanOption(true), false)
-                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
-                .toJSON()
-            ),
-            false
-          )
-          .setValue(
-            'unmute',
-            new SubConfigOption(
-              new BaseConfigInstance()
-                .setValue('enabled', new BooleanOption(true), false)
-                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
-                .toJSON()
-            ),
-            false
-          )
-          .setValue(
-            'uptime',
-            new SubConfigOption(
-              new BaseConfigInstance()
-                .setValue('enabled', new BooleanOption(true), false)
-                .setValue('required_role', new StringSelectionOption('', ['prefill_roles']), false)
-                .toJSON()
-            ),
-            false
-          )
-          .setValue('internal_button_reload_commands', new InternalOption('internal_button_reload_commands'), false)
           .setValue('aloud_users', new ArrayOption<string>(['1276524855445164098']), false)
           .toJSON()
       ),

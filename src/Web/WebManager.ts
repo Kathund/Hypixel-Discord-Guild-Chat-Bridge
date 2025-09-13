@@ -1,6 +1,6 @@
-import ReplaceVariables from '../Private/ReplaceVariables.js';
 import Translate from '../Private/Translate.js';
 import express, { type Request, type Response } from 'express';
+import { ReplaceVariables } from '../Utils/StringUtils.js';
 import { readdirSync, statSync } from 'node:fs';
 import type Application from '../Application.js';
 import type { WebParsedGuildInfo } from '../Types/Web.js';

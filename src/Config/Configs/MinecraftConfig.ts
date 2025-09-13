@@ -1,6 +1,7 @@
 import BaseConfigInstance from '../Private/BaseConfigInstance.js';
 import BooleanOption from '../Options/Boolean.js';
 import ConfigInstance from '../Private/ConfigInstance.js';
+import InternalOption from '../Options/Internal.js';
 import NumberOption from '../Options/Number.js';
 import StringOption from '../Options/String.js';
 import SubConfigOption from '../Options/SubConfig.js';
@@ -20,6 +21,9 @@ const eventLogConfig = new SubConfigOption(
     .setValue('officer_channel', new BooleanOption(false), false)
     .setValue('log_channel', new BooleanOption(true), false)
     .toJSON()
+);
+const minecraftCommandConfig = new SubConfigOption(
+  new BaseConfigInstance().setValue('enabled', new BooleanOption(true), false).toJSON()
 );
 
 class MinecraftConfig extends ConfigInstance {
@@ -76,6 +80,23 @@ class MinecraftConfig extends ConfigInstance {
           .setValue('guild_member_not_in_guild', eventLogConfig, false)
           .setValue('guild_member_lowest_rank', eventLogConfig, false)
           .setValue('guild_member_already_has_rank', eventLogConfig, false)
+          .toJSON()
+      ),
+      false
+    );
+    this.setValue(
+      'commands',
+      new SubConfigOption(
+        new BaseConfigInstance()
+          .setValue('meow', minecraftCommandConfig, false)
+          .setValue('guild_chat', new BooleanOption(true), false)
+          .setValue('officer_chat', new BooleanOption(true), false)
+          .setValue('prefix', new StringOption('!'), false)
+          .setValue(
+            'internal_button_reload_commands_minecraft',
+            new InternalOption('internal_button_reload_commands_minecraft'),
+            false
+          )
           .toJSON()
       ),
       false
