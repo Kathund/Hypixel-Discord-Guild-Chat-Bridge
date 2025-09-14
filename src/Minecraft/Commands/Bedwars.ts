@@ -2,11 +2,9 @@ import Command from '../Private/Command.js';
 import CommandData from '../Private/CommandData.js';
 import CommandDataOption from '../Private/CommandDataOption.js';
 import HypixelAPIReborn from '../../Private/HypixelAPIReborn.js';
-import Player from 'hypixel-api-reborn/dist/Structures/Player/Player.js';
+import { type BedWars, type BedWarsMode, Player } from 'hypixel-api-reborn';
 import { FormatError } from '../../Utils/MiscUtils.js';
 import { FormatNumber, TitleCase } from '../../Utils/StringUtils.js';
-import type BedWars from 'hypixel-api-reborn/dist/Structures/MiniGames/BedWars/BedWars.js';
-import type BedWarsMode from 'hypixel-api-reborn/dist/Structures/MiniGames/BedWars/BedWarsMode.js';
 import type { MinecraftManagerWithBot } from '../../Types/Minecraft.js';
 
 type Mode = 'solo' | 'doubles' | 'threes' | 'fours' | '4v4' | 'overall';
