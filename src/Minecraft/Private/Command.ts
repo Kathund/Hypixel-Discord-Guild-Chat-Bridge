@@ -1,6 +1,6 @@
 import Translate from '../../Private/Translate.js';
-import { delay, generateId } from '../../Utils/MiscUtils.js';
-import { splitMessage } from '../../Utils/StringUtils.js';
+import { Delay, GenerateId } from '../../Utils/MiscUtils.js';
+import { SplitMessage } from '../../Utils/StringUtils.js';
 import type CommandData from './CommandData.js';
 import type MinecraftManager from '../MinecraftManager.js';
 import type { MinecraftManagerWithBot } from '../../Types/Minecraft.js';
@@ -27,9 +27,9 @@ class Command<T extends MinecraftManager = MinecraftManagerWithBot> {
     const maxExecutionTime = 10000;
 
     if (message.length > 256) {
-      const messages = splitMessage(message, 256);
+      const messages = SplitMessage(message, 256);
       for (const msg of messages) {
-        await delay(1000);
+        await Delay(1000);
         await this.send(msg, maxRetries, isErrorMessage);
 
         if (Date.now() - startTime > maxExecutionTime) {
@@ -89,13 +89,13 @@ class Command<T extends MinecraftManager = MinecraftManagerWithBot> {
               }
               return;
             }
-            await delay(2000);
+            await Delay(2000);
             continue;
           }
 
           if (error.message === 'duplicate-message') {
-            await delay(100);
-            const randomId = generateId(24);
+            await Delay(100);
+            const randomId = GenerateId(24);
             const maxLength = 256 - randomId.length - 3;
             message = `${message.substring(0, maxLength)} - ${randomId}`;
             continue;

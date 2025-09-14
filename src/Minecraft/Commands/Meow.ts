@@ -6,7 +6,7 @@ class MeowCommand extends Command {
   variations: string[];
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
-    this.variations = ['mrrp', 'mrrow', 'miau', 'mauww'];
+    this.variations = ['mrrp', 'mrrow', 'miau', 'mauww', 'meep', ':3', 'nja', 'awawa'];
     this.data = new CommandData().setName('meow').setAliases(this.variations);
   }
 

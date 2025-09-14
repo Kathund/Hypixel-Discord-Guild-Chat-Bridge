@@ -1,36 +1,30 @@
 /* eslint-disable hypixelDiscordGuildChatBridge/enforce-no-console-log */
+import { LoadFiles } from '../src/Utils/MiscUtils.js';
 import { format } from 'prettier';
-import { readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { sortJSON } from '../src/Utils/JSONUtils.js';
 
 const ignoredFolders = ['.git/', 'node_modules/', 'build/', 'minecraft-auth-cache/', 'logs/', 'data/config/'];
 const ignoredFiles = ['package.json'];
 
-function loadFiles(dir = './'): string[] {
-  const paths = [];
-  const files = readdirSync(dir);
-  for (const file of files) {
-    const fullPath = `${dir}/${file}`.replaceAll('//', '/');
-    if (statSync(fullPath).isDirectory()) {
-      let valid = true;
-      for (const ignore of ignoredFolders) {
-        if (valid === false) continue;
-        if (`${fullPath.slice(2)}/`.startsWith(ignore)) valid = false;
-      }
-      if (valid) loadFiles(fullPath).forEach((path) => paths.push(path));
-    } else {
-      let valid = true;
-      for (const ignoredFile of ignoredFiles) {
-        if (valid === false) continue;
-        if (fullPath.endsWith(ignoredFile)) valid = false;
-      }
-      if (valid) paths.push(fullPath);
+const files = LoadFiles('./')
+  .filter((file) => {
+    let valid = true;
+    for (const ignoredFolder of ignoredFolders) {
+      if (valid === false) continue;
+      if (`${file.slice(2)}/`.startsWith(ignoredFolder)) valid = false;
     }
-  }
-  return paths;
-}
-
-const files = loadFiles().filter((file) => file.endsWith('.json'));
+    return valid;
+  })
+  .filter((file) => {
+    let valid = true;
+    for (const ignoredFile of ignoredFiles) {
+      if (valid === false) continue;
+      if (file.endsWith(ignoredFile)) valid = false;
+    }
+    return valid;
+  })
+  .filter((file) => file.endsWith('.json'));
 const prettierConfig = JSON.parse(readFileSync('.prettierrc').toString('utf-8'));
 
 (async () => {

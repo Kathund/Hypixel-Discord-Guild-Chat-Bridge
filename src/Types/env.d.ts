@@ -3,5 +3,6 @@ declare namespace NodeJS {
     DISCORD_TOKEN: string;
     SERVER_ID: string;
     DASHBOARD_PORT: string;
+    HYPIXEL_API_KEY: string;
   }
 }
