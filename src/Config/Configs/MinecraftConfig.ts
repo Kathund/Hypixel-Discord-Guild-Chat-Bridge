@@ -88,8 +88,9 @@ class MinecraftConfig extends ConfigInstance {
       'commands',
       new SubConfigOption(
         new BaseConfigInstance()
-          .setValue('meow', minecraftCommandConfig, false)
           .setValue('bedwars', minecraftCommandConfig, false)
+          .setValue('calculate', minecraftCommandConfig, false)
+          .setValue('meow', minecraftCommandConfig, false)
           .setValue('guild_chat', new BooleanOption(true), false)
           .setValue('officer_chat', new BooleanOption(true), false)
           .setValue('prefix', new StringOption('!'), false)
