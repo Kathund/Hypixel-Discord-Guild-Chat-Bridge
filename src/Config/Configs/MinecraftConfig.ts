@@ -92,6 +92,7 @@ class MinecraftConfig extends ConfigInstance {
           .setValue('boo', minecraftCommandConfig, false)
           .setValue('boop', minecraftCommandConfig, false)
           .setValue('calculate', minecraftCommandConfig, false)
+          .setValue('guild', minecraftCommandConfig, false)
           .setValue('meow', minecraftCommandConfig, false)
           .setValue('guild_chat', new BooleanOption(true), false)
           .setValue('officer_chat', new BooleanOption(true), false)
