@@ -17,7 +17,8 @@
     "json": "pnpm exec tsx scripts/sortJson.ts",
     "data": "pnpm exec tsx scripts/data.ts",
     "data:update": "pnpm data --update",
-    "debug": "pnpm exec tsx scripts/debug.ts"
+    "debug": "pnpm exec tsx scripts/debug.ts",
+    "convert-minecraft-commands": "pnpm exec tsx scripts/convertMinecraftCommands.ts"
   },
   "keywords": [],
   "author": "Kathund",
