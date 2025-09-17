@@ -2,9 +2,10 @@ import Command from '../Private/Command.js';
 import CommandData from '../Private/CommandData.js';
 import CommandDataOption from '../Private/CommandDataOption.js';
 import HypixelAPIReborn from '../../Private/HypixelAPIReborn.js';
+import Translate from '../../Private/Translate.js';
 import { type BedWars, type BedWarsMode, Player } from 'hypixel-api-reborn';
 import { FormatError } from '../../Utils/MiscUtils.js';
-import { FormatNumber, TitleCase } from '../../Utils/StringUtils.js';
+import { FormatNumber, ReplaceVariables } from '../../Utils/StringUtils.js';
 import type { MinecraftManagerWithBot } from '../../Types/Minecraft.js';
 
 type Mode = 'solo' | 'doubles' | 'threes' | 'fours' | '4v4' | 'overall';
@@ -38,16 +39,21 @@ class BedwarsCommand extends Command {
 
       const hypixelPlayer = await HypixelAPIReborn.getPlayer(player);
       if (hypixelPlayer === undefined || !(hypixelPlayer instanceof Player)) {
-        return this.send(`Couldn't find player ${player}.`);
+        throw new Error(ReplaceVariables(Translate('minecraft.commands.bedwars.execute.error.player'), { player }));
       }
 
       const { finalKills, wins, winStreak, broken, BLRatio } = this.getStats(hypixelPlayer, mode);
       this.send(
-        `[${Math.floor(hypixelPlayer.stats.BedWars.level)}✫] ${hypixelPlayer.nickname} ${TitleCase(
-          mode
-        )} FK: ${FormatNumber(finalKills)} W: ${FormatNumber(wins)} BB: ${FormatNumber(
-          broken
-        )} BLR: ${BLRatio} WS: ${winStreak}`
+        ReplaceVariables(Translate('minecraft.commands.bedwars.execute'), {
+          level: Math.floor(hypixelPlayer.stats.BedWars.level),
+          username: hypixelPlayer.nickname,
+          mode: Translate(`minecraft.commands.bedwars.execute.${mode}`),
+          finalKills: FormatNumber(finalKills),
+          wins: FormatNumber(wins),
+          bedsBroken: FormatNumber(broken),
+          BLRatio,
+          winStreak
+        })
       );
     } catch (error) {
       if (error instanceof Error) this.send(FormatError(error));
