@@ -36,8 +36,8 @@ const translations = getTranslations('en_us');
 
     const fileContent = await format(fileData.content, { ...prettierConfig, filepath: fileName });
     const transformed = fileContent
-      .replace(/const\s+(\w+)\s*=\s*require\(['"](.+?)['"]\);?/g, `import $1 from '$2';`)
-      .replace(/const\s+{([^}]+)}\s*=\s*require\(['"](.+?)['"]\);?/g, `import { $1 } from '$2';`)
+      .replace(/const\s+(\w+)\s*=\s*require\(['"](.+?)['"]\);?/g, "import $1 from '$2';")
+      .replace(/const\s+{([^}]+)}\s*=\s*require\(['"](.+?)['"]\);?/g, "import { $1 } from '$2';")
       .replace(/module\.exports\s*=\s*/g, 'export default ')
       .replace(/exports\.(\w+)\s*=\s*/g, 'export const $1 = ')
       .replaceAll('  /**\n   * @param {string} player\n   * @param {string} message\n   * */', '')

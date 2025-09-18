@@ -16,7 +16,7 @@ function getValue(element) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  fetch(`/force/save`, { method: 'POST' });
+  fetch('/force/save', { method: 'POST' });
   fetch('/data/discord/server');
 
   document.querySelectorAll('input, select').forEach(async (input) => {
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (input.dataset.optionType === 'stringSelect') {
       if (input.dataset.prefill !== undefined) {
         try {
-          const response = await fetch(`/data/discord/server`);
+          const response = await fetch('/data/discord/server');
           const data = await response.json();
           if (!data.success) return alert(data.message);
           const setId = input.dataset.value;
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const discordReloadButton = document.getElementById('internal_button_reload_commands_discord');
   if (discordReloadButton) {
     discordReloadButton.addEventListener('click', async () => {
-      const response = await fetch(`/data/discord/reload/commands`, { method: 'POST' });
+      const response = await fetch('/data/discord/reload/commands', { method: 'POST' });
       const result = await response.json();
       if (result.success) window.location.reload();
     });
@@ -160,14 +160,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const minecraftReloadButton = document.getElementById('internal_button_reload_commands_minecraft');
   if (minecraftReloadButton) {
     minecraftReloadButton.addEventListener('click', async () => {
-      const response = await fetch(`/data/minecraft/reload/commands`, { method: 'POST' });
+      const response = await fetch('/data/minecraft/reload/commands', { method: 'POST' });
       const result = await response.json();
       if (result.success) window.location.reload();
     });
   }
 
   document.getElementById('internal_button_export_config').addEventListener('click', async () => {
-    const response = await fetch(`/data/config/export`);
+    const response = await fetch('/data/config/export');
     const result = await response.json();
     if (result.success) {
       navigator.clipboard
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('reload-guild-data').addEventListener('click', async () => {
-    const response = await fetch(`/data/discord/server?bypass=true`);
+    const response = await fetch('/data/discord/server?bypass=true');
     const result = await response.json();
     if (result.success) window.location.reload();
   });

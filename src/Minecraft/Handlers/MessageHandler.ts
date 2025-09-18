@@ -597,7 +597,6 @@ class MessageHandler {
     }
 
     const regex =
-      // eslint-disable-next-line max-len
       /^(?<chatType>\w+) > (?:(?:\[(?<rank>[^\]]+)\] )?(?:(?<username>\w+)(?: \[(?<guildRank>[^\]]+)\])?: )?)?(?<message>.+)$/;
     const match = message.match(regex);
     if (!match || !match?.groups || !match.groups.message || !match.groups.chatType || !match.groups.username) return;
@@ -730,7 +729,7 @@ class MessageHandler {
       (message.includes('You must be the Guild Master to use that command!') ||
         message.includes('You do not have permission to use this command!') ||
         message.includes(
-          // eslint-disable-next-line max-len
+          // eslint-disable-next-line @stylistic/max-len
           "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error."
         ) ||
         message.includes('You cannot mute a guild member with a higher guild rank!') ||
