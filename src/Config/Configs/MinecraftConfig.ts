@@ -88,6 +88,7 @@ class MinecraftConfig extends ConfigInstance {
       'commands',
       new SubConfigOption(
         new BaseConfigInstance()
+          .setValue('8ball', minecraftCommandConfig, false)
           .setValue('bedwars', minecraftCommandConfig, false)
           .setValue('boo', minecraftCommandConfig, false)
           .setValue('boop', minecraftCommandConfig, false)
