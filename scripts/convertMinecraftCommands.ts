@@ -128,6 +128,10 @@ const skipped = [
       .replaceAll(
         'const { username, profile } = await getLatestProfile(player);',
         'const profile = await getLatestProfile(player);\nconst username = FormatUsername(player, profile.gameMode);'
+      )
+      .replaceAll(
+        'const { username, profile, profileData } = await getLatestProfile(player);',
+        'const profile = await getLatestProfile(player);\nconst username = FormatUsername(player, profile.gameMode);'
       );
     /* eslint-enable @stylistic/max-len */
 
