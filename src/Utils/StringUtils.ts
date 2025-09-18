@@ -33,7 +33,8 @@ export function SplitMessage(message: string, amount: number): string[] {
   return messages;
 }
 
-export function FormatUsername(username: string, gamemode: string): string {
+export function FormatUsername(username: string, gamemode: string | null): string {
+  if (!gamemode) return username;
   if (gamemode === 'ironman') return `♲ ${username}`;
   if (gamemode === 'bingo') return `Ⓑ ${username}`;
   if (gamemode === 'island') return `☀ ${username}`;
