@@ -1,11 +1,10 @@
 import Command from '../Private/Command.js';
 import CommandData from '../Private/CommandData.js';
 import CommandDataOption from '../Private/CommandDataOption.js';
+import HypixelAPIReborn from '../../Private/HypixelAPIReborn.js';
 import Translate from '../../Private/Translate.js';
-import hypixel from '../../Private/HypixelAPIReborn.js';
 import { FormatError } from '../../Utils/MiscUtils.js';
 import { FormatNumber, ReplaceVariables } from '../../Utils/StringUtils.js';
-import { Player } from 'hypixel-api-reborn';
 import type { MinecraftManagerWithBot } from '../../Types/Minecraft.js';
 
 class PlayerCommand extends Command {
@@ -19,8 +18,8 @@ class PlayerCommand extends Command {
   override async execute(player: string, message: string) {
     try {
       player = this.getArgs(message)[0] || player;
-      const hypixelPlayer = await hypixel.getPlayer(player, { guild: true });
-      if (!hypixelPlayer || !(hypixelPlayer instanceof Player)) {
+      const hypixelPlayer = await HypixelAPIReborn.getPlayer(player, { guild: true });
+      if (!hypixelPlayer || hypixelPlayer.isRaw()) {
         throw new Error(ReplaceVariables(Translate('minecraft.commands.player.execute.error.player'), { player }));
       }
       const { achievements, nickname, rank, karma, level, guild } = hypixelPlayer;

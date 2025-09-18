@@ -1,11 +1,10 @@
 import Command from '../Private/Command.js';
 import CommandData from '../Private/CommandData.js';
 import CommandDataOption from '../Private/CommandDataOption.js';
+import HypixelAPIReborn from '../../Private/HypixelAPIReborn.js';
 import Translate from '../../Private/Translate.js';
-import hypixel from '../../Private/HypixelAPIReborn.js';
 import { FormatError } from '../../Utils/MiscUtils.js';
 import { FormatNumber, ReplaceVariables, TitleCase } from '../../Utils/StringUtils.js';
-import { Guild } from 'hypixel-api-reborn';
 import type { MinecraftManagerWithBot } from '../../Types/Minecraft.js';
 
 class GuildInformationCommand extends Command {
@@ -23,8 +22,8 @@ class GuildInformationCommand extends Command {
         .map((arg) => TitleCase(arg))
         .join(' ');
 
-      const guild = await hypixel.getGuild('name', guildName);
-      if (!guild || !(guild instanceof Guild)) {
+      const guild = await HypixelAPIReborn.getGuild('name', guildName);
+      if (!guild || guild.isRaw()) {
         throw new Error(
           ReplaceVariables(Translate('minecraft.commands.guild.execute.error.exist'), { name: guildName })
         );

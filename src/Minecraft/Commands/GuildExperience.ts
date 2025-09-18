@@ -1,10 +1,9 @@
 import Command from '../Private/Command.js';
 import CommandData from '../Private/CommandData.js';
 import CommandDataOption from '../Private/CommandDataOption.js';
+import HypixelAPIReborn from '../../Private/HypixelAPIReborn.js';
 import Translate from '../../Private/Translate.js';
-import hypixel from '../../Private/HypixelAPIReborn.js';
 import { FormatError } from '../../Utils/MiscUtils.js';
-import { Guild, Player } from 'hypixel-api-reborn';
 import { ReplaceVariables } from '../../Utils/StringUtils.js';
 import type { MinecraftManagerWithBot } from '../../Types/Minecraft.js';
 
@@ -21,11 +20,11 @@ class GuildExperienceCommand extends Command {
     player = this.getArgs(message)[0] || player;
 
     try {
-      const hypixelPlayer = await hypixel.getPlayer(player, { guild: true });
-      if (!hypixelPlayer || !(hypixelPlayer instanceof Player)) {
+      const hypixelPlayer = await HypixelAPIReborn.getPlayer(player, { guild: true });
+      if (!hypixelPlayer || hypixelPlayer.isRaw()) {
         throw new Error(ReplaceVariables(Translate('minecraft.commands.guildexp.execute.error.player'), { player }));
       }
-      if (!hypixelPlayer.guild || !(hypixelPlayer.guild instanceof Guild)) {
+      if (!hypixelPlayer.guild) {
         throw new Error(
           ReplaceVariables(Translate('minecraft.commands.guildexp.execute.execute.no.guild'), { player })
         );

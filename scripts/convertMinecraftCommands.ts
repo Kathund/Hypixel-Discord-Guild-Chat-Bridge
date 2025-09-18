@@ -53,8 +53,9 @@ const translations = getTranslations('en_us');
       .replaceAll('constructor(minecraft) {', 'constructor(minecraft: MinecraftManagerWithBot) {')
       .replaceAll(
         "import hypixel from '../../contracts/API/HypixelRebornAPI.js';",
-        "import hypixel from '../../Private/HypixelAPIReborn.js';"
+        "import HypixelAPIReborn from '../../Private/HypixelAPIReborn.js';"
       )
+      .replaceAll('hypixel.', 'HypixelAPIReborn.')
       .replaceAll('bot.chat(', 'this.minecraft.bot.chat(')
       .replaceAll('formatNumber', 'FormatNumber')
       .replaceAll('titleCase', 'TitleCase');
