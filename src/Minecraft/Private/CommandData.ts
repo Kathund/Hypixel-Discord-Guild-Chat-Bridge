@@ -32,6 +32,11 @@ class CommandData {
   }
 
   setOptions(options: CommandDataOption[]): this {
+    options.map((option) => {
+      option.setName(Translate(`minecraft.commands.${this.getName()}.${option.getName()}`));
+      option.setDescription(Translate(`minecraft.commands.${this.getName()}.${option.getName()}.description`));
+      return option;
+    });
     this.options = options;
     return this;
   }

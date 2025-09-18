@@ -14,7 +14,7 @@ class GuildInformationCommand extends Command {
     this.data = new CommandData()
       .setName('guild')
       .setAliases(['g'])
-      .setOptions([new CommandDataOption().setName('guild').setDescription('Guild name').setRequired(true)]);
+      .setOptions([new CommandDataOption().setName('guild').setRequired(true)]);
   }
 
   override async execute(player: string, message: string) {

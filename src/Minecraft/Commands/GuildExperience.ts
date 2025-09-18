@@ -14,9 +14,7 @@ class GuildExperienceCommand extends Command {
     this.data = new CommandData()
       .setName('guildexp')
       .setAliases(['gexp'])
-      .setOptions([
-        new CommandDataOption().setName('username').setDescription('Minecraft username').setRequired(false)
-      ]);
+      .setOptions([new CommandDataOption().setName('username').setRequired(false)]);
   }
 
   override async execute(player: string, message: string) {

@@ -12,9 +12,7 @@ class CalculateCommand extends Command {
     this.data = new CommandData()
       .setName('calculate')
       .setAliases(['math', 'calc'])
-      .setOptions([
-        new CommandDataOption().setName('calculation').setDescription('Any kind of math equation').setRequired(true)
-      ]);
+      .setOptions([new CommandDataOption().setName('calculation').setRequired(true)]);
   }
 
   override execute(player: string, message: string) {

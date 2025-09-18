@@ -13,9 +13,7 @@ class PlayerCommand extends Command {
     super(minecraft);
     this.data = new CommandData()
       .setName('player')
-      .setOptions([
-        new CommandDataOption().setName('username').setDescription('Minecraft username').setRequired(false)
-      ]);
+      .setOptions([new CommandDataOption().setName('username').setRequired(false)]);
   }
 
   override async execute(player: string, message: string) {

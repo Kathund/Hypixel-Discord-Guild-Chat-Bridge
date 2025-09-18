@@ -13,9 +13,7 @@ class BoopCommand extends Command {
     this.data = new CommandData()
       .setName('boop')
       .setAliases(['bp'])
-      .setOptions([
-        new CommandDataOption().setName('username').setDescription('User you want to boop!').setRequired(true)
-      ]);
+      .setOptions([new CommandDataOption().setName('username').setRequired(true)]);
 
     this.isOnCooldown = false;
   }

@@ -16,9 +16,7 @@ class BedwarsCommand extends Command {
     this.data = new CommandData()
       .setName('bedwars')
       .setAliases(['bw', 'bws'])
-      .setOptions([
-        new CommandDataOption().setName('username').setDescription('Minecraft username').setRequired(false)
-      ]);
+      .setOptions([new CommandDataOption().setName('username').setRequired(false)]);
   }
 
   getStats(hypixelPlayer: Player, mode: Mode) {

@@ -34,6 +34,11 @@ const translations = getTranslations('en_us');
     const fixedPath = `./src/Minecraft/Commands/${TitleCase(fileName.replaceAll('Command.js', ''))}.ts`;
     console.log(`Fixing ${fileName}`);
 
+    if (existsSync(fixedPath)) {
+      console.log('File already exists. Skipping');
+      continue;
+    }
+
     const fileContent = await format(fileData.content, { ...prettierConfig, filepath: fileName });
     const transformed = fileContent
       .replace(/const\s+(\w+)\s*=\s*require\(['"](.+?)['"]\);?/g, "import $1 from '$2';")
@@ -86,12 +91,14 @@ const translations = getTranslations('en_us');
             .replace(/(\w+):/g, '"$1":')
             .replace(/'/g, '"')
         ) as { name: string; description: string; required: boolean }[];
+        options.forEach((option) => {
+          translations[`minecraft.commands.${commandName}.${option.name}`] = TitleCase(option.name);
+          translations[`minecraft.commands.${commandName}.${option.name}.description`] = TitleCase(option.description);
+        });
         commandData += `.setOptions([${options
           .map(
             (option) =>
-              `new CommandDataOption().setName(${JSON.stringify(
-                option.name
-              )}).setDescription(${JSON.stringify(option.description)}).setRequired(${option.required})`
+              `new CommandDataOption().setName(${JSON.stringify(option.name)}).setRequired(${option.required})`
           )
           .join(', ')}])`;
       } else {
