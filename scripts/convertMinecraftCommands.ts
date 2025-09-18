@@ -26,20 +26,49 @@ async function getCommands(): Promise<{ name: string; content: string }[]> {
 const prettierConfig = JSON.parse(readFileSync('.prettierrc').toString('utf-8'));
 const translations = getTranslations('en_us');
 
+const skipped = [
+  'Auctionhouse',
+  'Bedwarsstats',
+  'Chicken',
+  'Dinosaur',
+  'Duck',
+  'Duelsstats',
+  'Fetcher',
+  'Guildexperience',
+  'Kitty',
+  'Picket',
+  'Quickmaths',
+  'Rabbit',
+  'Renderarmor',
+  'Renderequipment',
+  'Renderitem',
+  'Renderpet',
+  'Skywarsstats',
+  'Specialmayor',
+  'Unscramble'
+];
+
 (async () => {
   const files = await getCommands();
   console.log(`Loaded ${files.length}`);
   for (const fileData of files) {
     const fileName = fileData.name;
-    const fixedPath = `./src/Minecraft/Commands/${TitleCase(fileName.replaceAll('Command.js', ''))}.ts`;
+    const title = TitleCase(fileName.replaceAll('Command.js', ''));
+    const fixedPath = `./src/Minecraft/Commands/${title}.ts`;
     console.log(`Fixing ${fileName}`);
 
+    if (skipped.includes(title)) {
+      console.log('File ignored. Skipping\n');
+      continue;
+    }
+
     if (existsSync(fixedPath)) {
-      console.log('File already exists. Skipping');
+      console.log('File already exists. Skipping\n');
       continue;
     }
 
     const fileContent = await format(fileData.content, { ...prettierConfig, filepath: fileName });
+    /* eslint-disable @stylistic/max-len */
     const transformed = fileContent
       .replace(/const\s+(\w+)\s*=\s*require\(['"](.+?)['"]\);?/g, "import $1 from '$2';")
       .replace(/const\s+{([^}]+)}\s*=\s*require\(['"](.+?)['"]\);?/g, "import { $1 } from '$2';")
@@ -58,7 +87,49 @@ const translations = getTranslations('en_us');
       .replaceAll('hypixel.', 'HypixelAPIReborn.')
       .replaceAll('bot.chat(', 'this.minecraft.bot.chat(')
       .replaceAll('formatNumber', 'FormatNumber')
-      .replaceAll('titleCase', 'TitleCase');
+      .replaceAll('titleCase', 'TitleCase')
+      .replaceAll('formatError', 'FormatError')
+      .replaceAll(
+        "import {  FormatNumber, TitleCase  } from '../../contracts/helperFunctions.js';",
+        "import { FormatNumber, TitleCase } from '../../Utils/StringUtils.js';"
+      )
+      .replaceAll(
+        "import {  FormatNumber, FormatError, TitleCase  } from '../../contracts/helperFunctions.js';",
+        "import { FormatNumber, TitleCase } from '../../Utils/StringUtils.js';\nimport { FormatError } from '../../Utils/MiscUtils.js';;"
+      )
+      .replaceAll(
+        "import {  getLatestProfile  } from '../../../API/functions/getLatestProfile.js';",
+        "import { getLatestProfile } from '../../Utils/HypixelUtils.js';"
+      )
+      .replaceAll(
+        "import {  FormatError  } from '../../contracts/helperFunctions.js';",
+        "import { FormatError } from '../../Utils/MiscUtils.js';;"
+      )
+      .replaceAll(
+        "import {  TitleCase  } from '../../contracts/helperFunctions.js';",
+        "import { TitleCase } from '../../Utils/MiscUtils.js';;"
+      )
+      .replaceAll(
+        "import {  FormatNumber, delay, TitleCase  } from '../../contracts/helperFunctions.js';",
+        "import { FormatNumber, TitleCase } from '../../Utils/StringUtils.js';\nimport { Delay } from '../../Utils/MiscUtils.js';"
+      )
+      .replaceAll(
+        "import {  FormatNumber, FormatError  } from '../../contracts/helperFunctions.js';",
+        "import { FormatNumber } from '../../Utils/StringUtils.js';\nimport { FormatError } from '../../Utils/MiscUtils.js';"
+      )
+      .replaceAll(
+        "import {  FormatNumber  } from '../../contracts/helperFunctions.js';",
+        "import { FormatNumber } from '../../Utils/StringUtils.js';"
+      )
+      .replaceAll(
+        "import {  delay  } from '../../contracts/helperFunctions.js';",
+        "import { Delay } from '../../Utils/MiscUtils.js';"
+      )
+      .replaceAll(
+        'const { username, profile } = await getLatestProfile(player);',
+        'const profile = await getLatestProfile(player);\nconst username = FormatUsername(player, profile.gameMode);'
+      );
+    /* eslint-enable @stylistic/max-len */
 
     const fixedLines = [
       "import Command from '../Private/Command.js';",
