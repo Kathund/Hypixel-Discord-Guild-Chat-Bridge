@@ -91,6 +91,7 @@ class MinecraftConfig extends ConfigInstance {
           .setValue('8ball', minecraftCommandConfig, false)
           .setValue('accessories', minecraftCommandConfig, false)
           .setValue('bedwars', minecraftCommandConfig, false)
+          .setValue('bestiary', minecraftCommandConfig, false)
           .setValue('boo', minecraftCommandConfig, false)
           .setValue('boop', minecraftCommandConfig, false)
           .setValue('calculate', minecraftCommandConfig, false)
