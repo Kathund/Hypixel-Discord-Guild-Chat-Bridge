@@ -4,61 +4,18 @@ import Embed from '../Private/Embed.js';
 import HypixelDiscordGuildBridgeError from '../../Private/Error.js';
 import Translate from '../../Private/Translate.js';
 import { ReplaceVariables } from '../../Utils/StringUtils.js';
-import type DiscordManager from '../DiscordManager.js';
 import type { Bot } from 'mineflayer';
 import type { ChatInputCommandInteraction } from 'discord.js';
 import type { ChatMessage } from 'prismarine-chat';
+import type { DiscordManagerWithBot, OnlineMembers, OnlineMembersGroup } from '../../Types/Discord.js';
 
-class OnlineCommand extends Command {
-  constructor(discord: DiscordManager) {
+class OnlineCommand extends Command<DiscordManagerWithBot> {
+  constructor(discord: DiscordManagerWithBot) {
     super(discord);
-    this.data = new CommandData().setName('online');
-  }
-  override async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    if (!this.discord.Application.minecraft.isBotOnline()) {
-      throw new HypixelDiscordGuildBridgeError(Translate('minecraft.error.botOffline'));
-    }
-    const messages = await this.getMessages(this.discord.Application.minecraft.bot);
-    let online = messages.find((message) => message.startsWith('Online Members: '));
-    if (online === undefined) {
-      throw new HypixelDiscordGuildBridgeError(Translate('discord.commands.online.execute.error.missing.online'));
-    }
-    online = ReplaceVariables(Translate('discord.commands.online.execute.online'), {
-      members: online.split('Online Members: ')[1]
-    });
-
-    let total = messages.find((message) => message.startsWith('Total Members: '));
-    if (total === undefined) {
-      throw new HypixelDiscordGuildBridgeError(Translate('discord.commands.online.execute.error.missing.total'));
-    }
-    total = ReplaceVariables(Translate('discord.commands.online.execute.total'), {
-      members: total.split('Total Members: ')[1]
-    });
-
-    const embed = new Embed()
-      .setTitle(Translate('discord.commands.online.execute.title'))
-      .setDescription(ReplaceVariables(Translate('discord.commands.online.execute.description'), { total, online }))
-      .setDev('duckysolucky');
-
-    messages
-      .flatMap((item, index) => {
-        if (!item.includes('-- ')) return;
-        const nextLine = messages[index + 1];
-        if (!nextLine) return;
-        if (!nextLine.includes('●')) return;
-        const rank = item.replaceAll('--', '').trim();
-        const players = nextLine
-          .split('●')
-          .map((item) => item.trim())
-          .filter((item) => item);
-        if (rank === undefined || players === undefined) return;
-        embed.addFields({ name: rank, value: players.map((player) => `\`${player}\``).join(', ') });
-      })
-      .filter((item) => item);
-    await interaction.followUp({ embeds: [embed] });
+    this.data = new CommandData().setName('online').addGroup('minecraft');
   }
 
-  getMessages(bot: Bot): Promise<string[]> {
+  static getMessages(bot: Bot): Promise<string[]> {
     return new Promise((resolve, reject) => {
       const cachedMessages: string[] = [];
       const listener = (event: ChatMessage) => {
@@ -78,6 +35,56 @@ class OnlineCommand extends Command {
         reject(new Error('Command timed out. Please try again.'));
       }, 5000);
     });
+  }
+
+  static async getOnlineMembers(bot: Bot): Promise<OnlineMembers> {
+    const messages = await this.getMessages(bot);
+    let onlineString = messages.find((message) => message.startsWith('Online Members: '));
+    if (onlineString === undefined) {
+      throw new HypixelDiscordGuildBridgeError(Translate('discord.commands.online.execute.error.missing.online'));
+    }
+    const online = Number(onlineString.split('Online Members: ')?.[1] || '0');
+    onlineString = ReplaceVariables(Translate('discord.commands.online.execute.online'), { members: online });
+
+    let totalString = messages.find((message) => message.startsWith('Total Members: '));
+    if (totalString === undefined) {
+      throw new HypixelDiscordGuildBridgeError(Translate('discord.commands.online.execute.error.missing.total'));
+    }
+    const total = Number(totalString.split('Total Members: ')?.[1] || '0');
+    totalString = ReplaceVariables(Translate('discord.commands.online.execute.total'), { members: total });
+
+    const groups: OnlineMembersGroup[] = [];
+    messages.flatMap((item, index) => {
+      if (!item.includes('-- ')) return;
+      const nextLine = messages[index + 1];
+      if (!nextLine) return;
+      if (!nextLine.includes('●')) return;
+      const rank = item.replaceAll('--', '').trim();
+      const players = nextLine
+        .split('●')
+        .map((item) => item.trim())
+        .filter((item) => item);
+      if (rank === undefined || players === undefined) return;
+      groups.push({ name: rank, value: players.map((player) => `\`${player}\``).join(', ') });
+    });
+
+    return { online, onlineString, total, totalString, groups };
+  }
+
+  override async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+    const members = await OnlineCommand.getOnlineMembers(this.discord.Application.minecraft.bot);
+    const embed = new Embed()
+      .setTitle(Translate('discord.commands.online.execute.title'))
+      .setDescription(
+        ReplaceVariables(Translate('discord.commands.online.execute.description'), {
+          total: members.totalString,
+          online: members.onlineString
+        })
+      )
+      .setFields(members.groups)
+      .setDev('duckysolucky');
+
+    await interaction.followUp({ embeds: [embed] });
   }
 }
 

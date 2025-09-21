@@ -60,7 +60,7 @@ class CommandHandler {
       }
       if (command.data.getGroups().includes('minecraft')) {
         if (!this.discord.Application.minecraft.isBotOnline()) {
-          throw new HypixelDiscordGuildBridgeError(Translate('minecraft.error.botOffline'));
+          throw new HypixelDiscordGuildBridgeError(Translate('minecraft.error.bot.offline'));
         }
         this.discord.minecraftCommandData = { name: Translate(unTranslate(command.data.name), 'en_us'), interaction };
         setTimeout(() => {

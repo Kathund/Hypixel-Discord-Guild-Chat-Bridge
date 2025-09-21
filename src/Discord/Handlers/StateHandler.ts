@@ -18,6 +18,7 @@ class StateHandler {
       })
     );
     this.discord.client.user.setActivity({ name: Translate('discord.state.activity'), type: ActivityType.Playing });
+    this.discord.scriptHandler.deployScripts();
   }
 }
 

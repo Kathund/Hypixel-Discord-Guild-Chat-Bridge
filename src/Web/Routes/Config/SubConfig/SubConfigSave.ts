@@ -1,51 +1,43 @@
+import BaseConfigInstance from '../../../../Config/Private/BaseConfigInstance.js';
+import ConfigSaveRoute from '../ConfigSave.js';
 import Route from '../../../Private/BaseRoute.js';
+import Translate from '../../../../Private/Translate.js';
 import type WebManager from '../../../WebManager.js';
+import type { ConfigNames } from '../../../../Types/Configs.js';
 import type { Request, Response } from 'express';
 
-class ConfigSaveRoute extends Route {
+class SubConfigSaveRoute extends Route {
   constructor(web: WebManager) {
     super(web);
-    this.path = '/config/:config/:subconfig/save';
+    this.path = '/config/:configParam/:subConfigParam/save';
     this.type = 'post';
   }
 
   override handle(req: Request, res: Response) {
-    if (!req.params.config || !req.params.subconfig) {
-      res.status(400).json({ success: false, message: 'Missing params' });
-      return;
+    const { configParam, subConfigParam } = req.params;
+    if (!configParam || !subConfigParam) {
+      return res.status(400).json({ success: false, message: Translate('web.route.error.missing.param') });
     }
-    if (['favicon.ico', 'save'].includes(req.params.config)) return;
-    if (['favicon.ico', 'save'].includes(req.params.subconfig)) return;
-    const configName = req.params.config as keyof typeof this.web.Application.config;
-    const config = this.web.Application.config[configName];
-    if (!config) {
-      res.status(404).send('Config section not found');
-      return;
+
+    if ([configParam, subConfigParam].some((ignore) => ['favicon.ico', 'save'].includes(ignore))) return;
+    const config = this.web.Application.config[configParam as ConfigNames];
+    if (config === undefined) {
+      return res.status(404).json({ success: false, message: Translate('web.route.error.missing.config') });
     }
-    const subConfig = config.getValue(req.params.subconfig);
-    if (subConfig === undefined || !subConfig.isSubConfigConfig()) {
-      res.status(404).send('Sub Config section not found');
-      return;
+    const subConfigData = config.getValue(subConfigParam);
+    if (subConfigData === undefined || !subConfigData.isSubConfigConfig()) {
+      return res.status(404).json({ success: false, message: Translate('web.route.error.missing.sub.config') });
     }
-    const subConfigData = subConfig.getValue();
-    if (subConfigData === undefined) {
-      res.status(404).send('Sub Config section not found');
-      return;
-    }
-    const configData = req.body;
-    Object.keys(configData).forEach((option) => {
-      const value = subConfigData[option];
-      if (value === undefined) return;
-      value.value = configData[option];
-      if (value.type === 'array') value.value = configData[option].split(',');
-      subConfigData[option] = value;
-    });
-    subConfig.setValue(subConfigData);
-    config.setValue(req.params.subconfig, subConfig);
+
+    const parsedSubConfig = new BaseConfigInstance(subConfigData.getValue());
+    ConfigSaveRoute.applyConfigData(parsedSubConfig, req.body);
+    subConfigData.setValue(parsedSubConfig.toJSON());
+    config.setValue(subConfigParam, subConfigData);
+
     config.save();
     res.json({ success: true });
     config.save();
   }
 }
 
-export default ConfigSaveRoute;
+export default SubConfigSaveRoute;

@@ -19,7 +19,7 @@ class KickCommand extends Command<DiscordManagerWithBot> {
 
   override async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     if (!this.discord.Application.minecraft.isBotOnline()) {
-      throw new HypixelDiscordGuildBridgeError(Translate('minecraft.error.botOffline'));
+      throw new HypixelDiscordGuildBridgeError(Translate('minecraft.error.bot.offline'));
     }
     const username = interaction.options.getString(Translate(`discord.commands.${this.data.name}.options.username`));
     if (!username) {

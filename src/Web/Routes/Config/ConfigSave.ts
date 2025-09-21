@@ -1,39 +1,53 @@
 import BaseConfigInstance from '../../../Config/Private/BaseConfigInstance.js';
 import Route from '../../Private/BaseRoute.js';
+import SubConfigOption from '../../../Config/Options/SubConfig.js';
+import Translate from '../../../Private/Translate.js';
 import type WebManager from '../../WebManager.js';
+import type { ConfigNames } from '../../../Types/Configs.js';
 import type { Request, Response } from 'express';
 
 class ConfigSaveRoute extends Route {
   constructor(web: WebManager) {
     super(web);
-    this.path = '/config/:config/save';
+    this.path = '/config/:configParam/save';
     this.type = 'post';
   }
 
   override handle(req: Request, res: Response) {
-    if (!req.params.config) {
-      res.status(400).json({ success: false, message: 'Missing params' });
-      return;
+    const { configParam } = req.params;
+    if (!configParam) {
+      return res.status(400).json({ success: false, message: Translate('web.route.error.missing.param') });
     }
-    if (['favicon.ico', 'save'].includes(req.params.config)) return;
-    const configName = req.params.config as keyof typeof this.web.Application.config;
-    const config = this.web.Application.config[configName];
+    if (['favicon.ico', 'save'].includes(configParam)) return;
+    const config = this.web.Application.config[configParam as ConfigNames];
     if (config === undefined) return;
-    const configData = req.body;
-    Object.keys(configData).forEach((option) => {
-      const value = config.getValue(option);
-      if (value === undefined) return;
-      const data = value.toJSON();
-      data.value = configData[option];
-      if (data.type === 'array') data.value = configData[option].split(',');
-      const fixedData = BaseConfigInstance.getConfigOption(data);
-      if (fixedData !== undefined) {
-        config.setValue(option, fixedData);
-      }
-    });
+    ConfigSaveRoute.applyConfigData(config, req.body);
     config.save();
     res.json({ success: true });
     config.save();
+  }
+
+  static applyConfigData(targetConfig: BaseConfigInstance, configData: Record<string, any>): void {
+    Object.keys(configData).forEach((option) => {
+      const value = targetConfig.getValue(option);
+      if (value === undefined) return;
+
+      if (value instanceof SubConfigOption) {
+        const nestedConfig = value.getValue();
+        if (nestedConfig !== undefined && typeof configData[option] === 'object') {
+          this.applyConfigData(new BaseConfigInstance(nestedConfig), configData[option]);
+          value.setValue(nestedConfig);
+          targetConfig.setValue(option, value);
+        }
+        return;
+      }
+
+      const data = value.toJSON();
+      data.value = configData[option];
+      if (data.type === 'array' && typeof configData[option] === 'string') data.value = configData[option].split(',');
+      const fixedData = BaseConfigInstance.getConfigOption(data);
+      if (fixedData !== undefined) targetConfig.setValue(option, fixedData);
+    });
   }
 }
 

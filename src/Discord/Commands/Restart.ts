@@ -2,11 +2,11 @@ import Command from '../Private/Command.js';
 import CommandData from '../Private/CommandData.js';
 import Embed from '../Private/Embed.js';
 import Translate from '../../Private/Translate.js';
-import type DiscordManager from '../DiscordManager.js';
 import type { ChatInputCommandInteraction } from 'discord.js';
+import type { DiscordManagerWithClient } from '../../Types/Discord.js';
 
 class RestartCommand extends Command {
-  constructor(discord: DiscordManager) {
+  constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new CommandData().setName('restart');
   }

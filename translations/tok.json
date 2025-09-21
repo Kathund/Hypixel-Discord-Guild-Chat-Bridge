@@ -131,7 +131,7 @@
   "discord.state.activity": "/sona | tan jan @.kathund",
   "discord.state.ready": "mi kama jan {username} ({id}) lon ilo Discord!",
   "minecraft.commands.error.missingExecute": "wile ni li ken ala.",
-  "minecraft.error.botOffline": "mi wan ala e musi Hypixel. o alasa sike?",
+  "minecraft.error.bot.offline": "mi wan ala e musi Hypixel. o alasa sike?",
   "minecraft.state.end": "mi kama wan ala tan musi Hypixel! tenpo lili {seconds} la mi alasa wan e musi Hypixel.",
   "minecraft.state.kick": "ona li weka e mi tan ni: \"{reason}\"",
   "minecraft.state.ready": "mi kama jan {username} lon musi Hypixel!",

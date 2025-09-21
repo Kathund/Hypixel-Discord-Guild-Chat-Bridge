@@ -13,7 +13,7 @@ class Route {
     this.type = 'get';
   }
 
-  handle(req: Request, res: Response): Promise<void> | void {
+  handle(req: Request, res: Response) {
     throw new Error(Translate('web.error.missingRoute'));
   }
 }

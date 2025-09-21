@@ -1,23 +1,27 @@
-import ConfigOption from '../../../../../Config/Private/ConfigOption.js';
-import ConfigPageRoute from '../../ConfigPage.js';
-import Route from '../../../../Private/BaseRoute.js';
-import Translate from '../../../../../Private/Translate.js';
-import type WebManager from '../../../../WebManager.js';
-import type { ConfigNames } from '../../../../../Types/Configs.js';
+import ConfigOption from '../../../../../../Config/Private/ConfigOption.js';
+import ConfigPageRoute from '../../../ConfigPage.js';
+import Route from '../../../../../Private/BaseRoute.js';
+import Translate from '../../../../../../Private/Translate.js';
+import type WebManager from '../../../../../WebManager.js';
+import type { ConfigNames } from '../../../../../../Types/Configs.js';
 import type { Request, Response } from 'express';
 
-class SubSubConfigPageRoute extends Route {
+class SubSubSubConfigPageRoute extends Route {
   constructor(web: WebManager) {
     super(web);
-    this.path = '/config/:configParam/:subConfigParam/:subSubConfigParam';
+    this.path = '/config/:configParam/:subConfigParam/:subSubConfigParam/:subSubSubConfigParam';
   }
 
   override handle(req: Request, res: Response) {
-    const { configParam, subConfigParam, subSubConfigParam } = req.params;
-    if (!configParam || !subConfigParam || !subSubConfigParam) {
+    const { configParam, subConfigParam, subSubConfigParam, subSubSubConfigParam } = req.params;
+    if (!configParam || !subConfigParam || !subSubConfigParam || !subSubSubConfigParam) {
       return res.status(400).json({ success: false, message: Translate('web.route.error.missing.param') });
     }
-    if ([configParam, subConfigParam, subSubConfigParam].some((ignore) => ['favicon.ico', 'save'].includes(ignore))) {
+    if (
+      [configParam, subConfigParam, subSubConfigParam, subSubSubConfigParam].some((ignore) =>
+        ['favicon.ico', 'save'].includes(ignore)
+      )
+    ) {
       return;
     }
     const config = this.web.Application.config[configParam as ConfigNames];
@@ -36,14 +40,18 @@ class SubSubConfigPageRoute extends Route {
     if (subSubConfigData === undefined || !ConfigOption.isSubConfigConfigJSON(subSubConfigData)) {
       return res.status(404).json({ success: false, message: Translate('web.route.error.missing.sub.sub.config') });
     }
+    const subSubSubConfigData = subSubConfigData.value[subSubSubConfigParam];
+    if (subSubSubConfigData === undefined || !ConfigOption.isSubConfigConfigJSON(subSubSubConfigData)) {
+      return res.status(404).json({ success: false, message: Translate('web.route.error.missing.sub.sub.sub.config') });
+    }
     res.render('configPage', {
       config: ConfigPageRoute.parseConfigForWeb(
-        subSubConfigData.value,
-        `${configParam}.${subConfigParam}.${subSubConfigParam}`
+        subSubSubConfigData.value,
+        `${configParam}.${subConfigParam}.${subSubConfigParam}.${subSubSubConfigParam}`
       ),
       globalData: { ...this.web.getData(), path: req.path.split('/') }
     });
   }
 }
 
-export default SubSubConfigPageRoute;
+export default SubSubSubConfigPageRoute;

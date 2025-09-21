@@ -1,5 +1,8 @@
 import zod from 'zod';
 
+export const ConfigNames = zod.enum(['debug', 'discord', 'minecraft', 'misc']);
+export type ConfigNames = zod.infer<typeof ConfigNames>;
+
 export const ConfigJSON = <T extends zod.ZodTypeAny>(inner: T) =>
   zod.object({ type: zod.string(), defaultValue: inner, value: inner });
 export type ConfigJSON<T = unknown> = { type: string; defaultValue: T; value: T };

@@ -2,15 +2,14 @@ import Translate from '../../Private/Translate.js';
 import { Delay, GenerateId } from '../../Utils/MiscUtils.js';
 import { SplitMessage } from '../../Utils/StringUtils.js';
 import type CommandData from './CommandData.js';
-import type MinecraftManager from '../MinecraftManager.js';
 import type { MinecraftManagerWithBot } from '../../Types/Minecraft.js';
 
-class Command<T extends MinecraftManager = MinecraftManagerWithBot> {
-  readonly minecraft: T;
+class Command {
+  readonly minecraft: MinecraftManagerWithBot;
   data!: CommandData;
   officer: boolean = false;
   name: any;
-  constructor(minecraft: T) {
+  constructor(minecraft: MinecraftManagerWithBot) {
     this.minecraft = minecraft;
   }
 

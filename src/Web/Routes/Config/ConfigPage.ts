@@ -3,30 +3,28 @@ import Route from '../../Private/BaseRoute.js';
 import Translate, { getTranslations } from '../../../Private/Translate.js';
 import { ReplaceVariables } from '../../../Utils/StringUtils.js';
 import type WebManager from '../../WebManager.js';
-import type { ConfigInstanceData, WebParsedConfigJSON } from '../../../Types/Configs.js';
+import type { ConfigInstanceData, ConfigNames, WebParsedConfigJSON } from '../../../Types/Configs.js';
 import type { Language } from '../../../Types/Data.js';
 import type { Request, Response } from 'express';
 
 class ConfigPageRoute extends Route {
   constructor(web: WebManager) {
     super(web);
-    this.path = '/config/:config';
+    this.path = '/config/:configParam';
   }
 
   override handle(req: Request, res: Response) {
-    if (!req.params.config) {
-      res.status(400).json({ success: false, message: 'Missing params' });
-      return;
+    const { configParam } = req.params;
+    if (!configParam) {
+      return res.status(400).json({ success: false, message: Translate('web.route.error.missing.param') });
     }
-    if (['favicon.ico', 'save'].includes(req.params.config)) return;
-    const configName = req.params.config as keyof typeof this.web.Application.config;
-    const config = this.web.Application.config[configName].toJSON();
-    if (!config) {
-      res.status(404).send('Config section not found');
-      return;
+    if (['favicon.ico', 'save'].includes(configParam)) return;
+    const config = this.web.Application.config[configParam as ConfigNames];
+    if (config === undefined) {
+      return res.status(404).json({ success: false, message: Translate('web.route.error.missing.config') });
     }
     res.render('configPage', {
-      config: ConfigPageRoute.parseConfigForWeb(config, configName),
+      config: ConfigPageRoute.parseConfigForWeb(config.toJSON(), configParam),
       globalData: { ...this.web.getData(), path: req.path.split('/') }
     });
   }

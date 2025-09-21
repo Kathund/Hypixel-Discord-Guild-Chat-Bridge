@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             case 'prefill_channels': {
               data.data.channels
-                .filter((channel) => ![1, 2, 3, 4, 5, 10, 13, 14, 15, 16].includes(channel.type))
+                .filter((channel) => ![1, 3, 4, 5, 10, 13, 14, 15, 16].includes(channel.type))
                 .forEach((channel) => {
                   input.appendChild(
                     Object.assign(document.createElement('option'), {
@@ -105,6 +105,10 @@ document.addEventListener('DOMContentLoaded', () => {
         create: true,
         openOnFocus: false
       });
+    } else if (input.dataset.optionType === 'internal') {
+      if (input.dataset.internalType === 'string') {
+        input.readOnly = true;
+      }
     }
 
     input.addEventListener('change', () => {
@@ -166,39 +170,57 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  document.getElementById('internal_button_export_config').addEventListener('click', async () => {
-    const response = await fetch('/data/config/export');
-    const result = await response.json();
-    if (result.success) {
-      navigator.clipboard
-        .writeText(result.data)
-        .then(() => {
-          alert('Exported Data copied to clipboard');
-        })
-        .catch((error) => {
-          console.error(error);
-          alert('Failed to copy data to clipboard');
-        });
-    }
-  });
-
-  document.getElementById('internal_button_import_config').addEventListener('click', async () => {
-    const base64 = prompt('Exported Config Data');
-    const response = await fetch('/data/config/import', {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: base64
+  const exportConfigButton = document.getElementById('internal_button_export_config');
+  if (exportConfigButton) {
+    exportConfigButton.addEventListener('click', async () => {
+      const response = await fetch('/data/config/export');
+      const result = await response.json();
+      if (result.success) {
+        navigator.clipboard
+          .writeText(result.data)
+          .then(() => {
+            alert('Exported Data copied to clipboard');
+          })
+          .catch((error) => {
+            console.error(error);
+            alert('Failed to copy data to clipboard');
+          });
+      }
     });
-    const result = await response.json();
-    if (result.success) return alert('Please restart the bot for the changes to apply');
-    return alert(result.message);
-  });
+  }
 
-  document.getElementById('reload-guild-data').addEventListener('click', async () => {
-    const response = await fetch('/data/discord/server?bypass=true');
-    const result = await response.json();
-    if (result.success) window.location.reload();
-  });
+  const inputConfigButton = document.getElementById('internal_button_input_config');
+  if (inputConfigButton) {
+    inputConfigButton.addEventListener('click', async () => {
+      const base64 = prompt('Exported Config Data');
+      const response = await fetch('/data/config/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: base64
+      });
+      const result = await response.json();
+      if (result.success) return alert('Please restart the bot for the changes to apply');
+      return alert(result.message);
+    });
+  }
+
+  const internalGoToChannelsButton = document.getElementById(
+    'internal_button_go_to_config_discord_commands_update-channels'
+  );
+  if (internalGoToChannelsButton) {
+    internalGoToChannelsButton.addEventListener('click', () => {
+      window.location.href = '/config/discord/commands/update-channels';
+    });
+  }
+
+  const reloadGuildDataButton = document.getElementById('reload-guild-data');
+  if (reloadGuildDataButton) {
+    reloadGuildDataButton.addEventListener('click', async () => {
+      const response = await fetch('/data/discord/server?bypass=true');
+      const result = await response.json();
+      if (result.success) window.location.reload();
+    });
+  }
 
   update();
 });

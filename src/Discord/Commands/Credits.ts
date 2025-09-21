@@ -5,11 +5,11 @@ import Embed from '../Private/Embed.js';
 import Translate from '../../Private/Translate.js';
 import { DevType, Devs } from '../../Types/Data.js';
 import { ReplaceVariables } from '../../Utils/StringUtils.js';
-import type DiscordManager from '../DiscordManager.js';
 import type { ChatInputCommandInteraction } from 'discord.js';
+import type { DiscordManagerWithClient } from '../../Types/Discord.js';
 
 class CreditsCommand extends Command {
-  constructor(discord: DiscordManager) {
+  constructor(discord: DiscordManagerWithClient) {
     super(discord);
     this.data = new CommandData().setName('credits');
   }
