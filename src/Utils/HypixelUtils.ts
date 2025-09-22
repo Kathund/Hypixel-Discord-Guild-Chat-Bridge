@@ -10,9 +10,10 @@ export function hasMe(
 }
 
 export async function getLatestProfile(
-  username: string
+  username: string,
+  garden: boolean = false
 ): Promise<SkyBlockProfile & { me: NonNullable<SkyBlockProfile['me']> }> {
-  const profiles = await hypixel.getSkyBlockProfiles(username);
+  const profiles = await hypixel.getSkyBlockProfiles(username, { garden });
   if (profiles.isRaw()) {
     throw new Error(ReplaceVariables(Translate('hypixel.api.error.no.profile'), { username }));
   }

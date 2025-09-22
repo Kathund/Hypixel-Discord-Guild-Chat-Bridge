@@ -102,6 +102,7 @@ class MinecraftConfig extends ConfigInstance {
           .setValue('essence', minecraftCommandConfig, false)
           .setValue('fairysouls', minecraftCommandConfig, false)
           .setValue('forge', minecraftCommandConfig, false)
+          .setValue('garden', minecraftCommandConfig, false)
           .setValue('guild', minecraftCommandConfig, false)
           .setValue('guildexp', minecraftCommandConfig, false)
           .setValue('meow', minecraftCommandConfig, false)
