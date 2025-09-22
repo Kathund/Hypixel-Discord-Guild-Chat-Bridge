@@ -106,6 +106,7 @@ class MinecraftConfig extends ConfigInstance {
           .setValue('guild', minecraftCommandConfig, false)
           .setValue('guildexp', minecraftCommandConfig, false)
           .setValue('hotm', minecraftCommandConfig, false)
+          .setValue('jacob', minecraftCommandConfig, false)
           .setValue('meow', minecraftCommandConfig, false)
           .setValue('player', minecraftCommandConfig, false)
           .setValue('guild_chat', new BooleanOption(true), false)
