@@ -1,3 +1,4 @@
+/* eslint-disable hypixelDiscordGuildChatBridge/enforce-translate */
 import Translate, { getTranslations } from '../src/Private/Translate.js';
 import { ReplaceVariables, TitleCase } from '../src/Utils/StringUtils.js';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -90,16 +91,19 @@ const skipped = [
 
     if (skipped.includes(title)) {
       console.other(Translate('scripts.convert.minecraft.commands.execute.skip.ignored'));
+      console.other('\n');
       continue;
     }
 
     if (existsSync(fixedPath)) {
       console.other(Translate('scripts.convert.minecraft.commands.execute.skip.already.exist'));
+      console.other('\n');
       continue;
     }
 
     if (writtenFiles >= maxWrittenFiles) {
       console.other(Translate('scripts.convert.minecraft.commands.execute.skip.max'));
+      console.other('\n');
       continue;
     }
 
