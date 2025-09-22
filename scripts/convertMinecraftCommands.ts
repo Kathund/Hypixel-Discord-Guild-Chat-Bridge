@@ -77,7 +77,8 @@ const skipped = [
   'Renderpet',
   'Skywarsstats',
   'Specialmayor',
-  'Unscramble'
+  'Unscramble',
+  'Fairysouls'
 ];
 
 (async () => {
