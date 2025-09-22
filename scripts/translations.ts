@@ -1,6 +1,6 @@
 /* eslint-disable hypixelDiscordGuildChatBridge/enforce-no-console-log */
 import Translate, { getSupportedLanguages, getTranslations } from '../src/Private/Translate.js';
-import { getSupportedTimezones } from '../src/Utils/TimeZoneUtils.js';
+import { getSupportedTimezones } from '../src/Utils/TimeAndDateUtils.js';
 import { sortJSON } from '../src/Utils/JSONUtils.js';
 import { writeFileSync } from 'node:fs';
 import type { Language } from '../src/Types/Data.js';
