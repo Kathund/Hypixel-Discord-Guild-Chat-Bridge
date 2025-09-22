@@ -1,8 +1,9 @@
-/* eslint-disable hypixelDiscordGuildChatBridge/enforce-no-console-log */
-import { TitleCase } from '../src/Utils/StringUtils.js';
+import Translate, { getTranslations } from '../src/Private/Translate.js';
+import { ReplaceVariables, TitleCase } from '../src/Utils/StringUtils.js';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { format } from 'prettier';
-import { getTranslations } from '../src/Private/Translate.js';
+
+console.other = console.log;
 
 const args: string[] = process.argv.slice(2);
 let writtenFiles = 0;
@@ -16,13 +17,17 @@ if (maxIndex !== -1) {
     if (!isNaN(parsed)) {
       maxWrittenFiles = parsed;
     } else {
-      console.error(`Invalid value for --max: ${value}`);
+      console.error(ReplaceVariables(Translate('scripts.convert.minecraft.commands.execute.error.value'), { value }));
       process.exit(1);
     }
   }
 }
 
-if (maxWrittenFiles !== 1000) console.log(`Max Files set to ${maxWrittenFiles}`);
+if (maxWrittenFiles !== 1000) {
+  console.other(
+    ReplaceVariables(Translate('scripts.convert.minecraft.commands.execute.max.files'), { maxWrittenFiles })
+  );
+}
 
 if (!existsSync('./scripts/fixed')) mkdirSync('./scripts/fixed', { recursive: true });
 
@@ -30,13 +35,17 @@ async function getCommands(): Promise<{ name: string; content: string }[]> {
   const request = await fetch(
     'https://api.github.com/repos/duckysolucky/hypixel-discord-chat-bridge/contents/src/minecraft/commands'
   );
-  if (request.status !== 200) throw new Error('Something went wrong while fetching the commands.');
+  if (request.status !== 200) {
+    throw new Error(Translate('scripts.convert.minecraft.commands.execute.error.fetch.commands'));
+  }
   const parsed: { name: string; download_url: string }[] = await request.json();
   const fixed = parsed.filter((file) => file.name.endsWith('Command.js'));
   const files = [];
   for (const file of fixed) {
     const fileDataRequest = await fetch(file.download_url);
-    if (fileDataRequest.status !== 200) throw new Error('Something went wrong while fetching the commands.');
+    if (fileDataRequest.status !== 200) {
+      throw new Error(Translate('scripts.convert.minecraft.commands.execute.error.fetch.commands'));
+    }
     const fileData = await fileDataRequest.text();
     files.push({ name: file.name, content: fileData });
   }
@@ -70,25 +79,27 @@ const skipped = [
 
 (async () => {
   const files = await getCommands();
-  console.log(`Loaded ${files.length}`);
+  console.other(
+    ReplaceVariables(Translate('scripts.convert.minecraft.commands.execute.load'), { amount: files.length })
+  );
   for (const fileData of files) {
     const fileName = fileData.name;
     const title = TitleCase(fileName.replaceAll('Command.js', ''));
     const fixedPath = `./src/Minecraft/Commands/${title}.ts`;
-    console.log(`Fixing ${fileName}`);
+    console.other(ReplaceVariables(Translate('scripts.convert.minecraft.commands.execute.fix'), { fileName }));
 
     if (skipped.includes(title)) {
-      console.log('File ignored. Skipping\n');
+      console.other(Translate('scripts.convert.minecraft.commands.execute.skip.ignored'));
       continue;
     }
 
     if (existsSync(fixedPath)) {
-      console.log('File already exists. Skipping\n');
+      console.other(Translate('scripts.convert.minecraft.commands.execute.skip.already.exist'));
       continue;
     }
 
     if (writtenFiles >= maxWrittenFiles) {
-      console.log('Max Written Files. Skipping\n');
+      console.other(Translate('scripts.convert.minecraft.commands.execute.skip.max'));
       continue;
     }
 
@@ -214,7 +225,7 @@ const skipped = [
     writeFileSync(fixedPath, formatted, 'utf-8');
 
     writtenFiles++;
-    console.log(`Saved ${fixedPath}\n`);
+    console.other(ReplaceVariables(Translate('scripts.convert.minecraft.commands.execute.save'), { fixedPath }));
   }
 
   const translationsString = JSON.stringify(translations);
