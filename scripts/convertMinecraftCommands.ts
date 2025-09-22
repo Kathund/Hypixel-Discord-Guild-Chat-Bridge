@@ -194,10 +194,9 @@ const skipped = [
         commandData += `.setName('${commandName}')`;
         translations[`minecraft.commands.${commandName}`] = commandName;
       } else if (line.startsWith("    this.description = '") && line.endsWith("';")) {
-        translations[`minecraft.commands.${commandName}.description`] = line
-          .replaceAll('    this.description = ', '')
-          .replaceAll(';', '')
-          .replaceAll("'", '');
+        const desc = line.replaceAll('    this.description = ', '').replaceAll(';', '').replaceAll("'", '');
+        translations[`minecraft.commands.${commandName}.description`] = desc;
+        translations[`config.options.minecraft.commands.${commandName}.description`] = desc;
       } else if (line.startsWith('    this.aliases = [') && line.endsWith('];')) {
         commandData += line.replaceAll('    this.aliases = ', '.setAliases(').replaceAll(';', '');
         commandData += ')';
@@ -223,6 +222,11 @@ const skipped = [
         fixedLines.push(line);
       }
     }
+
+    translations[`config.options.minecraft.commands.${commandName}`] = TitleCase(commandName);
+    translations[`config.options.minecraft.commands.${commandName}.enabled`] = 'Enable';
+    translations[`config.options.minecraft.commands.${commandName}.enabled.description`] = 'Enable the command';
+    translations[`config.options.minecraft.commands.${commandName}.open`] = `Open ${TitleCase(commandName)} Config`;
 
     const finishedContent = fixedLines.join('\n').replaceAll('super(minecraft);', `super(minecraft);\n${commandData}`);
 
