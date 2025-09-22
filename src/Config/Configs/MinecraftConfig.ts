@@ -99,6 +99,7 @@ class MinecraftConfig extends ConfigInstance {
           .setValue('chocolatefactory', minecraftCommandConfig, false)
           .setValue('crimsonisle', minecraftCommandConfig, false)
           .setValue('dojo', minecraftCommandConfig, false)
+          .setValue('essence', minecraftCommandConfig, false)
           .setValue('guild', minecraftCommandConfig, false)
           .setValue('guildexp', minecraftCommandConfig, false)
           .setValue('meow', minecraftCommandConfig, false)
