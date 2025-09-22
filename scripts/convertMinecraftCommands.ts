@@ -120,6 +120,7 @@ const skipped = [
       .replaceAll('async onCommand(player, message) {', 'override async execute(player: string, message: string) {')
       .replaceAll("import minecraftCommand from '../../contracts/minecraftCommand.js';", '')
       .replaceAll('/** @param {import("minecraft-protocol").Client} minecraft */', '')
+      .replaceAll('// CREDITS: by @Kathund (https://github.com/Kathund)', '')
       .replaceAll('minecraftCommand', 'Command')
       .replaceAll('constructor(minecraft) {', 'constructor(minecraft: MinecraftManagerWithBot) {')
       .replaceAll(
