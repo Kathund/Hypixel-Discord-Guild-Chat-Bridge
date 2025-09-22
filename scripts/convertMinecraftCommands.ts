@@ -60,6 +60,8 @@ const skipped = [
   'Auctionhouse',
   'Bedwarsstats',
   'Chicken',
+  'Chocolate',
+  'Crimsonisle',
   'Dinosaur',
   'Duck',
   'Duelsstats',
