@@ -36,7 +36,7 @@ class BedwarsCommand extends Command {
       player = msg[0] ? (modes.includes(msg[0]) ? (msg[1] ? msg[1] : player) : msg[0] || player) : player;
 
       const hypixelPlayer = await HypixelAPIReborn.getPlayer(player);
-      if (hypixelPlayer.isRaw()) {
+      if (!hypixelPlayer || hypixelPlayer.isRaw()) {
         throw new Error(ReplaceVariables(Translate('minecraft.commands.bedwars.execute.error.player'), { player }));
       }
 

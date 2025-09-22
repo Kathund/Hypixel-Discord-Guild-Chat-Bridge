@@ -108,6 +108,7 @@ class MinecraftConfig extends ConfigInstance {
           .setValue('hotm', minecraftCommandConfig, false)
           .setValue('jacob', minecraftCommandConfig, false)
           .setValue('kuudra', minecraftCommandConfig, false)
+          .setValue('megawalls', minecraftCommandConfig, false)
           .setValue('meow', minecraftCommandConfig, false)
           .setValue('player', minecraftCommandConfig, false)
           .setValue('guild_chat', new BooleanOption(true), false)

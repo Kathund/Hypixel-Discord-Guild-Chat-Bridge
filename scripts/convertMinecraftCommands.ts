@@ -79,7 +79,9 @@ const skipped = [
   'Specialmayor',
   'Unscramble',
   'Fairysouls',
-  'Fetchur'
+  'Fetchur',
+  'Mayor',
+  'Megawalls'
 ];
 
 (async () => {
@@ -130,6 +132,7 @@ const skipped = [
         "import HypixelAPIReborn from '../../Private/HypixelAPIReborn.js';"
       )
       .replaceAll('hypixel.', 'HypixelAPIReborn.')
+      .replaceAll('this.send(FormatError(error));', 'if (error instanceof Error) this.send(FormatError(error));')
       .replaceAll('bot.chat(', 'this.minecraft.bot.chat(')
       .replaceAll('formatNumber', 'FormatNumber')
       .replaceAll('titleCase', 'TitleCase')
