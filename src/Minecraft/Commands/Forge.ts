@@ -2,8 +2,8 @@ import Command from '../Private/Command.js';
 import CommandData from '../Private/CommandData.js';
 import CommandDataOption from '../Private/CommandDataOption.js';
 import Translate from '../../Private/Translate.js';
+import prettyMilliseconds from 'pretty-ms';
 import { FormatUsername, ReplaceVariables } from '../../Utils/StringUtils.js';
-import { TimeLeft } from '../../Utils/TimeAndDateUtils.js';
 import { getLatestProfile } from '../../Utils/HypixelUtils.js';
 import type { MinecraftManagerWithBot, ParsedForgeSlot } from '../../Types/Minecraft.js';
 import type { SkyBlockMemberMiningHotmForgeItem } from 'hypixel-api-reborn';
@@ -35,7 +35,7 @@ class ForgeCommand extends Command {
             slot: slot.slot,
             finished: Date.now() > slot.endTime,
             end: slot.endTime,
-            timeLeft: TimeLeft(slot.endTime)
+            timeLeft: prettyMilliseconds(Date.now() - slot.endTime)
           })
         );
 

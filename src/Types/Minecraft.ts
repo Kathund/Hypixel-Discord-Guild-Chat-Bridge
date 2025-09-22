@@ -1,5 +1,4 @@
 import zod from 'zod';
-import { TimeLeftData } from './TimeAndDateUtils.js';
 import type MinecraftManager from '../Minecraft/MinecraftManager.js';
 import type { Bot } from 'mineflayer';
 
@@ -25,6 +24,6 @@ export const ParsedForgeSlot = zod.object({
   slot: zod.number(),
   finished: zod.boolean(),
   end: zod.number(),
-  timeLeft: TimeLeftData
+  timeLeft: zod.string()
 });
 export type ParsedForgeSlot = zod.infer<typeof ParsedForgeSlot>;
