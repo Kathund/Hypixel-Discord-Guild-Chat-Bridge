@@ -4,7 +4,27 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { format } from 'prettier';
 import { getTranslations } from '../src/Private/Translate.js';
 
-if (!existsSync('./scripts/fixed')) mkdirSync('./scripts//fixed', { recursive: true });
+const args: string[] = process.argv.slice(2);
+let writtenFiles = 0;
+let maxWrittenFiles = 1000;
+
+const maxIndex = args.indexOf('--max');
+if (maxIndex !== -1) {
+  const value = args[maxIndex + 1];
+  if (value !== undefined) {
+    const parsed = parseInt(value, 10);
+    if (!isNaN(parsed)) {
+      maxWrittenFiles = parsed;
+    } else {
+      console.error(`Invalid value for --max: ${value}`);
+      process.exit(1);
+    }
+  }
+}
+
+if (maxWrittenFiles !== 1000) console.log(`Max Files set to ${maxWrittenFiles}`);
+
+if (!existsSync('./scripts/fixed')) mkdirSync('./scripts/fixed', { recursive: true });
 
 async function getCommands(): Promise<{ name: string; content: string }[]> {
   const request = await fetch(
@@ -64,6 +84,11 @@ const skipped = [
 
     if (existsSync(fixedPath)) {
       console.log('File already exists. Skipping\n');
+      continue;
+    }
+
+    if (writtenFiles >= maxWrittenFiles) {
+      console.log('Max Written Files. Skipping\n');
       continue;
     }
 
@@ -188,6 +213,7 @@ const skipped = [
     const formatted = await format(finishedContent, { ...prettierConfig, filepath: fixedPath });
     writeFileSync(fixedPath, formatted, 'utf-8');
 
+    writtenFiles++;
     console.log(`Saved ${fixedPath}\n`);
   }
 
