@@ -1,4 +1,3 @@
-
 export function getSupportedTimezones(): string[] {
   const timezones = Intl.supportedValuesOf('timeZone');
   timezones.push('UTC');
