@@ -84,7 +84,8 @@ const skipped = [
   'Megawalls',
   'Networth',
   'Personalbest',
-  'Raccoon'
+  'Raccoon',
+  'Skyblocklevel'
 ];
 
 (async () => {
