@@ -81,7 +81,10 @@ const skipped = [
   'Fairysouls',
   'Fetchur',
   'Mayor',
-  'Megawalls'
+  'Megawalls',
+  'Networth',
+  'Personalbest',
+  'Raccoon'
 ];
 
 (async () => {

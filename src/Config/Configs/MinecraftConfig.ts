@@ -112,6 +112,7 @@ class MinecraftConfig extends ConfigInstance {
           .setValue('megawalls', minecraftCommandConfig, false)
           .setValue('meow', minecraftCommandConfig, false)
           .setValue('player', minecraftCommandConfig, false)
+          .setValue('skills', minecraftCommandConfig, false)
           .setValue('guild_chat', new BooleanOption(true), false)
           .setValue('officer_chat', new BooleanOption(true), false)
           .setValue('prefix', new StringOption('!'), false)
