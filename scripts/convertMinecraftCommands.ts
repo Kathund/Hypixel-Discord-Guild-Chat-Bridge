@@ -234,7 +234,13 @@ const skipped = [
     translations[`config.options.minecraft.commands.${commandName}.enabled.description`] = 'Enable the command';
     translations[`config.options.minecraft.commands.${commandName}.open`] = `Open ${TitleCase(commandName)} Config`;
 
-    const finishedContent = fixedLines.join('\n').replaceAll('super(minecraft);', `super(minecraft);\n${commandData}`);
+    const finishedContent = fixedLines
+      .join('\n')
+      .replaceAll('super(minecraft);', `super(minecraft);\n${commandData}`)
+      .replaceAll('.setAliases([])', '')
+      .replaceAll('.setAliases([]);', '')
+      .replaceAll('.setOptions([])', '')
+      .replaceAll('.setOptions([]);', '');
 
     writeFileSync(fixedPath, finishedContent, 'utf-8');
     const formatted = await format(finishedContent, { ...prettierConfig, filepath: fixedPath });

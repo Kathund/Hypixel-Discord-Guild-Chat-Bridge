@@ -13,7 +13,6 @@ class ForgeCommand extends Command {
     super(minecraft);
     this.data = new CommandData()
       .setName('forge')
-      .setAliases([])
       .setOptions([new CommandDataOption().setName('username').setRequired(false)]);
   }
 
