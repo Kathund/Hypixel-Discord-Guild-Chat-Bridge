@@ -19,7 +19,6 @@ class BooCommand extends Command {
 
   override async execute(player: string, message: string) {
     try {
-      if (!this.minecraft.isBotOnline()) return;
       const args = this.getArgs(message);
       if (args.length === 0) throw new Error(Translate('minecraft.commands.boo.execute.error.player'));
       if (new Date().getMonth() !== 9) throw new Error(Translate('minecraft.commands.boo.extends.error.halloween'));

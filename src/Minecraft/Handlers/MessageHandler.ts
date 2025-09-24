@@ -8,8 +8,10 @@ import type { ChatMessage } from 'prismarine-chat';
 
 class MessageHandler {
   declare readonly minecraft: MinecraftManager;
+  declare allowLimbo: boolean;
   constructor(minecraftManager: MinecraftManager) {
     this.minecraft = minecraftManager;
+    this.allowLimbo = true;
   }
 
   registerEvents() {
@@ -39,7 +41,7 @@ class MessageHandler {
       this.minecraft.Application.config.minecraft.getValue('auto_limbo')?.isBooleanOption() &&
       this.minecraft.Application.config.minecraft.getValue('auto_limbo')?.getValue()
     ) {
-      this.minecraft.bot.chat('/limbo');
+      if (this.allowLimbo) this.minecraft.bot.chat('/limbo');
     }
 
     const eventConfig = this.minecraft.Application.config.minecraft.getValue('events');

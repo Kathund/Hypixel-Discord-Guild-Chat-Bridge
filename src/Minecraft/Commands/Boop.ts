@@ -21,7 +21,6 @@ class BoopCommand extends Command {
   // CREDITS: by @Zickles (https://github.com/Zickles)
   override async execute(player: string, message: string) {
     try {
-      if (!this.minecraft.isBotOnline()) return;
       const args = this.getArgs(message);
       if (args.length === 0) throw new Error(Translate('minecraft.commands.boop.execute.error.player'));
       if (this.isOnCooldown) {

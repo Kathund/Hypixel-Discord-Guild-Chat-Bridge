@@ -2,7 +2,7 @@ import zod from 'zod';
 import type MinecraftManager from '../Minecraft/MinecraftManager.js';
 import type { Bot } from 'mineflayer';
 
-export type MinecraftManagerWithBot = MinecraftManager & { Application: { minecraft: { bot: Bot } } };
+export type MinecraftManagerWithBot = MinecraftManager & { bot: Bot };
 
 export const CommandDataOptionJSON = zod.object({
   name: zod.string().min(1),

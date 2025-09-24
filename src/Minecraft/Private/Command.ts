@@ -21,7 +21,6 @@ class Command {
 
   /* eslint-disable require-await */
   async send(message: string, maxRetries = 5, isErrorMessage = false): Promise<void> {
-    if (!this.minecraft.isBotOnline()) return;
     const startTime = Date.now();
     const maxExecutionTime = 10000;
 
@@ -42,9 +41,7 @@ class Command {
     try {
       const sendMessage = async () => {
         return new Promise((resolve, reject) => {
-          if (!this.minecraft.isBotOnline()) return;
           const listener = async (msg: { toString: () => any }) => {
-            if (!this.minecraft.isBotOnline()) return;
             const msgStr = msg.toString();
 
             if (msgStr.includes('You are sending commands too fast!') && !msgStr.includes(':')) {
@@ -62,7 +59,6 @@ class Command {
           this.minecraft.bot.chat(`/${this.officer ? 'oc' : 'gc'} ${message}`);
 
           setTimeout(() => {
-            if (!this.minecraft.isBotOnline()) return;
             this.minecraft.bot.removeListener('message', listener);
             resolve(true);
           }, 500);

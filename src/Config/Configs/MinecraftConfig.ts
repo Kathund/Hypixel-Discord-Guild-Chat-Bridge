@@ -116,6 +116,7 @@ class MinecraftConfig extends ConfigInstance {
           .setValue('skyblock', minecraftCommandConfig, false)
           .setValue('slayer', minecraftCommandConfig, false)
           .setValue('trophyfish', minecraftCommandConfig, false)
+          .setValue('warpout', minecraftCommandConfig, false)
           .setValue('guild_chat', new BooleanOption(true), false)
           .setValue('officer_chat', new BooleanOption(true), false)
           .setValue('prefix', new StringOption('!'), false)
