@@ -32,7 +32,8 @@ class MessageHandler {
     ) {
       const channel = await this.minecraft.Application.discord.client.channels.fetch(debugChannel.getValue());
       if (channel?.isSendable()) {
-        channel.send({ content: CleanMessageForDiscord(rawMessage), allowedMentions: { parse: [] } });
+        const content = CleanMessageForDiscord(rawMessage);
+        if (content.length > 1) channel.send({ content, allowedMentions: { parse: [] } });
       }
     }
 
