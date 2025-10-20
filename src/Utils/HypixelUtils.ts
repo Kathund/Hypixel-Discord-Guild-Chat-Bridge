@@ -16,9 +16,7 @@ export async function getSelectedProfile(
     garden: options?.garden ?? false,
     museum: options?.garden ?? false
   });
-  if (profiles.isRaw()) {
-    throw new Error(ReplaceVariables(Translate('hypixel.api.error.no.profile'), { username }));
-  }
+  if (profiles.isRaw()) throw new Error(Translate('hypixel.api.error.request.parse.raw'));
   if (!profiles.selectedProfile) {
     throw new Error(ReplaceVariables(Translate('hypixel.api.error.no.profile.selected'), { username }));
   }

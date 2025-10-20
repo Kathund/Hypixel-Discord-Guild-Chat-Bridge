@@ -111,6 +111,7 @@ class MinecraftConfig extends ConfigInstance {
           .setValue('kuudra', minecraftCommandConfig, false)
           .setValue('megawalls', minecraftCommandConfig, false)
           .setValue('meow', minecraftCommandConfig, false)
+          .setValue('networth', minecraftCommandConfig, false)
           .setValue('player', minecraftCommandConfig, false)
           .setValue('skills', minecraftCommandConfig, false)
           .setValue('skyblock', minecraftCommandConfig, false)
