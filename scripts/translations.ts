@@ -1,5 +1,5 @@
 /* eslint-disable hypixelDiscordGuildChatBridge/enforce-no-console-log */
-import Translate, { getSupportedLanguages, getTranslations } from '../src/Private/Translate.js';
+import Translate, { filterTimezoneKeys, getSupportedLanguages, getTranslations } from '../src/Private/Translate.js';
 import { getSupportedTimezones } from '../src/Utils/TimeAndDateUtils.js';
 import { sortJSON } from '../src/Utils/JSONUtils.js';
 import { writeFileSync } from 'node:fs';
@@ -34,33 +34,25 @@ class Lang {
     });
   }
 
-  filterTimezoneKeys(keys: string[]): string[] {
-    return keys
-      .filter((key) => getSupportedTimezones().includes(key) === false)
-      .filter(
-        (key) => key === 'config.options.misc.timezone.description' || !key.startsWith('config.options.misc.timezone.')
-      );
-  }
-
   cleanKeys() {
     const english = new Lang('en_us');
     const keys = Object.keys(english.translations);
     const currentLang = this.translations;
     this.translations = {};
-    this.filterTimezoneKeys(Object.keys(currentLang)).forEach((key) => {
+    filterTimezoneKeys(Object.keys(currentLang)).forEach((key) => {
       if (keys.includes(key)) this.translations[key] = currentLang[key];
     });
   }
 
   generateMissing() {
-    this.filterTimezoneKeys(Object.keys(new Lang('en_us').translations)).forEach((key) => Translate(key, this.lang));
+    filterTimezoneKeys(Object.keys(new Lang('en_us').translations)).forEach((key) => Translate(key, this.lang));
   }
 
   saveTranslations() {
     writeFileSync(`./translations/${this.lang}.json`, JSON.stringify(sortJSON(this.translations), null, 2) + '\n');
 
-    const currentLang = this.filterTimezoneKeys(Object.keys(this.translations));
-    const englishLang = this.filterTimezoneKeys(Object.keys(new Lang('en_us').translations));
+    const currentLang = filterTimezoneKeys(Object.keys(this.translations));
+    const englishLang = filterTimezoneKeys(Object.keys(new Lang('en_us').translations));
 
     const amount = Math.floor((currentLang.length / englishLang.length) * 100);
     console.log(`Updated translations for ${this.lang}. (${amount}% translated from english)`);

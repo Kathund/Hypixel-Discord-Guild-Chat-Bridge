@@ -3,6 +3,7 @@ import HypixelDiscordGuildBridgeError from './Error.js';
 import MiscConfig from '../Config/Configs/MiscConfig.js';
 import StringOption from '../Config/Options/String.js';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { getSupportedTimezones } from '../Utils/TimeAndDateUtils.js';
 import type { Language } from '../Types/Data.js';
 
 function parseKeyForTranslation(key: string): string {
@@ -88,6 +89,14 @@ export function unTranslate(translation: string, lang: Language = getSelectedLan
     return lang === 'en_us' ? `Unknown Key | ${translation}` : unTranslate(translation, 'en_us');
   }
   return entry[0];
+}
+
+export function filterTimezoneKeys(keys: string[]): string[] {
+  return keys
+    .filter((key) => getSupportedTimezones().includes(key) === false)
+    .filter(
+      (key) => key === 'config.options.misc.timezone.description' || !key.startsWith('config.options.misc.timezone.')
+    );
 }
 
 export default function Translate(key: string, lang: Language = getSelectedLanguage()): string {

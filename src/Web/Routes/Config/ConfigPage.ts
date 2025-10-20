@@ -1,6 +1,6 @@
 import ConfigOption from '../../../Config/Private/ConfigOption.js';
 import Route from '../../Private/BaseRoute.js';
-import Translate, { getTranslations } from '../../../Private/Translate.js';
+import Translate, { filterTimezoneKeys, getTranslations } from '../../../Private/Translate.js';
 import { ReplaceVariables } from '../../../Utils/StringUtils.js';
 import type WebManager from '../../WebManager.js';
 import type { ConfigInstanceData, ConfigNames, WebParsedConfigJSON } from '../../../Types/Configs.js';
@@ -52,11 +52,10 @@ class ConfigPageRoute extends Route {
       if (ConfigOption.isStringSelectionConfigJSONWeb(convertedData)) {
         if (convertedData.internal === 'lang') {
           const options = (convertedData.options as unknown as string[]).map((configOption) => {
-            const amount = Math.floor(
-              (Object.keys(getTranslations(configOption as Language)).length /
-                Object.keys(getTranslations('en_us')).length) *
-                100
-            );
+            const currentLang = filterTimezoneKeys(Object.keys(getTranslations(configOption as Language)));
+            const englishLang = filterTimezoneKeys(Object.keys(getTranslations('en_us')));
+
+            const amount = Math.floor((currentLang.length / englishLang.length) * 100);
             return {
               name: ReplaceVariables(Translate(`config.options.${configName}.${option}.format`), {
                 lang: Translate(`config.options.${configName}.${option}.${configOption}`),
