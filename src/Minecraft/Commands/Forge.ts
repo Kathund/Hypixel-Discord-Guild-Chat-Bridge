@@ -4,7 +4,7 @@ import CommandDataOption from '../Private/CommandDataOption.js';
 import Translate from '../../Private/Translate.js';
 import prettyMilliseconds from 'pretty-ms';
 import { FormatUsername, ReplaceVariables } from '../../Utils/StringUtils.js';
-import { getLatestProfile } from '../../Utils/HypixelUtils.js';
+import { getSelectedProfile } from '../../Utils/HypixelUtils.js';
 import type { MinecraftManagerWithBot, ParsedForgeSlot } from '../../Types/Minecraft.js';
 import type { SkyBlockMemberMiningHotmForgeItem } from 'hypixel-api-reborn';
 
@@ -21,7 +21,7 @@ class ForgeCommand extends Command {
       const args = this.getArgs(message);
       player = args[0] || player;
 
-      const profile = await getLatestProfile(player);
+      const profile = await getSelectedProfile(player);
       const username = FormatUsername(player, profile.gameMode);
 
       const slots: ParsedForgeSlot[] = [];

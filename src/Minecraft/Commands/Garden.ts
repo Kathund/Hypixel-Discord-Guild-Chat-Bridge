@@ -3,7 +3,7 @@ import CommandData from '../Private/CommandData.js';
 import CommandDataOption from '../Private/CommandDataOption.js';
 import Translate from '../../Private/Translate.js';
 import { FormatUsername, ReplaceVariables } from '../../Utils/StringUtils.js';
-import { getLatestProfile } from '../../Utils/HypixelUtils.js';
+import { getSelectedProfile } from '../../Utils/HypixelUtils.js';
 import type { MinecraftManagerWithBot } from '../../Types/Minecraft.js';
 
 class GardenCommand extends Command {
@@ -20,11 +20,11 @@ class GardenCommand extends Command {
       const args = this.getArgs(message);
       player = args[0] || player;
 
-      const profile = await getLatestProfile(player, true);
+      const profile = await getSelectedProfile(player, { garden: true });
       const username = FormatUsername(player, profile.gameMode);
 
       if (profile.garden === null) {
-        throw new Error(ReplaceVariables(Translate('minecraft.commands.garden.execute.error.missing'), { username }));
+        throw new Error(ReplaceVariables(Translate('hypixel.api.error.no.garden'), { username }));
       }
 
       const { wheat, carrot, sugarCane, potato, netherWart, pumpkin, melon, mushroom, cocoaBeans, cactus } =

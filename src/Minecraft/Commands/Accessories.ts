@@ -3,7 +3,7 @@ import CommandData from '../Private/CommandData.js';
 import CommandDataOption from '../Private/CommandDataOption.js';
 import Translate from '../../Private/Translate.js';
 import { FormatNumber, FormatUsername, ReplaceVariables } from '../../Utils/StringUtils.js';
-import { getLatestProfile } from '../../Utils/HypixelUtils.js';
+import { getSelectedProfile } from '../../Utils/HypixelUtils.js';
 import type { MinecraftManagerWithBot } from '../../Types/Minecraft.js';
 import type { Rarity, SkyBlockInventoryItem } from 'hypixel-api-reborn';
 
@@ -55,7 +55,7 @@ class AccessoriesCommand extends Command {
       const args = this.getArgs(message);
       player = args[0] ?? player;
 
-      const profile = await getLatestProfile(player);
+      const profile = await getSelectedProfile(player);
       const username = FormatUsername(player, profile.gameMode);
 
       if (profile.me.inventory.bags.talisman.base64 === undefined || profile.me.inventory.inventory.base64 === null) {
