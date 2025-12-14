@@ -104,7 +104,20 @@ export default function Translate(key: string, lang: Language = getSelectedLangu
   const supportedLanguages = getSupportedLanguages();
   if (!supportedLanguages.includes(lang)) return `Unsupported Language | ${key}`;
   const translations = getTranslations(lang);
-  const translation = translations[key];
+  let translation = translations[key];
+  if (translation === undefined) {
+    const parts = key.split('.');
+    for (let i = 0; i < parts.length; i++) {
+      if (parts[i] === 'generic') continue;
+      const genericParts = [...parts];
+      genericParts[i] = 'generic';
+      const genericKey = genericParts.join('.');
+      if (translations[genericKey] !== undefined) {
+        translation = translations[genericKey];
+        break;
+      }
+    }
+  }
   if (translation === undefined) {
     logMissingTranslation(key, lang);
     return lang === 'en_us' ? `Unknown Translation | ${key}` : Translate(key, 'en_us');
