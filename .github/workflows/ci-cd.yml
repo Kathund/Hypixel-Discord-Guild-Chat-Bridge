@@ -128,7 +128,7 @@ jobs:
 
   build:
     name: build
-    needs: [pnpm, prettier, eslint, data, tailwind]
+    needs: [pnpm, prettier, eslint, data]
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
