@@ -17,7 +17,7 @@ class Application {
 
   connect(): void {
     this.discord.connect();
-    // this.minecraft.connect();
+    this.minecraft.connect();
     this.web.loadServer();
   }
 
