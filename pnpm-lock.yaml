@@ -27,8 +27,8 @@ importers:
         specifier: ^5.2.1
         version: 5.2.1
       hypixel-api-reborn:
-        specifier: 12.0.0-17
-        version: 12.0.0-17
+        specifier: 12.0.0-18
+        version: 12.0.0-18
       mineflayer:
         specifier: ^4.33.0
         version: 4.33.0
@@ -1492,8 +1492,8 @@ packages:
     resolution: {integrity: sha512-4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ==}
     engines: {node: '>= 0.8'}
 
-  hypixel-api-reborn@12.0.0-17:
-    resolution: {integrity: sha512-ssGR7vYvhcPFwdqDzfECBZVT7Q8/Kv66o/+MdYFvg7XQnntse/ELTmqAW/78x1y24E1zrnrWe8VnN7PKvpbimA==}
+  hypixel-api-reborn@12.0.0-18:
+    resolution: {integrity: sha512-EtYW4vLrR36oEjMhlEjEpSlMULjljV/bdEqmKtXmsRDGrXXXQXnv6D1XkUuZVTwXb49cMFWned0buCv0f2po/g==}
     engines: {node: '>=20.19.5'}
 
   iconv-lite@0.7.1:
@@ -4090,7 +4090,7 @@ snapshots:
       statuses: 2.0.2
       toidentifier: 1.0.1
 
-  hypixel-api-reborn@12.0.0-17:
+  hypixel-api-reborn@12.0.0-18:
     dependencies:
       minecraft-data: 3.100.0
       node-cache: 5.1.2

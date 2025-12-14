@@ -39,7 +39,7 @@
     "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^5.2.1",
-    "hypixel-api-reborn": "12.0.0-17",
+    "hypixel-api-reborn": "12.0.0-18",
     "mineflayer": "^4.33.0",
     "pretty-ms": "^9.3.0",
     "skyhelper-networth": "^2.5.1",

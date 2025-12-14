@@ -1218,7 +1218,7 @@
   "minecraft.commands.accessories.username.description": "Minecraft Username",
   "minecraft.commands.bedwars": "bedwars",
   "minecraft.commands.bedwars.description": "BedWars stats of specified user.",
-  "minecraft.commands.bedwars.execute": "[{level}✫] {username} {mode} FK: {finalKills} W: {wins} BB: {bedsBroken} BLR: {BLR} WS: {winStreak}",
+  "minecraft.commands.bedwars.execute": "[{level}✫] {username} {mode} FK: {finalKills} W: {wins} BB: {bedsBroken} BLR: {BLR} WS: {winstreak}",
   "minecraft.commands.bedwars.execute.4v4": "4v4",
   "minecraft.commands.bedwars.execute.doubles": "Doubles",
   "minecraft.commands.bedwars.execute.error.player": "Could not find {player}",
