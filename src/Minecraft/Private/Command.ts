@@ -8,7 +8,6 @@ class Command {
   readonly minecraft: MinecraftManagerWithBot;
   data!: CommandData;
   officer: boolean = false;
-  name: any;
   constructor(minecraft: MinecraftManagerWithBot) {
     this.minecraft = minecraft;
   }

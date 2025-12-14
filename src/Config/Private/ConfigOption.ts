@@ -18,9 +18,9 @@ import type {
 } from '../../Types/Configs.js';
 
 class ConfigOption<OptionType = unknown> {
-  declare readonly type: string;
-  declare private defaultValue: OptionType;
-  declare private value: OptionType;
+  private readonly type: string;
+  private defaultValue: OptionType;
+  private value: OptionType;
   constructor(type: string, defaultValue: OptionType, value: OptionType) {
     this.type = type;
     this.defaultValue = defaultValue;

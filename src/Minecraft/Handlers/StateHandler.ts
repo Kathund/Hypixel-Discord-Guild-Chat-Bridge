@@ -3,8 +3,8 @@ import { ReplaceVariables } from '../../Utils/StringUtils.js';
 import type MinecraftManager from '../MinecraftManager.js';
 
 class StateHandler {
-  declare readonly minecraft: MinecraftManager;
-  declare loginAttempts: number;
+  private readonly minecraft: MinecraftManager;
+  private loginAttempts: number;
   constructor(minecraftManager: MinecraftManager) {
     this.minecraft = minecraftManager;
     this.loginAttempts = 0;

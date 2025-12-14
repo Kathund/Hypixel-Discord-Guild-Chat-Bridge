@@ -1,15 +1,16 @@
-import Route from '../../../../Private/BaseRoute.js';
+import BaseRoute from '../../../../Private/BaseRoute.js';
 import type WebManager from '../../../../WebManager.js';
 import type { Request, Response } from 'express';
 
-class MinecraftCommandDataReloadRoute extends Route {
+class MinecraftCommandDataReloadRoute extends BaseRoute {
+  private readonly web: WebManager;
   constructor(web: WebManager) {
-    super(web);
+    super();
+    this.web = web;
     this.path = '/data/minecraft/reload/commands';
-    this.type = 'post';
   }
 
-  override async handle(req: Request, res: Response) {
+  override async post(req: Request, res: Response) {
     try {
       await this.web.Application.minecraft.commandHandler.deployCommands();
       res.status(200).send({ success: true });

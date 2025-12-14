@@ -1,6 +1,6 @@
 import Command from '../Private/Command.js';
 import CommandData from '../Private/CommandData.js';
-import HypixelDiscordGuildBridgeError from '../../Private/Error.js';
+import HypixelDiscordGuildChatBridgeError from '../../Private/Error.js';
 import Translate, { unTranslate } from '../../Private/Translate.js';
 import { ChatInputCommandInteraction, SlashCommandStringOption } from 'discord.js';
 import { ReplaceVariables } from '../../Utils/StringUtils.js';
@@ -19,17 +19,19 @@ class KickCommand extends Command<DiscordManagerWithBot> {
 
   override async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     if (!this.discord.Application.minecraft.isBotOnline()) {
-      throw new HypixelDiscordGuildBridgeError(Translate('minecraft.error.bot.offline'));
+      throw new HypixelDiscordGuildChatBridgeError(Translate('minecraft.error.bot.offline'));
     }
     const username = interaction.options.getString(Translate(`discord.commands.${this.data.name}.options.username`));
     if (!username) {
-      throw new HypixelDiscordGuildBridgeError(
+      throw new HypixelDiscordGuildChatBridgeError(
         Translate(`discord.commands.${this.data.name}.options.username.missing`)
       );
     }
     const reason = interaction.options.getString(Translate(`discord.commands.${this.data.name}.options.reason`));
     if (!reason) {
-      throw new HypixelDiscordGuildBridgeError(Translate(`discord.commands.${this.data.name}.options.reason.missing`));
+      throw new HypixelDiscordGuildChatBridgeError(
+        Translate(`discord.commands.${this.data.name}.options.reason.missing`)
+      );
     }
 
     this.discord.minecraftCommandData = { name: Translate(unTranslate(this.data.name), 'en_us'), interaction };

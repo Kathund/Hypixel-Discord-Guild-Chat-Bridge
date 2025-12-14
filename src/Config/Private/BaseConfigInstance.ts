@@ -10,7 +10,7 @@ import { sortJSON } from '../../Utils/JSONUtils.js';
 import type { ConfigInstanceData, ConfigJSON } from '../../Types/Configs.js';
 
 class BaseConfigInstance {
-  declare protected data: ConfigInstanceData;
+  protected data: ConfigInstanceData;
   constructor(data: ConfigInstanceData = {}) {
     this.data = { ...data } as ConfigInstanceData;
   }

@@ -16,7 +16,7 @@ class WebManager {
     this.guildData = null;
   }
 
-  async loadServer() {
+  async connect() {
     this.expressServer.use(express.json());
     this.expressServer.set('view engine', 'ejs');
     this.expressServer.set('views', 'src/Web/Pages');
@@ -28,7 +28,7 @@ class WebManager {
     });
   }
 
-  stopServer() {
+  disconnect() {
     if (!this.server) {
       console.warn(Translate('web.server.not.running'));
       return;
@@ -45,26 +45,16 @@ class WebManager {
         await this.loadRoutes(`${dir}/${file}`);
       } else {
         const route = new (await import(`${dir.replaceAll('./src/Web/', './')}/${file}`)).default(this);
-        switch (route.type) {
-          case 'get': {
-            this.expressServer.get(route.path, (req: Request, res: Response) => {
-              res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-              res.set('Pragma', 'no-cache');
-              res.set('Expires', '0');
-              route.handle(req, res);
-            });
-            break;
-          }
-          case 'post': {
-            this.expressServer.post(route.path, (req: Request, res: Response) => {
-              route.handle(req, res);
-            });
-            break;
-          }
-          default: {
-            break;
-          }
-        }
+        this.expressServer.get(route.path, (req: Request, res: Response) => {
+          res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+          res.set('Pragma', 'no-cache');
+          res.set('Expires', '0');
+          route.get(req, res);
+        });
+
+        this.expressServer.post(route.path, (req: Request, res: Response) => {
+          route.post(req, res);
+        });
       }
     }
   }

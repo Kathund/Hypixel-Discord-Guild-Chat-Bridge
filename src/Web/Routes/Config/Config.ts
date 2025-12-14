@@ -1,16 +1,18 @@
-import Route from '../../Private/BaseRoute.js';
+import BaseRoute from '../../Private/BaseRoute.js';
 import Translate from '../../../Private/Translate.js';
 import type WebManager from '../../WebManager.js';
 import type { Request, Response } from 'express';
 import type { WebParsedData } from '../../../Types/Configs.js';
 
-class ConfigRoute extends Route {
+class ConfigRoute extends BaseRoute {
+  private readonly web: WebManager;
   constructor(web: WebManager) {
-    super(web);
+    super();
+    this.web = web;
     this.path = '/config';
   }
 
-  override handle(req: Request, res: Response) {
+  override get(req: Request, res: Response) {
     const configs: WebParsedData[] = [];
     Object.keys(this.web.Application.config)
       .filter((config) => config !== 'Application')

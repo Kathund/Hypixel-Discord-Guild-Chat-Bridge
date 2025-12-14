@@ -1,4 +1,4 @@
-import HypixelDiscordGuildBridgeError from '../../Private/Error.js';
+import HypixelDiscordGuildChatBridgeError from '../../Private/Error.js';
 import Translate from '../../Private/Translate.js';
 import {
   ApplicationIntegrationType,
@@ -23,7 +23,7 @@ class CommandData extends SlashCommandBuilder {
   }
 
   override setDescription(description: string): this {
-    throw new HypixelDiscordGuildBridgeError(Translate('discord.commands.error.setDescription'));
+    throw new HypixelDiscordGuildChatBridgeError(Translate('discord.commands.error.setDescription'));
   }
 
   override addStringOption(option: SlashCommandStringOption): this {

@@ -2,8 +2,8 @@ import ConfigOption from '../Private/ConfigOption.js';
 import type { NumberConfigJSON } from '../../Types/Configs.js';
 
 class NumberOption extends ConfigOption<number> {
-  declare private max: number;
-  declare private min: number;
+  private max: number;
+  private min: number;
   constructor(defaultValue: number, value: number = defaultValue, max: number = -1, min: number = -1) {
     super('number', defaultValue, value);
     this.max = max;

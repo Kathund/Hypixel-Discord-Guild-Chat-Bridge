@@ -11,11 +11,11 @@ import type Application from '../Application.js';
 import type { MessageCreateOptions } from 'discord.js';
 
 class MinecraftManager {
-  declare readonly Application: Application;
-  declare readonly messageHandler: MessageHandler;
-  declare readonly stateHandler: StateHandler;
-  declare readonly commandHandler: CommandHandler;
-  declare bot?: Bot;
+  readonly Application: Application;
+  readonly messageHandler: MessageHandler;
+  readonly stateHandler: StateHandler;
+  readonly commandHandler: CommandHandler;
+  bot?: Bot;
   constructor(app: Application) {
     this.Application = app;
     this.messageHandler = new MessageHandler(this);

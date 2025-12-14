@@ -1,3 +1,4 @@
+// Credit - https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/blob/d3ea84a26ebf094c8191d50b4954549e2dd4dc7f/src/contracts/helperFunctions.js#L260-L278
 export function TitleCase(string: string): string {
   if (!string) return '';
   return string
@@ -19,12 +20,14 @@ export function CleanMessageForDiscord(string: string): string {
     .replaceAll('|', '\\|');
 }
 
+// Credit - https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/blob/d3ea84a26ebf094c8191d50b4954549e2dd4dc7f/src/contracts/helperFunctions.js#L216-L225
 export function ReplaceVariables(template: string, variables: object): string {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   return template.replace(/\{(\w+)\}/g, (match, name) => variables[name] ?? match);
 }
 
+// Credit - https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/blob/d3ea84a26ebf094c8191d50b4954549e2dd4dc7f/src/contracts/helperFunctions.js#L227-L240
 export function SplitMessage(message: string, amount: number): string[] {
   const messages = [];
   for (let i = 0; i < message.length; i += amount) {
@@ -33,6 +36,7 @@ export function SplitMessage(message: string, amount: number): string[] {
   return messages;
 }
 
+// Credit - https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/blob/d3ea84a26ebf094c8191d50b4954549e2dd4dc7f/src/contracts/helperFunctions.js#L178-L190
 export function FormatUsername(username: string, gamemode: string | null): string {
   if (!gamemode) return username;
   if (gamemode === 'ironman') return `♲ ${username}`;
@@ -42,6 +46,7 @@ export function FormatUsername(username: string, gamemode: string | null): strin
   return username;
 }
 
+// Credit - https://github.com/DuckySoLucky/hypixel-discord-chat-bridge/blob/d3ea84a26ebf094c8191d50b4954549e2dd4dc7f/src/contracts/helperFunctions.js#L192-L214
 export function FormatNumber(number: number, decimals: number = 2): string {
   if (number === undefined || number === 0) return '0';
 

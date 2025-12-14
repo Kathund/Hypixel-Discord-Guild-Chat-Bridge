@@ -1,7 +1,7 @@
 import Command from '../Private/Command.js';
 import CommandData from '../Private/CommandData.js';
 import Embed from '../Private/Embed.js';
-import HypixelDiscordGuildBridgeError from '../../Private/Error.js';
+import HypixelDiscordGuildChatBridgeError from '../../Private/Error.js';
 import Translate from '../../Private/Translate.js';
 import { ReplaceVariables } from '../../Utils/StringUtils.js';
 import type { Bot } from 'mineflayer';
@@ -41,14 +41,14 @@ class OnlineCommand extends Command<DiscordManagerWithBot> {
     const messages = await this.getMessages(bot);
     let onlineString = messages.find((message) => message.startsWith('Online Members: '));
     if (onlineString === undefined) {
-      throw new HypixelDiscordGuildBridgeError(Translate('discord.commands.online.execute.error.missing.online'));
+      throw new HypixelDiscordGuildChatBridgeError(Translate('discord.commands.online.execute.error.missing.online'));
     }
     const online = Number(onlineString.split('Online Members: ')?.[1] || '0');
     onlineString = ReplaceVariables(Translate('discord.commands.online.execute.online'), { members: online });
 
     let totalString = messages.find((message) => message.startsWith('Total Members: '));
     if (totalString === undefined) {
-      throw new HypixelDiscordGuildBridgeError(Translate('discord.commands.online.execute.error.missing.total'));
+      throw new HypixelDiscordGuildChatBridgeError(Translate('discord.commands.online.execute.error.missing.total'));
     }
     const total = Number(totalString.split('Total Members: ')?.[1] || '0');
     totalString = ReplaceVariables(Translate('discord.commands.online.execute.total'), { members: total });

@@ -1,7 +1,7 @@
-class HypixelDiscordGuildBridgeError extends Error {
+class HypixelDiscordGuildChatBridgeError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'Hypixel Discord Guild Bridge';
+    this.name = 'Hypixel Discord Guild Chat Bridge';
   }
 
   override toString(): string {
@@ -9,4 +9,4 @@ class HypixelDiscordGuildBridgeError extends Error {
   }
 }
 
-export default HypixelDiscordGuildBridgeError;
+export default HypixelDiscordGuildChatBridgeError;

@@ -7,11 +7,16 @@ import type MinecraftManager from '../MinecraftManager.js';
 import type { ChatMessage } from 'prismarine-chat';
 
 class MessageHandler {
-  declare readonly minecraft: MinecraftManager;
-  declare allowLimbo: boolean;
+  private readonly minecraft: MinecraftManager;
+  private allowLimbo: boolean;
   constructor(minecraftManager: MinecraftManager) {
     this.minecraft = minecraftManager;
     this.allowLimbo = true;
+  }
+
+  setAllowLimbo(state: boolean): this {
+    this.allowLimbo = state;
+    return this;
   }
 
   registerEvents() {

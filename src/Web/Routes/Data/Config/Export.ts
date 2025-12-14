@@ -1,16 +1,16 @@
+import BaseRoute from '../../../Private/BaseRoute.js';
 import ConfigManager from '../../../../Config/ConfigManager.js';
-import Route from '../../../Private/BaseRoute.js';
 import Translate from '../../../../Private/Translate.js';
 import type WebManager from '../../../WebManager.js';
 import type { Request, Response } from 'express';
 
-class ConfigExportRoute extends Route {
+class ConfigExportRoute extends BaseRoute {
   constructor(web: WebManager) {
-    super(web);
+    super();
     this.path = '/data/config/export';
   }
 
-  override handle(req: Request, res: Response) {
+  override get(req: Request, res: Response) {
     try {
       res.status(200).send({ success: true, data: ConfigManager.convertConfigToBase64() });
     } catch (error) {

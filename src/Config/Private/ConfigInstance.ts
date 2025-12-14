@@ -1,6 +1,6 @@
 import BaseConfigInstance from './BaseConfigInstance.js';
 import ConfigOption from './ConfigOption.js';
-import HypixelDiscordGuildBridgeError from '../../Private/Error.js';
+import HypixelDiscordGuildChatBridgeError from '../../Private/Error.js';
 import StringOption from '../Options/String.js';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import type { ConfigInstanceData } from '../../Types/Configs.js';
@@ -11,8 +11,8 @@ const baseData: ConfigInstanceData = {
 };
 
 class ConfigInstance extends BaseConfigInstance {
-  readonly name: string;
-  declare protected data: ConfigInstanceData;
+  private readonly name: string;
+  protected override data: ConfigInstanceData;
   constructor(name: string, update: boolean = false) {
     super(baseData);
     this.name = name;
@@ -33,9 +33,9 @@ class ConfigInstance extends BaseConfigInstance {
   updateData(): void {
     this.checkConfig();
     const configFile = readFileSync(`./data/config/${this.name}.json`);
-    if (!configFile) throw new HypixelDiscordGuildBridgeError(`The ${this.name} config file doesn't exist`);
+    if (!configFile) throw new HypixelDiscordGuildChatBridgeError(`The ${this.name} config file doesn't exist`);
     const config = JSON.parse(configFile.toString('utf8'));
-    if (!config) throw new HypixelDiscordGuildBridgeError(`The ${this.name} config file is malformed`);
+    if (!config) throw new HypixelDiscordGuildChatBridgeError(`The ${this.name} config file is malformed`);
     config['!!'] = baseData['!!'];
     config['!!!'] = baseData['!!!'];
     Object.keys(config).forEach((configKey) => {

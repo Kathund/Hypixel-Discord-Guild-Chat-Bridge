@@ -34,7 +34,7 @@ function getCurrentTime() {
 function getErrorString(error: Error): string {
   return `${error.toString()}${error.stack
     ?.replaceAll(error.toString(), '')
-    .replaceAll('Hypixel Discord Guild Bridge:', '\nHypixel Discord Guild Bridge:')}`;
+    .replaceAll('Hypixel Discord Guild Chat Bridge:', '\nHypixel Discord Guild Chat Bridge:')}`;
 }
 
 function logSomething(message: string, log: LogData): void {

@@ -1,18 +1,20 @@
+import BaseRoute from '../../../../Private/BaseRoute.js';
 import ConfigOption from '../../../../../Config/Private/ConfigOption.js';
 import ConfigPageRoute from '../../ConfigPage.js';
-import Route from '../../../../Private/BaseRoute.js';
 import Translate from '../../../../../Private/Translate.js';
 import type WebManager from '../../../../WebManager.js';
 import type { ConfigNames } from '../../../../../Types/Configs.js';
 import type { Request, Response } from 'express';
 
-class SubSubConfigPageRoute extends Route {
+class SubSubConfigPageRoute extends BaseRoute {
+  private readonly web: WebManager;
   constructor(web: WebManager) {
-    super(web);
+    super();
+    this.web = web;
     this.path = '/config/:configParam/:subConfigParam/:subSubConfigParam';
   }
 
-  override handle(req: Request, res: Response) {
+  override get(req: Request, res: Response) {
     const { configParam, subConfigParam, subSubConfigParam } = req.params;
     if (!configParam || !subConfigParam || !subSubConfigParam) {
       return res.status(400).json({ success: false, message: Translate('web.route.error.missing.param') });

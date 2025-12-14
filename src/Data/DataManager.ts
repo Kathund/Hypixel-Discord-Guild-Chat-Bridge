@@ -1,4 +1,4 @@
-import HypixelDiscordGuildBridgeError from '../Private/Error.js';
+import HypixelDiscordGuildChatBridgeError from '../Private/Error.js';
 import Translate from '../Private/Translate.js';
 import zod from 'zod';
 import { type DataInstance, Dev, Devs } from '../Types/Data.js';
@@ -24,31 +24,31 @@ class DataManager {
     if (existsSync(`./data/${data.name}`)) {
       const file = readFileSync(`./data/${data.name}`);
       if (!file) {
-        throw new HypixelDiscordGuildBridgeError(
+        throw new HypixelDiscordGuildChatBridgeError(
           ReplaceVariables(Translate('data.error.missing'), { file: `data/${data.name}` })
         );
       }
       const fileData = JSON.parse(file.toString('utf8'));
       if (!fileData) {
-        throw new HypixelDiscordGuildBridgeError(
+        throw new HypixelDiscordGuildChatBridgeError(
           ReplaceVariables(Translate('data.error.malformed'), { file: `data/${data.name}` })
         );
       }
       if (Array.isArray(fileData) && fileData.length === 0) {
-        throw new HypixelDiscordGuildBridgeError(
+        throw new HypixelDiscordGuildChatBridgeError(
           ReplaceVariables(Translate('data.error.malformed'), { file: `data/${data.name}` })
         );
       }
       const parsed = data.schema.safeParse(fileData);
       if (!parsed.success) {
         console.error(parsed.error);
-        throw new HypixelDiscordGuildBridgeError(
+        throw new HypixelDiscordGuildChatBridgeError(
           ReplaceVariables(Translate('data.error.invalid'), { file: `data/${data.name}` })
         );
       }
       console.other(ReplaceVariables(Translate('data.validate.file.complete'), { file: data.name }));
     } else {
-      throw new HypixelDiscordGuildBridgeError(
+      throw new HypixelDiscordGuildChatBridgeError(
         ReplaceVariables(Translate('data.error.missing'), { file: `data/${data.name}` })
       );
     }
@@ -57,13 +57,13 @@ class DataManager {
   static getDevs(): Record<Devs, Dev> {
     const devsFile = readFileSync('./data/Devs.json');
     if (!devsFile) {
-      throw new HypixelDiscordGuildBridgeError(
+      throw new HypixelDiscordGuildChatBridgeError(
         ReplaceVariables(Translate('data.error.missing'), { file: 'data/Devs.json' })
       );
     }
     const devs = JSON.parse(devsFile.toString('utf8'));
     if (!devs) {
-      throw new HypixelDiscordGuildBridgeError(
+      throw new HypixelDiscordGuildChatBridgeError(
         ReplaceVariables(Translate('data.error.malformed'), { file: 'data/Devs.json' })
       );
     }
@@ -73,13 +73,13 @@ class DataManager {
   static getColors(): Record<EmbedDefaultColors, EmbedDefaultColor> {
     const colorsFile = readFileSync('./data/Colors.json');
     if (!colorsFile) {
-      throw new HypixelDiscordGuildBridgeError(
+      throw new HypixelDiscordGuildChatBridgeError(
         ReplaceVariables(Translate('data.error.missing'), { file: 'data/Colors.json' })
       );
     }
     const colors = JSON.parse(colorsFile.toString('utf8'));
     if (!colors) {
-      throw new HypixelDiscordGuildBridgeError(
+      throw new HypixelDiscordGuildChatBridgeError(
         ReplaceVariables(Translate('data.error.malformed'), { file: 'data/Colors.json' })
       );
     }

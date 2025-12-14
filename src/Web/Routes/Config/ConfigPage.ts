@@ -1,5 +1,5 @@
+import BaseRoute from '../../Private/BaseRoute.js';
 import ConfigOption from '../../../Config/Private/ConfigOption.js';
-import Route from '../../Private/BaseRoute.js';
 import Translate, { filterTimezoneKeys, getTranslations } from '../../../Private/Translate.js';
 import { ReplaceVariables } from '../../../Utils/StringUtils.js';
 import type WebManager from '../../WebManager.js';
@@ -7,13 +7,15 @@ import type { ConfigInstanceData, ConfigNames, WebParsedConfigJSON } from '../..
 import type { Language } from '../../../Types/Data.js';
 import type { Request, Response } from 'express';
 
-class ConfigPageRoute extends Route {
+class ConfigPageRoute extends BaseRoute {
+  private readonly web: WebManager;
   constructor(web: WebManager) {
-    super(web);
+    super();
+    this.web = web;
     this.path = '/config/:configParam';
   }
 
-  override handle(req: Request, res: Response) {
+  override get(req: Request, res: Response) {
     const { configParam } = req.params;
     if (!configParam) {
       return res.status(400).json({ success: false, message: Translate('web.route.error.missing.param') });

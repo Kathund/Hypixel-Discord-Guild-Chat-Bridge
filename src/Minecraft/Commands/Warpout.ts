@@ -8,7 +8,7 @@ import type { ChatMessage } from 'prismarine-chat';
 import type { MinecraftManagerWithBot } from '../../Types/Minecraft.js';
 
 class WarpoutCommand extends Command {
-  isOnCooldown: boolean;
+  private isOnCooldown: boolean;
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.data = new CommandData()
@@ -17,17 +17,16 @@ class WarpoutCommand extends Command {
       .setOptions([new CommandDataOption().setName('username').setRequired(false)]);
 
     this.isOnCooldown = false;
-    this.minecraft.messageHandler.allowLimbo = true;
   }
 
   enableCooldown() {
     this.isOnCooldown = true;
-    this.minecraft.messageHandler.allowLimbo = false;
+    this.minecraft.messageHandler.setAllowLimbo(false);
   }
 
   disableCooldown() {
     this.isOnCooldown = false;
-    this.minecraft.messageHandler.allowLimbo = true;
+    this.minecraft.messageHandler.setAllowLimbo(true);
   }
 
   override async execute(player: string, message: string) {

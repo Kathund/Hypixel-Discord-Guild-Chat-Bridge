@@ -17,10 +17,10 @@ import {
 import { existsSync, mkdirSync } from 'node:fs';
 
 class ConfigManager {
-  declare debug: DebugConfig;
-  declare discord: DiscordConfig;
-  declare minecraft: MinecraftConfig;
-  declare misc: MiscConfig;
+  debug: DebugConfig;
+  discord: DiscordConfig;
+  minecraft: MinecraftConfig;
+  misc: MiscConfig;
   constructor(update: boolean = true) {
     if (!existsSync('./data/config')) mkdirSync('./data/config/', { recursive: true });
     this.debug = new DebugConfig(update);

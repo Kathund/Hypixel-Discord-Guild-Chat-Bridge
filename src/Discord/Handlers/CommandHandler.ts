@@ -1,4 +1,4 @@
-import HypixelDiscordGuildBridgeError from '../../Private/Error.js';
+import HypixelDiscordGuildChatBridgeError from '../../Private/Error.js';
 import Translate, { unTranslate } from '../../Private/Translate.js';
 import { ChatInputCommandInteraction, Collection, MessageFlags, REST, Routes, Team } from 'discord.js';
 import { ErrorEmbed } from '../Private/Embed.js';
@@ -45,7 +45,7 @@ class CommandHandler {
         );
       }
       if (commandConfigOption.value.enabled?.value !== true) {
-        throw new HypixelDiscordGuildBridgeError(
+        throw new HypixelDiscordGuildChatBridgeError(
           ReplaceVariables(Translate('discord.commands.config.disabled'), { commandName: interaction.commandName })
         );
       }
@@ -54,13 +54,13 @@ class CommandHandler {
       const requiredRole = (commandConfigOption.value?.required_role?.value as string) || '';
       const aloudUsers = (commandConfig.getValue().aloud_users?.value as string[]) || [];
       if (!this.hasPerms(memberRoles, requiredRole, interaction.user.id, aloudUsers)) {
-        throw new HypixelDiscordGuildBridgeError(
+        throw new HypixelDiscordGuildChatBridgeError(
           ReplaceVariables(Translate('discord.commands.config.missing.perms'), { commandName: interaction.commandName })
         );
       }
       if (command.data.getGroups().includes('minecraft')) {
         if (!this.discord.Application.minecraft.isBotOnline()) {
-          throw new HypixelDiscordGuildBridgeError(Translate('minecraft.error.bot.offline'));
+          throw new HypixelDiscordGuildChatBridgeError(Translate('minecraft.error.bot.offline'));
         }
         this.discord.minecraftCommandData = { name: Translate(unTranslate(command.data.name), 'en_us'), interaction };
         setTimeout(() => {
@@ -69,7 +69,7 @@ class CommandHandler {
       }
       await command.execute(interaction);
     } catch (error) {
-      if (error instanceof Error || error instanceof HypixelDiscordGuildBridgeError) {
+      if (error instanceof Error || error instanceof HypixelDiscordGuildChatBridgeError) {
         this.handleError(interaction, error);
       }
     }
@@ -111,11 +111,11 @@ class CommandHandler {
     return required === '' || users.includes(user) || roles.includes(required);
   }
 
-  async handleError(interaction: ChatInputCommandInteraction, error: Error | HypixelDiscordGuildBridgeError) {
+  async handleError(interaction: ChatInputCommandInteraction, error: Error | HypixelDiscordGuildChatBridgeError) {
     console.error(error);
     const embed = new ErrorEmbed();
-    if (error instanceof HypixelDiscordGuildBridgeError) embed.setDescription(error.message);
-    if (!(error instanceof HypixelDiscordGuildBridgeError) && error instanceof Error) {
+    if (error instanceof HypixelDiscordGuildChatBridgeError) embed.setDescription(error.message);
+    if (!(error instanceof HypixelDiscordGuildChatBridgeError) && error instanceof Error) {
       if (!this.discord.client || !this.discord.client.application) return;
       const discordApplication = await this.discord.client.application.fetch();
       const logChannelId = this.discord.Application.config.discord.getValue('logging_channel')?.getValue();

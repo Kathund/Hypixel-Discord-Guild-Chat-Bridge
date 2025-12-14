@@ -8,8 +8,8 @@ import type MinecraftManager from '../MinecraftManager.js';
 import type { SubConfigConfigJSON } from '../../Types/Configs.js';
 
 class CommandHandler {
-  readonly minecraft: MinecraftManager;
-  commands: Collection<string, Command> = new Collection<string, Command>();
+  private readonly minecraft: MinecraftManager;
+  private readonly commands: Collection<string, Command> = new Collection<string, Command>();
   constructor(minecraft: MinecraftManager) {
     this.minecraft = minecraft;
   }
@@ -41,7 +41,7 @@ class CommandHandler {
     const commandConfig = this.minecraft.Application.config.minecraft.getValue('commands');
     if (!commandConfig || !commandConfig.isSubConfigConfig()) return;
 
-    this.commands = new Collection<string, Command>();
+    this.commands.clear();
 
     const commandFiles = readdirSync('./src/Minecraft/Commands');
     for (const file of commandFiles) {

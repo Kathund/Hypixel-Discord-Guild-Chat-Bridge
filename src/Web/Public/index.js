@@ -15,9 +15,9 @@ function getValue(element) {
   return element.type === 'checkbox' ? element.checked : element.value;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   fetch('/force/save', { method: 'POST' });
-  fetch('/data/discord/server');
+  await fetch('/data/discord/server');
 
   document.querySelectorAll('input, select').forEach(async (input) => {
     originalValues.set(input.id, getValue(input));

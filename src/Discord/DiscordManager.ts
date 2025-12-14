@@ -8,11 +8,11 @@ import type Application from '../Application.js';
 
 class DiscordManager {
   readonly Application: Application;
-  declare interactionHandler: InteractionHandler;
-  declare stateHandler: StateHandler;
-  declare commandHandler: CommandHandler;
-  declare messageHandler: MessageHandler;
-  declare scriptHandler: ScriptHandler;
+  private readonly interactionHandler: InteractionHandler;
+  private readonly stateHandler: StateHandler;
+  readonly commandHandler: CommandHandler;
+  private readonly messageHandler: MessageHandler;
+  readonly scriptHandler: ScriptHandler;
   client?: Client;
   minecraftCommandData?: { name: string; interaction: ChatInputCommandInteraction };
   constructor(app: Application) {

@@ -1,4 +1,4 @@
-import HypixelDiscordGuildBridgeError from './Error.js';
+import HypixelDiscordGuildChatBridgeError from './Error.js';
 // eslint-disable-next-line import/no-cycle
 import MiscConfig from '../Config/Configs/MiscConfig.js';
 import StringOption from '../Config/Options/String.js';
@@ -57,9 +57,9 @@ function logMissingTranslation(key: string, lang: Language = getSelectedLanguage
     writeFileSync(`./translations/missing/${lang}.json`, JSON.stringify({}));
   }
   const missingFile = readFileSync(`./translations/missing/${lang}.json`);
-  if (!missingFile) throw new HypixelDiscordGuildBridgeError("The missing translations file doesn't exist");
+  if (!missingFile) throw new HypixelDiscordGuildChatBridgeError("The missing translations file doesn't exist");
   const missing = JSON.parse(missingFile.toString('utf8'));
-  if (!missing) throw new HypixelDiscordGuildBridgeError('The missing translations file is malformed.');
+  if (!missing) throw new HypixelDiscordGuildChatBridgeError('The missing translations file is malformed.');
   missing[key] = `Could not find translation for \`${key}\` in \`${lang}\``;
   writeFileSync(`./translations/missing/${lang}.json`, JSON.stringify(missing, null, 2));
 }
@@ -67,12 +67,12 @@ function logMissingTranslation(key: string, lang: Language = getSelectedLanguage
 export function getTranslations(lang: Language = getSelectedLanguage()): { [key: string]: string } {
   try {
     if (!getSupportedLanguages().includes(lang)) {
-      throw new HypixelDiscordGuildBridgeError(`Translations are missing for ${lang} language`);
+      throw new HypixelDiscordGuildChatBridgeError(`Translations are missing for ${lang} language`);
     }
     const translationsFile = readFileSync(`./translations/${lang}.json`);
-    if (!translationsFile) throw new HypixelDiscordGuildBridgeError(`The ${lang} translations file doesn't exist`);
+    if (!translationsFile) throw new HypixelDiscordGuildChatBridgeError(`The ${lang} translations file doesn't exist`);
     const translations = JSON.parse(translationsFile.toString('utf8'));
-    if (!translations) throw new HypixelDiscordGuildBridgeError(`The ${lang} translations file is malformed`);
+    if (!translations) throw new HypixelDiscordGuildChatBridgeError(`The ${lang} translations file is malformed`);
     return translations;
   } catch (error) {
     console.error(error);

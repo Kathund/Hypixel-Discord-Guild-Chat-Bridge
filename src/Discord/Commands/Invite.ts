@@ -1,6 +1,6 @@
 import Command from '../Private/Command.js';
 import CommandData from '../Private/CommandData.js';
-import HypixelDiscordGuildBridgeError from '../../Private/Error.js';
+import HypixelDiscordGuildChatBridgeError from '../../Private/Error.js';
 import Translate from '../../Private/Translate.js';
 import { ChatInputCommandInteraction, SlashCommandStringOption } from 'discord.js';
 import { ReplaceVariables } from '../../Utils/StringUtils.js';
@@ -19,7 +19,7 @@ class InviteCommand extends Command<DiscordManagerWithBot> {
   override async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     const username = interaction.options.getString(Translate(`discord.commands.${this.data.name}.options.username`));
     if (!username) {
-      throw new HypixelDiscordGuildBridgeError(
+      throw new HypixelDiscordGuildChatBridgeError(
         Translate(`discord.commands.${this.data.name}.options.username.missing`)
       );
     }

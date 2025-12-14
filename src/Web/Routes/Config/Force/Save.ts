@@ -1,15 +1,16 @@
-import Route from '../../../Private/BaseRoute.js';
+import BaseRoute from '../../../Private/BaseRoute.js';
 import type WebManager from '../../../WebManager.js';
 import type { Request, Response } from 'express';
 
-class ForceSaveRoute extends Route {
+class ForceSaveRoute extends BaseRoute {
+  private readonly web: WebManager;
   constructor(web: WebManager) {
-    super(web);
+    super();
+    this.web = web;
     this.path = '/force/save';
-    this.type = 'post';
   }
 
-  override handle(req: Request, res: Response) {
+  override post(req: Request, res: Response) {
     Object.keys(this.web.Application.config)
       .filter((key) => !['Application'].includes(key))
       .forEach((key) => {

@@ -1,17 +1,15 @@
+import BaseRoute from '../../../Private/BaseRoute.js';
 import ConfigManager from '../../../../Config/ConfigManager.js';
-import Route from '../../../Private/BaseRoute.js';
 import Translate from '../../../../Private/Translate.js';
-import type WebManager from '../../../WebManager.js';
 import type { Request, Response } from 'express';
 
-class ConfigImportRoute extends Route {
-  constructor(web: WebManager) {
-    super(web);
+class ConfigImportRoute extends BaseRoute {
+  constructor() {
+    super();
     this.path = '/data/config/import';
-    this.type = 'post';
   }
 
-  override handle(req: Request, res: Response) {
+  override post(req: Request, res: Response) {
     try {
       const body = req.body;
       if (!body) {

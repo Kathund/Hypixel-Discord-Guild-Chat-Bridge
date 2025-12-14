@@ -3,7 +3,7 @@ import CommandData from '../Private/CommandData.js';
 import type { MinecraftManagerWithBot } from '../../Types/Minecraft.js';
 
 class MeowCommand extends Command {
-  variations: string[];
+  private variations: string[];
   constructor(minecraft: MinecraftManagerWithBot) {
     super(minecraft);
     this.variations = ['mrrp', 'mrrow', 'miau', 'mauww', 'meep', ':3', 'nja', 'awawa'];
