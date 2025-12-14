@@ -40,6 +40,8 @@ class MinecraftConfig extends ConfigInstance {
       'events',
       new SubConfigOption(
         new BaseConfigInstance()
+          .setValue('bot_login', eventLogConfig, false)
+          .setValue('bot_disconnect', eventLogConfig, false)
           .setValue('member_login', eventConfig, false)
           .setValue('member_logout', eventConfig, false)
           .setValue(
