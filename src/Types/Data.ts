@@ -11,6 +11,7 @@ export type DevType = zod.infer<typeof DevType>;
 
 export const Dev = zod.object({
   username: zod.string(),
+  languages: zod.array(Language),
   id: zod.string(),
   types: zod.array(DevType),
   url: zod.string()

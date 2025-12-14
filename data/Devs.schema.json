@@ -6,6 +6,7 @@
     "type": "object",
     "properties": {
       "username": { "type": "string" },
+      "languages": { "type": "array", "items": { "type": "string", "enum": ["en_us", "tok"] } },
       "id": { "type": "string" },
       "types": {
         "type": "array",
@@ -13,7 +14,7 @@
       },
       "url": { "type": "string" }
     },
-    "required": ["username", "id", "types", "url"],
+    "required": ["username", "languages", "id", "types", "url"],
     "additionalProperties": false
   }
 }

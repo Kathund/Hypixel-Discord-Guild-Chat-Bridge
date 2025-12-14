@@ -26,9 +26,17 @@ class CreditsCommand extends Command {
               .filter((dev) => devs[dev as Devs].types.includes(type))
               .map((dev) => {
                 const devInfo = devs[dev as Devs];
+                const languages = devInfo.languages
+                  .map((lang) => Translate(`config.options.misc.lang.${lang}`))
+                  .join(', ');
+                const languageString = ReplaceVariables(
+                  Translate('discord.commands.credits.execute.developers.user.languages'),
+                  { languages }
+                );
                 return ReplaceVariables(Translate('discord.commands.credits.execute.developers.user'), {
                   username: devInfo.username,
-                  id: devInfo.id
+                  id: devInfo.id,
+                  languageString: devInfo.languages.length > 0 && type === 'translations' ? languageString : ''
                 });
               })
               .join('\n')

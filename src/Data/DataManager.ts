@@ -69,6 +69,7 @@ class DataManager {
         ReplaceVariables(Translate('data.error.malformed'), { file: 'data/Devs.json' })
       );
     }
+    if (devs.$schema) delete devs.$schema;
     return devs;
   }
 
@@ -85,6 +86,7 @@ class DataManager {
         ReplaceVariables(Translate('data.error.malformed'), { file: 'data/Colors.json' })
       );
     }
+    if (colors.$schema) delete colors.$schema;
     return colors;
   }
 
