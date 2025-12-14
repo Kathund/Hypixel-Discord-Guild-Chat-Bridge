@@ -1,4 +1,5 @@
 {
+  "$schema": "./Devs.schema.json",
   "duckysolucky": {
     "id": "486155512568741900",
     "types": ["contributor"],
@@ -19,7 +20,7 @@
   },
   "madelyn": {
     "id": "894034804503351366",
-    "types": ["translations"],
+    "types": ["contributor", "translations"],
     "url": "https://cdn.discordapp.com/avatars/894034804503351366/7f4d57e91d0c86cf30e87a7cbf830d3c.webp",
     "username": "madelynwith5ns"
   },

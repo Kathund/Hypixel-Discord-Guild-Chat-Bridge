@@ -16,7 +16,13 @@ export default [
   prettier,
   globalIgnores(['./build/']),
   {
-    ignores: ['data/config/*.json', 'translations/missing/*.json', 'minecraft-auth-cache/*', 'package.json'],
+    ignores: [
+      'data/config/*.json',
+      'data/*.schema.json',
+      'translations/missing/*.json',
+      'minecraft-auth-cache/*',
+      'package.json'
+    ],
     files: ['**/*.json'],
     plugins: { json },
     language: 'json/json',

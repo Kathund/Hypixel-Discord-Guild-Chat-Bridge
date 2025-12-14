@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "propertyNames": { "type": "string", "enum": ["Green", "Red", "Blue"] },
+  "additionalProperties": {
+    "type": "string",
+    "minLength": 7,
+    "maxLength": 7,
+    "format": "lowercase",
+    "allOf": [{ "pattern": "^#.*" }, { "pattern": "^[^A-Z]*$" }]
+  }
+}

@@ -8,9 +8,10 @@ import { execSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import type { RepoData } from '../Types/Debug.js';
 
-const trackedData = [
-  { name: 'Devs.json', default: {}, schema: zod.record(Devs, Dev) },
-  { name: 'Colors.json', default: {}, schema: zod.record(EmbedDefaultColors, EmbedDefaultColor) }
+// eslint-disable-next-line import/exports-last
+export const trackedData = [
+  { name: 'Colors.json', default: {}, schema: zod.record(EmbedDefaultColors, EmbedDefaultColor) },
+  { name: 'Devs.json', default: {}, schema: zod.record(Devs, Dev) }
 ];
 
 class DataManager {
@@ -39,6 +40,7 @@ class DataManager {
           ReplaceVariables(Translate('data.error.malformed'), { file: `data/${data.name}` })
         );
       }
+      if (fileData.$schema) delete fileData.$schema;
       const parsed = data.schema.safeParse(fileData);
       if (!parsed.success) {
         console.error(parsed.error);

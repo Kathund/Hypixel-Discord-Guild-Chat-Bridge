@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "propertyNames": { "type": "string", "enum": ["kathund", "duckysolucky", "georgeFilos", "zickles", "madelyn"] },
+  "additionalProperties": {
+    "type": "object",
+    "properties": {
+      "username": { "type": "string" },
+      "id": { "type": "string" },
+      "types": {
+        "type": "array",
+        "items": { "type": "string", "enum": ["maintainer", "contributor", "translations"] }
+      },
+      "url": { "type": "string" }
+    },
+    "required": ["username", "id", "types", "url"],
+    "additionalProperties": false
+  }
+}

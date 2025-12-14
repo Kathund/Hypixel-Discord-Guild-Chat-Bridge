@@ -805,6 +805,8 @@
   "data.error.invalid": "The {file} file is invalid. Its contents do not match the expected format. Please either manually fix it or run the update data script (pnpm data:update)",
   "data.error.malformed": "The {file} file is malformed. Please either manually fix it or run the update data script (pnpm data:update)",
   "data.error.missing": "The {file} file is missing. Please either manually create it or run the update data script (pnpm data:update)",
+  "data.schema.create": "Attempting to create data/{file}'s json schema",
+  "data.schema.created": "Created data/{file}'s json schema",
   "data.update.file": "Attempting to update data/{file}",
   "data.update.file.updated": "Updated data/{file}",
   "data.validate.file": "Attempting to validate data/{file}",
