@@ -40,13 +40,13 @@
     "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^5.2.1",
-    "hypixel-api-reborn": "12.0.0-18",
+    "hypixel-api-reborn": "12.0.0-20",
     "mineflayer": "^4.33.0",
     "pretty-ms": "^9.3.0",
-    "skyhelper-networth": "^2.5.1",
+    "skyhelper-networth": "^2.6.1",
     "tailwindcss": "^4.1.18",
     "winston": "^3.19.0",
-    "zod": "^4.1.13"
+    "zod": "^4.2.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
@@ -57,7 +57,7 @@
     "@types/eslint": "^9.6.1",
     "@types/express": "^5.0.6",
     "@types/node": "^24.10.4",
-    "@typescript-eslint/utils": "^8.49.0",
+    "@typescript-eslint/utils": "^8.50.1",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
@@ -69,6 +69,6 @@
     "prismarine-chat": "^1.12.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.49.0"
+    "typescript-eslint": "^8.50.1"
   }
 }
