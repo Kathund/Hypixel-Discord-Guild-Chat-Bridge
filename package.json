@@ -38,7 +38,7 @@
     "chalk": "^5.6.2",
     "discord.js": "^14.25.1",
     "dotenv": "^17.2.3",
-    "ejs": "^3.1.10",
+    "ejs": "^4.0.1",
     "express": "^5.2.1",
     "hypixel-api-reborn": "12.0.0-18",
     "mineflayer": "^4.33.0",
